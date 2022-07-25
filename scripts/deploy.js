@@ -2,12 +2,12 @@ const hre = require("hardhat");
 
 async function main() {
 
-  const Gift = await hre.ethers.getContractFactory("Gift");
-  const gift = await Gift.deploy();
+  const GiftCenter = await hre.ethers.getContractFactory("GiftCenter");
+  const giftcenter = await GiftCenter.deploy();
 
-  await gift.deployed();
+  await giftcenter.deployed();
 
-  console.log("Gift deployed to:", gift.address);
+  console.log("GiftCenter deployed to:", giftcenter.address);
 }
 
 main().catch((error) => {
