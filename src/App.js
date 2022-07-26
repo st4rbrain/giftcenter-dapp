@@ -17,7 +17,7 @@ function App() {
           <input type="text" name='amount'></input>
           <button className='sendGift'>Send Gift</button>
         </div>
-        <div className='imagediv'>
+        <div className='imgdiv'>
         </div>
       </div>
     </div>
