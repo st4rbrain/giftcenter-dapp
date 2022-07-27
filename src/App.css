@@ -8,20 +8,60 @@
   font-style: italic;
 }
 
-.sendGift {
+.giftbtn {
   border-radius: 10px;
   border: solid 2px white;
   margin-top: 10px;
   width: 300px;
-  background: linear-gradient(to bottom right, rgb(255, 0, 0), rgb(255, 77, 160));
+  background: linear-gradient(to bottom right, rgb(174, 0, 255), rgba(255, 0, 119, 0.589));
   height: 37px;
   color: white;
   font-weight: bold;
 }
 
-button:hover {
+.loginbtn {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  position: relative;
+  left: 800px;
+  margin-top: 10px;
   cursor: pointer;
-  background: linear-gradient(to bottom right, rgb(174, 0, 255), rgba(255, 0, 119, 0.589));
+  font-size: 15px;
+  font-weight: 700;
+  width: 200px;
+  background-color: transparent;
+  border-radius: 20px;
+  color: white;
+  border: solid 2px white;
+  height: 40px;
+}
+.logoutbtn {
+  position: relative;
+  left: 800px;
+  margin-top: 10px;
+  cursor: pointer;
+  width: 200px;
+  font-size: 15px;
+  font-weight: 700;
+  background-color: transparent;
+  border-radius: 20px;
+  color: white;
+  border: solid 2px white;
+  height: 40px;
+}
+.loginbtn:hover{
+  background-color: white;
+  color: black;
+}
+.logoutbtn:hover{
+  background-color: white;
+  color: black;
+}
+
+.giftbtn:hover {
+  cursor: pointer;
+  background: linear-gradient(to bottom right, rgb(0, 255, 191), rgb(255, 77, 160));
 }
 
 .label {
@@ -50,6 +90,7 @@ button:hover {
   margin-bottom: 10px;
   font-style: italic;
 }
+
 .amtinput {
   position: relative;
   border-radius: 10px;
@@ -97,5 +138,5 @@ button:hover {
   width: 53vw;
   height: 85vh;
   margin: auto;
-  margin-top: 50px;
+  margin-top: 10px;
 }
