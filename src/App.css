@@ -21,6 +21,7 @@
 
 button:hover {
   cursor: pointer;
+  background: linear-gradient(to bottom right, rgb(174, 0, 255), rgba(255, 0, 119, 0.589));
 }
 
 .label {
