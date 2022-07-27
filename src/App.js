@@ -4,7 +4,7 @@ import { useMoralis, useWeb3ExecuteFunction } from 'react-moralis';
 
 function App() {
 
-  const { authenticate, isAuthenticated, isAuthenticating, logout } = useMoralis();
+  const { authenticate, isAuthenticated, isAuthenticating, logout, Moralis } = useMoralis();
   const contractProcessor = useWeb3ExecuteFunction();
   const [senderAddress, setSenderAddress] = useState();
 
@@ -64,7 +64,7 @@ function App() {
         _recipient: document.getElementById('address').value,
         _message: document.getElementById('msg').value,
       },
-      amount: 5000000000000000000,
+      msgValue: Moralis.Units.ETH('0.03')
     }
 
     await contractProcessor.fetch({
@@ -74,8 +74,9 @@ function App() {
       },
       onError: (error) => {
         alert(error.data.msg);
-      }
+      },
     });
+    
   }
 
   return (
