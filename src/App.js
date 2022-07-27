@@ -9,15 +9,13 @@ function App() {
           <p className='subhead'>A place to show some love to your friends and family through the blockchain technology</p>
         </div>
         <div className='datafield'>
-          <p className='label'>Recipient Address:</p>
-          <input type="text" name='address'></input>
-          <p className='label'>Message:</p>
-          <textarea name='msg' className='msginput' rows="6" cols="35"></textarea>
-          <p className='label'>Amount:</p>
-          <input type="text" name='amount'></input>
-          <button className='sendGift'>Send Gift</button>
-        </div>
-        <div className='imgdiv'>
+          <div className='label'>Recipient Address:</div> 
+          <input className='addinput' type="text" name='address'></input>
+          <div className='label'>Message:</div>
+          <textarea name='msg' className='msginput' rows="6" cols="65"></textarea>
+          <div className='label'>Amount:</div>
+          <div><input className='amtinput' type="text" name='amount'></input></div>
+          <button className='sendGift' onClick={() => {}}>Send Gift</button>
         </div>
       </div>
     </div>
