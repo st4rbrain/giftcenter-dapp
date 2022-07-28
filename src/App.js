@@ -64,7 +64,7 @@ function App() {
         _recipient: document.getElementById('address').value,
         _message: document.getElementById('msg').value,
       },
-      msgValue: Moralis.Units.ETH('0.03')
+      msgValue: Moralis.Units.ETH(document.getElementById('amt').value)
     }
 
     await contractProcessor.fetch({
@@ -85,17 +85,18 @@ function App() {
       <input type='button' className="logoutbtn"onClick={logOut} disabled={isAuthenticating} value="Disconnect"></input>
       <div className='outerbox'>
         <div className="App">
-          <p className="heading">GiftCenter</p>
-          <div>
-            <p className='subhead'>A place to show some love to your friends and family through the blockchain technology</p>
-          </div>
+          <div className="heading">GiftCenter</div>
+          <div className='subhead'>A place to show some love to your friends and family through the blockchain technology</div>
           <div className='datafield'>
             <div className='label'>Recipient Address:</div> 
             <input className='addinput' type="text" id='address'></input>
             <div className='label'>Message:</div>
-            <textarea id='msg' className='msginput' rows="6" cols="65"></textarea>
+            <textarea id='msg' className='msginput' rows="5" cols="62"></textarea>
             <div className='label'>Amount:</div>
-            <div><input className='amtinput' type="text" id='amt'></input></div>
+            <div className='token'>
+              <input className='amtinput' type="text" id='amt'></input>
+              <input type="button" className='tokendrop' value='MATIC'></input>
+            </div>
             <button className='giftbtn' onClick={() => {
               if(isAuthenticated){
                 gift();

@@ -24,8 +24,8 @@
   overflow: hidden;
   text-overflow: ellipsis;
   position: relative;
-  left: 800px;
-  margin-top: 10px;
+  left: 470px;
+  margin-top: 20px;
   cursor: pointer;
   font-size: 15px;
   font-weight: 700;
@@ -38,8 +38,8 @@
 }
 .logoutbtn {
   position: relative;
-  left: 800px;
-  margin-top: 10px;
+  left: 480px;
+  margin-top: 20px;
   cursor: pointer;
   width: 200px;
   font-size: 15px;
@@ -91,11 +91,15 @@
   font-style: italic;
 }
 
+.token {
+  display: flex;
+  align-items: center;
+}
+
 .amtinput {
-  position: relative;
   border-radius: 10px;
-  left: -100px;
   border: 1px solid white;
+  margin-left: 120px;
   width: 200px;
   height: 25px;
   background: linear-gradient(to bottom, rgb(0, 0, 0), rgba(81, 40, 85, 0.137));
@@ -103,8 +107,16 @@
   margin-bottom: 10px;
   font-style: italic;
 }
-.msginput{
+
+.tokendrop {
+  border-radius: 10px;
+  border: 1px solid white;
+  margin-left: 20px;
+  width: 100px;
+  height: 25px;
   margin-bottom: 10px;
+}
+.msginput{
   border-radius: 10px;
   border: 1px solid white;
   padding: 10px;
@@ -117,12 +129,12 @@
   color: white;
   font-family: "Great Vibes";
   font-size: 20px;
-  margin-top: 30px;
+  margin-top: 10px;
 }
 .App {
   border-radius: 10px;
-  width: 700px;
-  height: 520px;
+  width: 95%;
+  height: 95%;
   margin: auto;
   margin-top: 10px;
   text-align: center;
@@ -132,11 +144,10 @@
 
 
 .outerbox {
-  position: relative;
   border-radius: 10px;
   border: 5px solid white;
-  width: 53vw;
-  height: 85vh;
+  width: 50vw;
+  height: 75vh;
   margin: auto;
-  margin-top: 10px;
+  margin-top: 20px;
 }
