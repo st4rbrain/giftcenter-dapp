@@ -80,33 +80,62 @@ function App() {
   }
 
   return (
+    // <div>
+    //   <input type="button" className="loginbtn" onClick={login} value="Connect Wallet" id="showadd"></input>
+    //   <input type='button' className="logoutbtn"onClick={logOut} disabled={isAuthenticating} value="Disconnect"></input>
+    //   <div className='outerbox'>
+    //     <div className="App">
+    //       <div className="heading">GiftCenter</div>
+    //       <div className='subhead'>A place to show some love to your friends and family through the blockchain technology</div>
+    //       <div className='datafield'>
+    //         <div className='label'>Recipient Address:</div> 
+    //         <input className='addinput' type="text" id='address'></input>
+    //         <div className='label'>Message:</div>
+    //         <textarea id='msg' className='msginput' rows="5" cols="62"></textarea>
+    //         <div className='label'>Amount:</div>
+    //         <div className='token'>
+    //           <input className='amtinput' type="text" id='amt'></input>
+    //           <input type="button" className='tokendrop' value='MATIC'></input>
+    //         </div>
+    //         <button className='giftbtn' onClick={() => {
+    //           if(isAuthenticated){
+    //             gift();
+    //           }else{
+    //             alert("Connect your Wallet");
+    //           }
+    //         }}>Send Gift</button>
+    //       </div>
+    //     </div>
+    //   </div>
+    // </div>
     <div>
-      <input type="button" className="loginbtn" onClick={login} value="Connect Wallet" id="showadd"></input>
-      <input type='button' className="logoutbtn"onClick={logOut} disabled={isAuthenticating} value="Disconnect"></input>
-      <div className='outerbox'>
-        <div className="App">
-          <div className="heading">GiftCenter</div>
-          <div className='subhead'>A place to show some love to your friends and family through the blockchain technology</div>
-          <div className='datafield'>
-            <div className='label'>Recipient Address:</div> 
-            <input className='addinput' type="text" id='address'></input>
-            <div className='label'>Message:</div>
-            <textarea id='msg' className='msginput' rows="5" cols="62"></textarea>
-            <div className='label'>Amount:</div>
-            <div className='token'>
-              <input className='amtinput' type="text" id='amt'></input>
-              <input type="button" className='tokendrop' value='MATIC'></input>
-            </div>
-            <button className='giftbtn' onClick={() => {
-              if(isAuthenticated){
-                gift();
-              }else{
-                alert("Connect your Wallet");
-              }
-            }}>Send Gift</button>
-          </div>
+      <nav class="navbar">
+        <div class="container">
+            <div class="logo">GiftCenter</div>
+            <ul class="nav">
+                <li>
+                    <a href="#">Home</a>
+                </li>
+                <li>
+                    <a href="#">About</a>
+                </li>          
+                <li>
+                    <a href="#">Blog</a>
+                </li>
+            </ul>
         </div>
-      </div>
+      </nav>
+      <header class="header">
+          <div class="container">
+              <div className="hero">
+                <h5>This is a </h5>
+                <h1>Gifting Service</h1>
+                <h5>that runs on the Blockchain</h5>
+              </div>
+              <div className='headimg'>
+              </div>
+          </div>
+      </header>
     </div>
   );
 }
