@@ -1,0 +1,42 @@
+<svg width="1168" height="569" viewBox="0 0 1168 569" fill="none" xmlns="http://www.w3.org/2000/svg">
+<rect x="3.99951" y="6.10352e-05" width="1160" height="560" fill="url(#paint0_linear_13_66)"/>
+<g filter="url(#filter0_d_13_66)">
+<path d="M438.5 7.67137e-06C438.5 41.4214 402.011 80 357 80C311.989 80 273 41.4214 273 7.67137e-06C337 0 311.989 4.19773e-08 357 4.19773e-08C402.011 4.19773e-08 387 4.19777e-08 438.5 7.67137e-06Z" fill="white" fill-opacity="0.4"/>
+<ellipse cx="526" cy="147.5" rx="25" ry="24.5" fill="white" fill-opacity="0.4"/>
+<ellipse cx="375" cy="190.5" rx="19" ry="18.5" fill="white" fill-opacity="0.4"/>
+<ellipse cx="670" cy="278.5" rx="19" ry="18.5" fill="white" fill-opacity="0.4"/>
+<ellipse cx="796" cy="345.5" rx="19" ry="18.5" fill="white" fill-opacity="0.4"/>
+<ellipse cx="1033.5" cy="277.5" rx="29.5" ry="28.5" fill="white" fill-opacity="0.4"/>
+<ellipse cx="488.5" cy="379" rx="62.5" ry="60" fill="white" fill-opacity="0.4"/>
+<ellipse cx="882.5" cy="209" rx="51.5" ry="51" fill="white" fill-opacity="0.4"/>
+<ellipse cx="984" cy="428.5" rx="50" ry="49.5" fill="white" fill-opacity="0.4"/>
+<path d="M896 560.5C861.5 560.5 873.614 560.5 846 560.5C818.385 560.5 840.5 560.5 796 560.5C796 533.162 818.385 511 846 511C873.614 511 896 533.162 896 560.5Z" fill="white" fill-opacity="0.4"/>
+<path d="M54.0004 298.5C54.0004 325.838 31.6147 348 4.00042 348C4.00091 315 4 325.838 4 298.5C4 271.162 4.00042 273 4.00042 249C31.6147 249 54.0004 271.162 54.0004 298.5Z" fill="white" fill-opacity="0.4"/>
+<path d="M1021 3.08166e-05C1021 27.3381 998.614 49.5 971 49.5C943.385 49.5 921 27.3381 921 3.08166e-05C960.5 -1.14441e-05 943.385 2.98986e-07 971 2.98986e-07C998.614 2.98986e-07 996.5 -3.51571e-06 1021 3.08166e-05Z" fill="white" fill-opacity="0.4"/>
+<ellipse cx="145.5" cy="400" rx="41.5" ry="40" fill="white" fill-opacity="0.4"/>
+<ellipse cx="309" cy="318" rx="28" ry="27" fill="white" fill-opacity="0.4"/>
+<ellipse cx="733.5" cy="123.5" rx="27.5" ry="26.5" fill="white" fill-opacity="0.4"/>
+<ellipse cx="648" cy="478" rx="22" ry="21" fill="white" fill-opacity="0.4"/>
+<ellipse cx="61.9995" cy="504" rx="22" ry="21" fill="white" fill-opacity="0.4"/>
+<path d="M1163.5 182.5C1163.5 197.136 1163.5 174.5 1163.5 209C1148.31 209 1136 197.136 1136 182.5C1136 167.864 1148.31 156 1163.5 156C1163.5 173 1163.5 167.864 1163.5 182.5Z" fill="white" fill-opacity="0.4"/>
+<ellipse cx="131.5" cy="75.5" rx="27.5" ry="26.5" fill="white" fill-opacity="0.4"/>
+<ellipse cx="140" cy="169" rx="22" ry="21" fill="white" fill-opacity="0.4"/>
+<ellipse cx="267.5" cy="491" rx="13.5" ry="13" fill="white" fill-opacity="0.4"/>
+</g>
+<defs>
+<filter id="filter0_d_13_66" x="0" y="0" width="1167.5" height="568.5" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+<feFlood flood-opacity="0" result="BackgroundImageFix"/>
+<feColorMatrix in="SourceAlpha" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0" result="hardAlpha"/>
+<feOffset dy="4"/>
+<feGaussianBlur stdDeviation="2"/>
+<feComposite in2="hardAlpha" operator="out"/>
+<feColorMatrix type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.25 0"/>
+<feBlend mode="normal" in2="BackgroundImageFix" result="effect1_dropShadow_13_66"/>
+<feBlend mode="normal" in="SourceGraphic" in2="effect1_dropShadow_13_66" result="shape"/>
+</filter>
+<linearGradient id="paint0_linear_13_66" x1="584" y1="6.10352e-05" x2="584" y2="560" gradientUnits="userSpaceOnUse">
+<stop stop-color="#34E9A8"/>
+<stop offset="1" stop-color="#39D0FF"/>
+</linearGradient>
+</defs>
+</svg>

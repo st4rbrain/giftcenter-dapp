@@ -1,157 +1,3 @@
-
-/* .heading {
-  font-size: 80px;
-  background: linear-gradient(to bottom right, rgb(255, 255, 255), rgb(255, 0, 157));
-  background-clip: text;
-  font-weight: 700;
-  margin: 5px;
-  color: transparent;
-  font-style: italic;
-}
-
-.giftbtn {
-  border-radius: 10px;
-  border: solid 2px white;
-  margin-top: 10px;
-  width: 300px;
-  background: linear-gradient(to bottom right, rgb(174, 0, 255), rgba(255, 0, 119, 0.589));
-  height: 37px;
-  color: white;
-  font-weight: bold;
-}
-
-.loginbtn {
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  position: relative;
-  left: 470px;
-  margin-top: 20px;
-  cursor: pointer;
-  font-size: 15px;
-  font-weight: 700;
-  width: 200px;
-  background-color: transparent;
-  border-radius: 20px;
-  color: white;
-  border: solid 2px white;
-  height: 40px;
-}
-.logoutbtn {
-  position: relative;
-  left: 480px;
-  margin-top: 20px;
-  cursor: pointer;
-  width: 200px;
-  font-size: 15px;
-  font-weight: 700;
-  background-color: transparent;
-  border-radius: 20px;
-  color: white;
-  border: solid 2px white;
-  height: 40px;
-}
-.loginbtn:hover{
-  background-color: white;
-  color: black;
-}
-.logoutbtn:hover{
-  background-color: white;
-  color: black;
-}
-
-.giftbtn:hover {
-  cursor: pointer;
-  background: linear-gradient(to bottom right, rgb(0, 255, 191), rgb(255, 77, 160));
-}
-
-.label {
-  color: rgb(255, 125, 216);
-  font-size: 14px;
-  padding: 0px 50px;
-  text-align: left;
-  font-style: italic;
-  margin-left: 100px;
-  margin-bottom: 5px;
-}
-
-.datafield {
-  align-items: center;
-  margin-top: 15px;
-}
-
-.addinput{
-  margin-right: 10px;
-  border-radius: 10px;
-  border: 1px solid white;
-  width: 400px;
-  height: 25px;
-  background: linear-gradient(to bottom, rgb(0, 0, 0), rgba(81, 40, 85, 0.137));
-  color: white;
-  margin-bottom: 10px;
-  font-style: italic;
-}
-
-.token {
-  display: flex;
-  align-items: center;
-}
-
-.amtinput {
-  border-radius: 10px;
-  border: 1px solid white;
-  margin-left: 120px;
-  width: 200px;
-  height: 25px;
-  background: linear-gradient(to bottom, rgb(0, 0, 0), rgba(81, 40, 85, 0.137));
-  color: white;
-  margin-bottom: 10px;
-  font-style: italic;
-}
-
-.tokendrop {
-  border-radius: 10px;
-  border: 1px solid white;
-  margin-left: 20px;
-  width: 100px;
-  height: 25px;
-  margin-bottom: 10px;
-}
-.msginput{
-  border-radius: 10px;
-  border: 1px solid white;
-  padding: 10px;
-  background: linear-gradient(to bottom, rgb(0, 0, 0), rgba(81, 40, 85, 0.137));
-  color: white;
-  font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
-  font-style: italic;
-}
-.subhead {
-  color: white;
-  font-family: "Great Vibes";
-  font-size: 20px;
-  margin-top: 10px;
-}
-.App {
-  border-radius: 10px;
-  width: 95%;
-  height: 95%;
-  margin: auto;
-  margin-top: 10px;
-  text-align: center;
-  justify-content: center;
-  background-image: url('./images/wrap.png');    
-}
-
-
-.outerbox {
-  border-radius: 10px;
-  border: 5px solid white;
-  width: 50vw;
-  height: 75vh;
-  margin: auto;
-  margin-top: 20px;
-} */
 * {
   box-sizing: border-box;
   margin: 0;
@@ -163,7 +9,7 @@ ul {
   padding-right: 100px;
 }
 .container {
-  max-width: 1100px;
+  max-width: 1200px;
   margin: 0 auto;
   padding: 0 20px;
 }
@@ -175,6 +21,7 @@ ul {
 }
 
 .navbar .logo {
+  padding-left: 20px;
   font-size: 40px;
   font-weight: bold;
   font-family: 'Great Vibes';
@@ -183,7 +30,7 @@ ul {
 .navbar a {
   color: white;
   text-decoration: none;
-  font-size: 16px;
+  font-size: 14px;
   font-family: 'Montserrat';
   font-weight: bold;
 }
@@ -215,19 +62,21 @@ ul {
 
 .header h1 {
   font-size: 7rem;
+  color: white;
   line-height: 1.2;
   font-family: 'Sacramento';
 }
 
+
 .header .container {
-  padding-top: 40px;
+  padding-top: 20px;
   display: flex;
   justify-content: space-between;
   align-items: center;
   height: 100%;
 }
 
-.header h5 {
+h5 {
   font-size: 1.5rem;
   padding-left: 20px;
   margin-bottom: 10px;
@@ -236,12 +85,207 @@ ul {
 
 .header .hero {
   margin-top: 80px;
+  padding-left: 30px;
+  animation: heading;
+  animation-duration: 0.8s;
+  animation-timing-function: ease-in;
 }
 
 .headimg {
+  position: relative;
   margin-left: 10px;
   margin-top: 30px;
-  background-image: url('./images/smallerbg.svg');
+  background-image: url('./images/headbg.png');
   min-width: 700px;
   min-height: 480px;
+  animation: headerimg;
+  animation-duration: 0.8s;
+  animation-timing-function: ease-out;
+}
+
+@keyframes headerimg {
+  0% {top: -150px;}
+  100% {top: 0px;}
+}
+
+@keyframes heading {
+  0% {opacity: 0;}
+  100% {opacity: 1;}
+}
+
+.giftlist {
+  background-image: linear-gradient(to bottom right, #4ec2bc, #b642b6, #ff89aa, #e45fff, #e05678);
+  background-size: 500%;
+  padding: 80px 0px;
+  padding-bottom: 120px;
+  animation: bg-move 10s infinite alternate;
+}
+
+@keyframes bg-move {
+  0% {background-position: left;}
+  100% {background-position: right;}
+}
+
+.giftlist .container{
+  margin: auto;
+  border-radius: 20px;
+  padding: 0px 20px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+}
+
+.giftheading {
+  display: flex;
+  flex-direction: column;
+  color: white;
+  margin-bottom: 20px;
+  justify-content: center;
+  align-items: center;
+  font-family: "Great Vibes";
+}
+
+.giftheading .gftheader {
+  font-size: 80px;
+  font-weight: bolder;
+  margin-bottom: 20px;
+}
+
+.giftheading .gftdesc {
+  font-size: 40px;
+}
+
+.topgifts {
+  display: flex;
+  /* background-image: linear-gradient(to bottom, rgb(253, 62, 243), rgb(252, 252, 252), rgb(255, 136, 136)); */
+  background-image: url('./images/topgifts.png');
+  margin: 10px 0px;
+  flex-direction: column;
+  padding: 20px 20px;
+  border-radius: 30px;
+  border: 1px solid white;
+  min-width: 760px;
+  max-height: 600px;
+  margin-bottom: 40px;
+  box-shadow: 0px -2px 45px 5px rgba(110, 0, 101, 0.678);
+}
+
+.dailygifts {
+  display: flex;
+  /* background: linear-gradient(to bottom, rgb(170, 96, 255), rgb(252, 252, 252), rgb(109, 238, 255)); */
+  background-image: url('./images/dailygifts.png');
+  flex-wrap: wrap;
+  margin: 10px 0px;
+  flex-direction: column;
+  padding: 20px 20px;
+  border-radius: 30px;
+  border: 1px solid white;
+  min-width: 760px;
+  min-height: 520;
+  box-shadow: 0px 5px 45px 5px rgba(110, 0, 101, 0.678);
+}
+
+.title {
+  font-size: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: rgb(255, 255, 255);
+  font-family: "Allura";
+}
+
+.pagination {
+  font-size: 16px;
+  color: rgb(255, 255, 255);
+  font-family: "Great Vibes";
+  text-align: center;
+}
+
+.gifts {
+  display: flex;
+  padding: 20px 18px 20px 18px;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.topgifts .gifts {
+  max-height: 510px;
+  justify-content: center;
+}
+
+.gift {
+  position: relative;
+  top: 0px;
+  border-radius: 5px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  margin: 20px 30px;
+  padding: 20px 20px;
+  cursor: pointer;
+  transition: top 0.25s ease-out;
+}
+
+.giftline {
+  display: flex;
+  align-items: center;
+}
+
+.gift:hover {
+  top: -10px;
+}
+
+.topgifts .label {
+  font-size: 30px;
+  min-width: 100px;
+}
+
+.dailygifts .label {
+  font-size: 20px;
+  min-width: 60px;
+}
+
+.topgifts .giftdata {
+  word-wrap: break-word;
+  font-style: italic;
+  font-family: 'Montserrat';
+  font-size: 15px;
+  max-width: 160px;
+}
+
+.dailygifts .giftdata {
+  word-wrap: break-word;
+  font-style: italic;
+  font-family: 'Montserrat';
+  font-size: 10px;
+  max-width: 120px;
+}
+
+.topgifts .gifts .gift {
+  width:300px;
+  background-image: url('./images/gift.png');
+  height: 180px;
+  box-shadow: 10px 10px 15px rgb(114, 11, 68);
+  font-family: 'Great Vibes';
+  color: white;
+}
+
+.dailygifts .gifts .gift {
+  width:210px;
+  height: 126px;
+  background-image: url('./images/dailygift.png');
+  box-shadow: 10px 10px 15px rgb(71, 119, 207);
+  font-family: 'Great Vibes';
+  font-size: 18px;
+  color: white;
+}
+
+.footer {
+  background: linear-gradient(to bottom right, rgb(72, 39, 190),rgb(233, 98, 143));
+}
+
+.footer .container {
+  padding: 50px 0px;
 }
