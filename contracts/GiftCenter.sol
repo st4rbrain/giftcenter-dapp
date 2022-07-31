@@ -4,25 +4,25 @@ pragma solidity >= 0.7.0 < 0.9.0;
 
 contract GiftCenter {
 
-    struct SendGift {
-        string message;
-        uint amount;
-        address recipient;
-        uint time;
-    }
+    // struct SendGift {
+    //     string message;
+    //     uint amount;
+    //     address recipient;
+    //     uint time;
+    // }
 
-    struct ReceiveGift {
-        string message;
-        uint amount;
-        address sender;
-        bool withdrawn;
-        uint time;
-    }
+    // struct ReceiveGift {
+    //     string message;
+    //     uint amount;
+    //     address sender;
+    //     bool withdrawn;
+    //     uint time;
+    // }
     
     
-    mapping(address => SendGift[]) GiftSenders;
+    // mapping(address => SendGift[]) GiftSenders;
 
-    mapping(address => ReceiveGift[]) GiftReceivers;
+    // mapping(address => ReceiveGift[]) GiftReceivers;
 
     receive() external payable {  
     }
@@ -34,14 +34,13 @@ contract GiftCenter {
     function sendGift(address _recipient, string memory _message) public payable {
 
         require(_recipient != msg.sender, "Can't gift yourself");
-        require(msg.value <= (msg.sender).balance, "Not sufficient balance");
-        require(msg.value >= 0, "Add some amount");
+        require(msg.value > 0, "Add some gifting amount");
         
         // payable(address(this)).transfer(msg.value);
 
-        GiftSenders[msg.sender].push(SendGift({message: _message, amount: msg.value, recipient: _recipient, time: block.timestamp}));
+        // GiftSenders[msg.sender].push(SendGift({message: _message, amount: msg.value, recipient: _recipient, time: block.timestamp}));
 
-        GiftReceivers[_recipient].push(ReceiveGift({message: _message, amount: msg.value, sender: msg.sender, withdrawn: false, time: block.timestamp}));
+        // GiftReceivers[_recipient].push(ReceiveGift({message: _message, amount: msg.value, sender: msg.sender, withdrawn: false, time: block.timestamp}));
 
         emit Gifted(msg.sender, _recipient, _message, msg.value, block.timestamp);
     }
@@ -50,24 +49,24 @@ contract GiftCenter {
         return address(this).balance;
     }
 
-    function showReceivedGifts(address _recipient) external view returns(ReceiveGift[] memory){
-        return GiftReceivers[_recipient];
-    }
+    // function showReceivedGifts(address _recipient) external view returns(ReceiveGift[] memory){
+    //     return GiftReceivers[_recipient];
+    // }
 
-    function withdrawGiftNumber(uint index) external {
+    // function withdrawGiftNumber(uint index) external {
 
-        require(index < GiftReceivers[msg.sender].length, "No gifts at that index");
-        require(!GiftReceivers[msg.sender][index].withdrawn, "Already withdrawn");
+    //     require(index < GiftReceivers[msg.sender].length, "No gifts at that index");
+    //     require(!GiftReceivers[msg.sender][index].withdrawn, "Already withdrawn");
 
-        payable(msg.sender).transfer(GiftReceivers[msg.sender][index].amount);
+    //     payable(msg.sender).transfer(GiftReceivers[msg.sender][index].amount);
 
-        emit withDrawal(msg.sender, index, GiftReceivers[msg.sender][index].amount);
+    //     emit withDrawal(msg.sender, index, GiftReceivers[msg.sender][index].amount);
 
-        GiftReceivers[msg.sender][index].withdrawn = true;
-    }
+    //     GiftReceivers[msg.sender][index].withdrawn = true;
+    // }
 
-    function showSentGifts(address _from) external view returns(SendGift[] memory){
-        return GiftSenders[_from];
-    }
+    // function showSentGifts(address _from) external view returns(SendGift[] memory){
+    //     return GiftSenders[_from];
+    // }
 
 }

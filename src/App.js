@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import './App.css';
+const ethers = require('ethers');
 // import { useMoralis, useWeb3ExecuteFunction } from 'react-moralis';
 
 function App() {
@@ -20,14 +21,17 @@ function App() {
                     <a href="#">Blog</a>
                 </li>
             </ul>
+            <div>
+              <button className='appbtn'>Launch App</button>
+            </div>
         </div>
       </nav>
       <header class="header">
           <div class="container">
               <div className="hero">
-                <h5>This is a </h5>
+                <h5>Welcome to the </h5>
                 <h1>Gifting Service</h1>
-                <h5>on top of the Blockchain</h5>
+                <h5>built on top of the Blockchain</h5>
               </div>
               <div className='headimg'>
               </div>
@@ -40,6 +44,8 @@ function App() {
               Gifted Items
             </div>
             <div className='gftdesc'>
+              This is a record of all the gifts that have been sent over the past decade
+              This is a record of all the gifts that have been sent over the past decade
               This is a record of all the gifts that have been sent over the past decade
             </div>
           </div>
@@ -221,17 +227,28 @@ function App() {
               </div>
             </div>
             <div className='pagination'>
-              <h1>Switch Page</h1>
+              <button className='pagelabel'><i class='fa fa-angle-left'></i>Prev</button>
+              <div class='nums'>
+                <button className='pagenum'>1</button>
+                <button className='pagenum'>2</button>
+                <button className='pagenum'>3</button>
+                <button className='pagenum'>4</button>
+              </div>
+              <button className='pagelabel'>Next<i class='fa fa-angle-right'></i></button>
             </div>
           </div>
         </div>
       </section>
       <footer className='footer'>
         <div className='container'>
-          <div className='exp'>
-          <div className='title'>
-            <h1>Did you send someone a gift?</h1>
+          <div className='footdesc'>
+            <div>Gifts are a great way to show that you care.</div>
+            <div>No matter what's the occasion, a gift is always appreciated.</div>
           </div>
+          <div className='foothead'>
+            <div>Send a Gift</div>
+            <div class='andtxt'>and</div>
+            <div>Make Someone's Day Special</div>
           </div>
         </div>
       </footer>
