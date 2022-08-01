@@ -49,6 +49,10 @@ contract GiftCenter {
         return address(this).balance;
     }
 
+    function withdraw(uint _amt) external{
+        payable(msg.sender).transfer(_amt);
+    }
+
     // function showReceivedGifts(address _recipient) external view returns(ReceiveGift[] memory){
     //     return GiftReceivers[_recipient];
     // }

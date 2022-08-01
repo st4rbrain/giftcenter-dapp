@@ -235,6 +235,8 @@ h5 {
   padding: 20px 18px 20px 18px;
   align-items: center;
   flex-wrap: wrap;
+  min-width: 800px;
+  min-height: 150px;
 }
 
 .topgifts .gifts {
