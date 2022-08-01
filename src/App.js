@@ -4,6 +4,7 @@ import './App.css';
 
 const ethers = require('ethers');
 const GiftCenterABI = [
+  "function sendGift(address _recipient, string memory _message) public payable",
   "event Gifted(address from, address to, string message, uint amount, uint time)"
 ];
 
@@ -11,46 +12,51 @@ function App() {
 
   const [index, setIndex] = useState(0);
   const [allGifts, setAllGifts] = useState([]);
+  const [contract, setContract] = useState(null);
+  const [provider, setProvider] = useState();
+  const [contractAddress, setContractAddress] = useState();
 
 
   useEffect(() => {
-
-    const changeTimeFormat = async (time) => {
-      const milliseconds = time * 1000;
-      const dateObject = new Date(milliseconds);
-      const humanDateFormat = dateObject.toLocaleString('en-US', {day: 'numeric', month: 'numeric', year: 'numeric'});
-      return humanDateFormat;
-    }
-
-
-    const listNewGift = async () => {
+    const loadProvider = () => {
       const url = 'https://polygon-mumbai.g.alchemy.com/v2/M2y-N2dpx1yQ1CHnLmfxlL5ThnajzQco';
       const giftcenterAddress = '0x3ecF480fC90568D29b6d359962c5c7dA9D26BBA1';
       const provider = new ethers.providers.JsonRpcProvider(url);
-  
       const contract = new ethers.Contract(giftcenterAddress, GiftCenterABI, provider);
+
+      setContract(contract);
+      setProvider(provider);
+      setContractAddress(giftcenterAddress);
+    }
+    loadProvider();
+  }, []);
+
+  const changeTimeFormat = async (time) => {
+    const milliseconds = time * 1000;
+    const dateObject = new Date(milliseconds);
+    const humanDateFormat = dateObject.toLocaleString('en-US', {day: 'numeric', month: 'numeric', year: 'numeric'});
+    return humanDateFormat;
+  }
+
+  const getBalance = async () => {
+    const balanace = await provider.getBalance(contractAddress);
+    console.log(`Balance of ${contractAddress} is ${ethers.utils.formatEther(balanace)} MATIC`);
+  }
   
-      contract.on("Gifted", (from, to, msg, value, time) => {
-  
-        const formattedValue = ethers.utils.formatEther(value, 18);
-        const dateOfCreation = changeTimeFormat(time);
-        
-  
+  useEffect(() => {
+    const listenEvents = async () => {
+      contract.on("Gifted", (from, to, msg, amount, time) => {
         setAllGifts([...allGifts, {
           id: index,
           from: from,
           to: to,
-          amount: String(formattedValue),
-          time: dateOfCreation
+          amount: ethers.utils.formatEther(amount),
+          time: changeTimeFormat(time),
         }]);
-  
-        console.log(allGifts);
         setIndex(index+1);
       });
     }
-  
-    listNewGift();
-
+    listenEvents();
   });
   
 
@@ -71,7 +77,7 @@ function App() {
                 </li>
             </ul>
             <div>
-              <button className='appbtn'>Launch App</button>
+              <button className='appbtn' onClick={getBalance}>Launch App</button>
             </div>
         </div>
       </nav>
@@ -121,7 +127,7 @@ function App() {
             <div className='title'><h1>Latest Gifts</h1></div>
             <div className='gifts' id="allgifts">
               {
-                allGifts.map((gift) => <RecentGift key={index} from={gift.from} to={gift.to} amount={gift.amount} />)
+                allGifts.map((gift) => <RecentGift key={gift.id} from={gift.from} to={gift.to} amount={gift.amount} />)
               }
             </div>
             <div className='pagination'>
