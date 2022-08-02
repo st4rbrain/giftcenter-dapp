@@ -36,7 +36,7 @@
 .gift {
     width:210px;
     height: 126px;
-    background-image: url('./../images/dailygift.png');
+    background-image: url('./../../images/dailygift.png');
     box-shadow: 10px 10px 15px rgb(37, 67, 122);
     font-family: 'Great Vibes';
     font-size: 18px;

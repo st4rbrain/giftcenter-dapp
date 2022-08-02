@@ -1,0 +1,43 @@
+.gift {
+    position: relative;
+    top: 0px;
+    border-radius: 5px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    margin: 20px 25px;
+    padding: 20px 20px;
+    cursor: pointer;
+    transition: top 0.25s ease-out;
+}
+
+.giftline {
+    display: flex;
+    align-items: center;
+}
+
+.gift:hover {
+    top: -10px;
+}
+
+.label {
+    font-size: 30px;
+    min-width: 100px;
+}
+
+.giftdata {
+    word-wrap: break-word;
+    font-style: italic;
+    font-family: 'Montserrat';
+    font-size: 15px;
+    max-width: 160px;
+}
+
+.gift {
+    width:300px;
+    background-image: url('./../images/gift.png');
+    height: 180px;
+    box-shadow: 10px 10px 15px rgb(114, 11, 68);
+    font-family: 'Great Vibes';
+    color: white;
+}

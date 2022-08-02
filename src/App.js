@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import RecentGift from './components/RecentGift';
+import RecentGift from './components/RecentGifts/RecentGift';
 import './App.css';
 
 const ethers = require('ethers');

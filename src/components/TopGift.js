@@ -1,7 +1,7 @@
-import React, {useEffect, useState} from "react";
-import './RecentGift.css';
+import React from "react";
+import './TopGift.css';
 
-function RecentGift({from, to, amount}) {
+function TopGift({from, to, amount}) {
 
     
     return(
@@ -24,4 +24,4 @@ function RecentGift({from, to, amount}) {
     );
 }
 
-export default RecentGift;
+export default TopGift;
