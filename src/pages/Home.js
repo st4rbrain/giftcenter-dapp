@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
 import RecentGift from './../components/RecentGifts/RecentGift';
 import './../Home.css';
 
@@ -67,17 +68,17 @@ function Home() {
             <div className="logo">GiftCenter</div>
             <ul className="nav">
                 <li>
-                    <a href="./">Home</a>
+                    <Link to="./">Home</Link>
                 </li>
                 <li>
-                    <a href="./">About</a>
+                    <Link to="./">About</Link>
                 </li>          
                 <li>
-                    <a href="/">Blog</a>
+                    <Link to="/">Blog</Link>
                 </li>
             </ul>
             <div>
-              <a href='/dapp'><button className='appbtn' onClick={getBalance}>Launch App</button></a>
+              <Link to='/dapp'><button className='appbtn' onClick={getBalance}>Launch App</button></Link>
             </div>
         </div>
       </nav>
@@ -159,5 +160,7 @@ function Home() {
     </div>
   );
 }
+
+
 
 export default Home;
