@@ -20,9 +20,9 @@ function Home() {
 
   useEffect(() => {
     const loadProvider = () => {
-      const url = 'https://polygon-mumbai.g.alchemy.com/v2/M2y-N2dpx1yQ1CHnLmfxlL5ThnajzQco';
+      // const url = 'https://polygon-mumbai.g.alchemy.com/v2/M2y-N2dpx1yQ1CHnLmfxlL5ThnajzQco';
       const giftcenterAddress = '0x3ecF480fC90568D29b6d359962c5c7dA9D26BBA1';
-      const provider = new ethers.providers.JsonRpcProvider(url);
+      const provider = new ethers.providers.Web3Provider(window.ethereum);
       const contract = new ethers.Contract(giftcenterAddress, GiftCenterABI, provider);
 
       setContract(contract);
@@ -40,7 +40,20 @@ function Home() {
   }
 
   const getBalance = async () => {
+    try {
+      const accounts = await window.ethereum.request({
+        method: "eth_requestAccounts",
+      });
+      console.log(accounts.length);
+    } catch(error) {
+      console.log(error);
+    }
     const balanace = await provider.getBalance(contractAddress);
+    // if (window.ethereum) {
+    //   console.log("Metamask Wallet Detected");
+    // } else {
+    //   console.log("Wallet not detected");
+    // }
     console.log(`Balance of ${contractAddress} is ${ethers.utils.formatEther(balanace)} MATIC`);
   }
   
@@ -60,10 +73,13 @@ function Home() {
     contract && listenEvents();
   });
   
+  const getWelcomed = () => {
+    console.log ("Welcome to the App!")
+  }
 
   return (
     <div>
-      <Navbar showBalance={getBalance} />
+      <Navbar greet={getWelcomed} />
       <header className="header">
           <div className="container">
               <div className="hero">

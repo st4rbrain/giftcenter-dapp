@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 
-function Navbar({showBalance}) {
+function Navbar({greet}) {
     return ( 
         <nav className="navbar">
         <div className="container">
@@ -17,7 +17,7 @@ function Navbar({showBalance}) {
                 </li>
             </ul>
             <div>
-              <Link to='/dapp'><button className='appbtn' onClick={showBalance}>Launch App</button></Link>
+              <Link to='/dapp'><button className='appbtn' onClick={greet}>Launch App</button></Link>
             </div>
         </div>
       </nav>
