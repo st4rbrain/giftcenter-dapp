@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
 import RecentGift from './../components/RecentGifts/RecentGift';
+import Navbar from '../components/Navbar';
 import './../Home.css';
 
 const ethers = require('ethers');
@@ -57,31 +57,13 @@ function Home() {
         setIndex(index+1);
       });
     }
-    listenEvents();
+    contract && listenEvents();
   });
   
 
   return (
     <div>
-      <nav className="navbar">
-        <div className="container">
-            <div className="logo">GiftCenter</div>
-            <ul className="nav">
-                <li>
-                    <Link to="./">Home</Link>
-                </li>
-                <li>
-                    <Link to="./">About</Link>
-                </li>          
-                <li>
-                    <Link to="/">Blog</Link>
-                </li>
-            </ul>
-            <div>
-              <Link to='/dapp'><button className='appbtn' onClick={getBalance}>Launch App</button></Link>
-            </div>
-        </div>
-      </nav>
+      <Navbar showBalance={getBalance} />
       <header className="header">
           <div className="container">
               <div className="hero">

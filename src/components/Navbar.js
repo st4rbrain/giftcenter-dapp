@@ -1,0 +1,27 @@
+import { Link } from "react-router-dom";
+
+function Navbar({showBalance}) {
+    return ( 
+        <nav className="navbar">
+        <div className="container">
+            <div className="logo">GiftCenter</div>
+            <ul className="nav">
+                <li>
+                    <Link to="./">Home</Link>
+                </li>
+                <li>
+                    <Link to="./">About</Link>
+                </li>          
+                <li>
+                    <Link to="/">Blog</Link>
+                </li>
+            </ul>
+            <div>
+              <Link to='/dapp'><button className='appbtn' onClick={showBalance}>Launch App</button></Link>
+            </div>
+        </div>
+      </nav>
+     );
+}
+
+export default Navbar;
