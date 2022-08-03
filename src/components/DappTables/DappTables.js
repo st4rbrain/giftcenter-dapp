@@ -30,8 +30,17 @@ function GiftsTables() {
       }, []);
     
     const sendgift = async () => {
-        await contract.sendGift(address, msg, {value: ethers.utils.parseUnits(amount, 18)});
-        console.log("Sent successfully");
+        try{
+            await contract.sendGift(address, msg, {value: ethers.utils.parseUnits(amount, 18)});
+            console.log("Sent successfully");
+        } catch(error) {
+            if (error.code === 4001){
+                console.log("Transaction Rejected");
+            } else {
+                alert("Invalid Data");
+            }
+        }
+        
     }
 
     return ( 
@@ -85,13 +94,14 @@ function GiftsTables() {
                         </div>
                         <div className="cardline">
                             <div className="cardlinelabel">Message</div>
-                            <input className="cardlineinput" id="message" onClick={(e) => {
+                            <input className="cardlineinput" id="message" onChange={(e) => {
                                 setMsg(e.target.value);
+                                console.log(e.target.value);
                             }}></input>
                         </div>
                         <div className="cardline">
                             <div className="cardlinelabel">Amount</div>
-                            <input className="cardlineinput" id="amount" onClick={(e) => {
+                            <input className="cardlineinput" id="amount" onChange={(e) => {
                                 setAmount(e.target.value);
                                 console.log(e.target.value);
                             }}></input>
