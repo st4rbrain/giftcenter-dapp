@@ -19,15 +19,16 @@ function Dapp() {
 
   useEffect(() => {
     const loadProvider = () => {
-      // const url = 'https://polygon-mumbai.g.alchemy.com/v2/M2y-N2dpx1yQ1CHnLmfxlL5ThnajzQco';
-    //   const giftcenterAddress = '0x3ecF480fC90568D29b6d359962c5c7dA9D26BBA1';
-      const provider = new ethers.providers.Web3Provider(window.ethereum);
-    //   const contract = new ethers.Contract(giftcenterAddress, GiftCenterABI, provider);
-
+      const url = "https://small-bold-dream.matic-testnet.discover.quiknode.pro/4e7c4314ce145b2aae49af69f438667ba35f897d/";
+      const provider = new ethers.providers.JsonRpcProvider(url);
       setProvider(provider);
-    //   setContractAddress(giftcenterAddress);
     }
-    loadProvider();
+    if (window.ethereum) {
+      loadProvider();
+    } else {
+      console.log("Install Metamask");
+    }
+    
   }, []);
 
 //   const changeTimeFormat = async (time) => {

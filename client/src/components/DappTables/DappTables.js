@@ -18,7 +18,7 @@ function GiftsTables() {
     useEffect(() => {
         const loadProvider = () => {
           // const url = 'https://polygon-mumbai.g.alchemy.com/v2/M2y-N2dpx1yQ1CHnLmfxlL5ThnajzQco';
-          const giftcenterAddress = '0x3ecF480fC90568D29b6d359962c5c7dA9D26BBA1';
+          const giftcenterAddress = '0x6b4e288d1a27ffa6f1e4BDc5F5C8804Bfa053062';
           const provider = new ethers.providers.Web3Provider(window.ethereum);
           const signer = provider.getSigner();
           const contract = new ethers.Contract(giftcenterAddress, GiftCenterABI, signer);
@@ -26,12 +26,17 @@ function GiftsTables() {
           setContract(contract);
 
         }
-        loadProvider();
+        if (window.ethereum) {
+            loadProvider();
+        } else {
+            console.log("Install Metamask");
+        }
+        
       }, []);
     
     const sendgift = async () => {
         try{
-            await contract.sendGift(address, msg, {value: ethers.utils.parseUnits(amount, 18)});
+            await contract.sendGift(address, msg, {value: ethers.utils.parseEther(amount)});
             console.log("Sent successfully");
         } catch(error) {
             if (error.code === 4001){

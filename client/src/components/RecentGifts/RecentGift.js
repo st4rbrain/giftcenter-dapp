@@ -1,24 +1,31 @@
 import React from "react";
 import './RecentGift.css';
 
-function RecentGift({from, to, amount}) {
+function RecentGift({from, to, amount, dateTime}) {
 
-    
+    const inMillisecs = Date.parse(dateTime);
+    const date = new Date(inMillisecs);
+    const formattedDate = date.getDate()+"/"+(date.getMonth()+1)+"/"+date.getFullYear();
+    const formattedTime = date.getHours()+":"+date.getMinutes();
+
     return(
         <div>
-            <div className='gift'>
-            <div className='giftline'>
-                <div className='label'>From</div>
-                <div className='giftdata'>{from}</div>
-            </div>
-            <div className='giftline'>
-                <div className='label'>To</div>
-                <div className='giftdata'>{to}</div>
-            </div>
-            <div className='giftline'>
-                <div className='label'>Amount</div>
-                <div className='giftdata'>{amount}</div>
-            </div>
+            <div className='recentgift'>
+                <div className='recentgiftline'>
+                    <div className='recentgiftlabel'>From</div>
+                    <div className='recentgiftdata'>{from}</div>
+                </div>
+                <div className='recentgiftline'>
+                    <div className='recentgiftlabel'>To</div>
+                    <div className='recentgiftdata'>{to}</div>
+                </div>
+                <div className='recentgiftline'>
+                    <div className='recentgiftlabel'>Amount</div>
+                    <div className='recentgiftdata'>{amount}</div>
+                </div>
+                <div className="recentgiftdate">
+                    <div className="rgdatelabel">{formattedDate} {formattedTime}</div>
+                </div>
             </div>
         </div>
     );

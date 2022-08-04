@@ -1,4 +1,4 @@
-.gift {
+.recentgift {
     position: relative;
     top: 0px;
     border-radius: 5px;
@@ -6,26 +6,43 @@
     flex-direction: column;
     justify-content: center;
     margin: 20px 25px;
-    padding: 20px 20px;
+    padding: 2px 15px;
+    padding-top: 20px;
+    padding-bottom: 10px;
     cursor: pointer;
     transition: top 0.25s ease-out;
 }
 
-.giftline {
+.recentgiftline {
     display: flex;
     align-items: center;
 }
 
-.gift:hover {
+.recentgift:hover {
     top: -10px;
 }
 
-.label {
-    font-size: 20px;
+.recentgiftlabel {
+    font-size: 18px;
     min-width: 60px;
 }  
 
-.giftdata {
+
+.recentgiftdate {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .rgdatelabel {
+    margin-left: 100px;
+    padding-bottom: 2px;
+    font-size: 11px;
+    color: rgb(235, 235, 235);
+  }
+
+
+.recentgiftdata {
     word-wrap: break-word;
     font-style: italic;
     font-family: 'Montserrat';
@@ -33,7 +50,7 @@
     max-width: 120px;
 }
 
-.gift {
+.recentgift {
     width:210px;
     height: 126px;
     background-image: url('./../../images/dailygift.png');

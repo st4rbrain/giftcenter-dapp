@@ -1,7 +1,10 @@
 import { useState, useEffect } from 'react';
+import TopGift from '../components/TopGifts/TopGift';
 import RecentGift from './../components/RecentGifts/RecentGift';
 import Navbar from '../components/Navbar';
 import './../Home.css';
+import Axios from 'axios';
+import RecentGiftsPagination from '../components/homeGiftsPagination';
 
 const ethers = require('ethers');
 const GiftCenterABI = [
@@ -11,54 +14,90 @@ const GiftCenterABI = [
 
 function Home() {
 
-  const [index, setIndex] = useState(0);
   const [allGifts, setAllGifts] = useState([]);
   const [contract, setContract] = useState(null);
 
-
   useEffect(() => {
     const loadProvider = () => {
-      // const url = 'https://polygon-mumbai.g.alchemy.com/v2/M2y-N2dpx1yQ1CHnLmfxlL5ThnajzQco';
-      const giftcenterAddress = '0x3ecF480fC90568D29b6d359962c5c7dA9D26BBA1';
-      const provider = new ethers.providers.Web3Provider(window.ethereum);
+      const url = "https://small-bold-dream.matic-testnet.discover.quiknode.pro/4e7c4314ce145b2aae49af69f438667ba35f897d/";
+      const giftcenterAddress = '0x6b4e288d1a27ffa6f1e4BDc5F5C8804Bfa053062';
+      const provider = new ethers.providers.JsonRpcProvider(url);
       const contract = new ethers.Contract(giftcenterAddress, GiftCenterABI, provider);
 
       setContract(contract);
+      console.log("state changed");
     }
-    loadProvider();
+      loadProvider();
   }, []);
-
-  const changeTimeFormat = async (time) => {
-    const milliseconds = time * 1000;
-    const dateObject = new Date(milliseconds);
-    const humanDateFormat = dateObject.toLocaleString('en-US', {day: 'numeric', month: 'numeric', year: 'numeric'});
-    return humanDateFormat;
-  }
 
 
   useEffect(() => {
     const listenEvents = async () => {
-      contract.on("Gifted", (from, to, msg, amount, time) => {
+      console.log("listening to events..");
+      contract.on("Gifted", (count, from, to, msg, amt, time) => {
+
+        const formattedAmt = ethers.utils.formatEther(amt);
+        const date = new Date(time*1000);
+        const amtToFloat = parseFloat(formattedAmt);
+
         setAllGifts([...allGifts, {
-          id: index,
-          from: from,
-          to: to,
-          amount: ethers.utils.formatEther(amount),
-          time: changeTimeFormat(time),
+          id: count, 
+          sender_address: from,
+          recipient_address: to,
+          message: msg,
+          amount: amtToFloat,
+          createdAt: date
         }]);
-        setIndex(index+1);
+        const postGift = async () => {
+
+          await Axios.post('http://localhost:5000/gifts/postGifts', {
+            id: count, 
+            sender_address: from,
+            recipient_address: to,
+            message: msg,
+            amount: amtToFloat,
+            createdAt: date
+          }).then((res) => {
+            console.log("Added a new gift!!");
+            setAllGifts([...allGifts, {
+              id: count, 
+              sender_address: from,
+              recipient_address: to,
+              message: msg,
+              amount: amtToFloat,
+              createdAt: date
+            }]);
+        });
+
+        }
+        console.log("Posting gift to the database");
+        // postGift();
       });
     }
     contract && listenEvents();
   });
   
+
+  useEffect(() => {
+    Axios.get("http://localhost:5000/gifts/getGifts").then((res) => {
+      console.log(res.data);
+      // setAllGifts(res.data);
+      console.log(res.data.length);
+    });
+  }, []);
+
+  
+
   const getWelcomed = () => {
     console.log ("Welcome to the App!")
   }
 
   return (
     <div>
+      {/* show navbar */}
       <Navbar greet={getWelcomed} />
+
+      {/* giftcenter header */}
       <header className="header">
           <div className="container">
               <div className="hero">
@@ -70,6 +109,8 @@ function Home() {
               </div>
           </div>
       </header>
+
+      {/* show the gift records */}
       <section className='giftlist'>
         <div className='container'>
           <div className='giftheading'>
@@ -82,45 +123,34 @@ function Home() {
               This is a record of all the gifts that have been sent over the past decade
             </div>
           </div>
+
+          {/* topgifts listing  */}
           <div className='topgifts'>
             <div className='title'><h1>Top Gifted Amounts</h1></div>
             <div className='gifts'>
-              {/* <div className='gift'>
-                <div className='giftline'>
-                  <div className='label'>From</div>
-                  <div className='giftdata'>0x5a8e9D4B757646097366f978999c79ef87228A99</div>
-                </div>
-                <div className='giftline'>
-                  <div className='label'>To</div>
-                  <div className='giftdata'>0x5a8e9D4B757646097366f978999c79ef87228A99</div>
-                </div>
-                <div className='giftline'>
-                  <div className='label'>Amount</div>
-                  <div className='giftdata'>0000000</div>
-                </div>
-              </div> */}
+              {
+                allGifts.map((gift) => <TopGift key={gift.id} from={gift.sender_address} to={gift.recipient_address} amount={gift.amount} dateTime={gift.createdAt} />)
+              }
             </div>
           </div>
+
+          {/* dailygifts listing  */}
           <div className='dailygifts'>
             <div className='title'><h1>Latest Gifts</h1></div>
             <div className='gifts' id="allgifts">
               {
-                allGifts.map((gift) => <RecentGift key={gift.id} from={gift.from} to={gift.to} amount={gift.amount} />)
+                allGifts.map((gift) => <RecentGift key={gift.id} from={gift.sender_address} to={gift.recipient_address} amount={gift.amount} dateTime={gift.createdAt} />)
               }
             </div>
-            <div className='pagination'>
-              <button className='pagelabel'><i className='fa fa-angle-left'></i>Prev</button>
-              <div className='nums'>
-                <button className='pagenum'>1</button>
-                <button className='pagenum'>2</button>
-                <button className='pagenum'>3</button>
-                <button className='pagenum'>4</button>
-              </div>
-              <button className='pagelabel'>Next<i className='fa fa-angle-right'></i></button>
-            </div>
+
+              {/* pagination */}
+            <RecentGiftsPagination />
+
           </div>
         </div>
       </section>
+
+      {/* footer */}
       <footer className='footer'>
         <div className='container'>
           <div className='footdesc'>
@@ -134,6 +164,7 @@ function Home() {
           </div>
         </div>
       </footer>
+
     </div>
   );
 }
