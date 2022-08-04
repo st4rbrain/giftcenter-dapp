@@ -9,7 +9,7 @@ import RecentGiftsPagination from '../components/homeGiftsPagination';
 const ethers = require('ethers');
 const GiftCenterABI = [
   "function sendGift(address _recipient, string memory _message) public payable",
-  "event Gifted(address from, address to, string message, uint amount, uint time)"
+  "event Gifted(uint count, address from, address to, string message, uint amount, uint time)"
 ];
 
 function Home() {
@@ -40,18 +40,9 @@ function Home() {
         const date = new Date(time*1000);
         const amtToFloat = parseFloat(formattedAmt);
 
-        setAllGifts([...allGifts, {
-          id: count, 
-          sender_address: from,
-          recipient_address: to,
-          message: msg,
-          amount: amtToFloat,
-          createdAt: date
-        }]);
         const postGift = async () => {
-
-          await Axios.post('http://localhost:5000/gifts/postGifts', {
-            id: count, 
+          await Axios.post('http://localhost:3001/gifts/postGifts', {
+            id: Number(count), 
             sender_address: from,
             recipient_address: to,
             message: msg,
@@ -60,7 +51,7 @@ function Home() {
           }).then((res) => {
             console.log("Added a new gift!!");
             setAllGifts([...allGifts, {
-              id: count, 
+              id: Number(count), 
               sender_address: from,
               recipient_address: to,
               message: msg,
@@ -71,7 +62,7 @@ function Home() {
 
         }
         console.log("Posting gift to the database");
-        // postGift();
+        postGift();
       });
     }
     contract && listenEvents();
@@ -79,7 +70,7 @@ function Home() {
   
 
   useEffect(() => {
-    Axios.get("http://localhost:5000/gifts/getGifts").then((res) => {
+    Axios.get("http://localhost:3001/gifts/getGifts").then((res) => {
       console.log(res.data);
       // setAllGifts(res.data);
       console.log(res.data.length);
