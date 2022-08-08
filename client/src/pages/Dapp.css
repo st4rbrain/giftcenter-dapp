@@ -11,7 +11,7 @@
 }
 
 .dappheader {
-    background-image: linear-gradient(to bottom , rgb(51, 202, 182), rgba(7, 0, 110, 0.87));
+    background-image: linear-gradient(to bottom , rgb(255, 234, 115), rgb(168, 0, 84));
 }
 
 .dappheader .logo {
@@ -35,6 +35,12 @@
     align-items: center;
     height: 60px;
     padding: 10 50px;
+}
+
+.buttons {
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 .connectbtn {
@@ -66,11 +72,12 @@
 }
 
 .details .box {
-    border: 3px solid white;
+    border: 2px solid white;
     display: flex;
     flex-direction: column;
     align-items: center;
-    background-image: linear-gradient(to bottom, rgba(0, 0, 0, 0.644), rgba(197, 255, 255, 0.295));
+    /* background-image: linear-gradient(to bottom, rgb(0, 189, 202), rgba(197, 255, 255, 0)); */
+    box-shadow: 3px 3px 20px rgb(255, 255, 255) inset;
     border-radius: 10px;
     margin: 30px 20px;
     width: 300px;
@@ -85,12 +92,28 @@
     font-weight: bold;
     font-family: 'Montserrat';
     align-items: center;
-    margin: 15px;
+    margin: 18px;
+}
+
+.dataline {
+    display: flex;
+    align-items: center;
+    color: white;
+    font-family: 'Montserrat';
+    font-size: 14px;
+    margin: 3px 0px;
+}
+
+.datalabel {
+    min-width: 180px;
+}
+
+.datavalue {
+    font-weight: bold;
 }
 
 .details .box .data {
     display: flex;
-    justify-content: center;
     align-items: center;
     text-align: center;
     color: white;
@@ -98,6 +121,56 @@
     font-family: 'Montserrat';
     max-width: 280px;
     max-height: 150px;
-    padding: 10px 10px;
+    padding: 2px 0px;
 }
 
+.details .box .loading {
+    display: flex;
+    justify-content: center;
+    color: white;
+    font-size: 14px;
+    font-weight: bold;
+    font-family: 'Montserrat';
+    align-items: center;
+    margin: 20px;    
+}
+
+.details .box .value {
+    font-style: italic;
+}
+
+
+.plsconnectwallet {
+    display: flex;
+    color: white;
+    font-family: 'Montserrat';
+    margin: auto;
+    background-image: linear-gradient(to bottom right,rgb(255, 65, 154), rgb(194, 192, 79), rgb(107, 20, 35));
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 340px;
+}
+
+.info {
+    background-color: rgba(175, 243, 255, 0.24);
+    /* box-shadow: 5px 5px 50px rgb(25, 0, 255) inset; */
+    border-radius: 5px;
+    width: 75%;
+    height: 300px;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    align-items: center;
+}
+
+.headinfo {
+    font-size: 22px;
+    margin: 10px 0px;
+    font-weight: bold;
+}
+
+.subinfo {
+    color: rgba(240, 248, 255, 0.822);
+    font-size: 14px;
+}

@@ -17,7 +17,7 @@ function Navbar({greet}) {
                 </li>
             </ul>
             <div>
-              <Link to='/dapp'><button className='appbtn' onClick={greet}>Launch App</button></Link>
+              <Link to='/dapp' target="_blank"><button className='appbtn' onClick={greet}>Launch App</button></Link>
             </div>
         </div>
       </nav>

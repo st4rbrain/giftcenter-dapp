@@ -4,79 +4,71 @@ import RecentGift from './../components/RecentGifts/RecentGift';
 import Navbar from '../components/Navbar';
 import './../Home.css';
 import Axios from 'axios';
+import { ethers } from 'ethers';
 import RecentGiftsPagination from '../components/homeGiftsPagination';
+import {allGiftArray} from './../giftsData';
 
-const ethers = require('ethers');
-const GiftCenterABI = [
-  "function sendGift(address _recipient, string memory _message) public payable",
-  "event Gifted(uint count, address from, address to, string message, uint amount, uint time)"
-];
-
-function Home() {
-
+function Home({contract}) {
+  const [topGifts, setTopGifts] = useState([]);
   const [allGifts, setAllGifts] = useState([]);
-  const [contract, setContract] = useState(null);
 
   useEffect(() => {
-    const loadProvider = () => {
-      const url = "https://small-bold-dream.matic-testnet.discover.quiknode.pro/4e7c4314ce145b2aae49af69f438667ba35f897d/";
-      const giftcenterAddress = '0x6b4e288d1a27ffa6f1e4BDc5F5C8804Bfa053062';
-      const provider = new ethers.providers.JsonRpcProvider(url);
-      const contract = new ethers.Contract(giftcenterAddress, GiftCenterABI, provider);
-
-      setContract(contract);
-      console.log("state changed");
-    }
-      loadProvider();
+      Axios.get("http://localhost:3001/gifts/getGifts").then((res) => {
+      setAllGifts(res.data[0]);
+      setTopGifts(res.data[1]);
+    });
   }, []);
 
-
   useEffect(() => {
-    const listenEvents = async () => {
-      console.log("listening to events..");
+      console.log("Contract Listener added");
       contract.on("Gifted", (count, from, to, msg, amt, time) => {
 
         const formattedAmt = ethers.utils.formatEther(amt);
         const date = new Date(time*1000);
         const amtToFloat = parseFloat(formattedAmt);
+        const newId = Number(count);
 
         const postGift = async () => {
           await Axios.post('http://localhost:3001/gifts/postGifts', {
-            id: Number(count), 
+            id: newId, 
             sender_address: from,
             recipient_address: to,
             message: msg,
             amount: amtToFloat,
-            createdAt: date
+            createdAt: date,
+            withdrawn: false
           }).then((res) => {
             console.log("Added a new gift!!");
-            setAllGifts([...allGifts, {
-              id: Number(count), 
-              sender_address: from,
-              recipient_address: to,
-              message: msg,
-              amount: amtToFloat,
-              createdAt: date
-            }]);
+            window.location.reload(true);
         });
 
+
+        // await Axios.post("http://localhost:3001/gifts/addSenderInfo", {
+        //   id: newId, 
+        //   sender_address: from,
+        //   recipient_address: to,
+        //   message: msg,
+        //   amount: amtToFloat,
+        //   createdAt: date
+        // })
+
+        // await Axios.post("http://localhost:3001/gifts/addReceiverInfo", {
+        //   id: newId, 
+        //   sender_address: from,
+        //   recipient_address: to,
+        //   message: msg,
+        //   amount: amtToFloat,
+        //   createdAt: date
+        // })
         }
+
         console.log("Posting gift to the database");
         postGift();
       });
-    }
-    contract && listenEvents();
-  });
+
+      return () => contract.removeAllListeners("Gifted");
+  }, [contract]);
   
-
-  useEffect(() => {
-    Axios.get("http://localhost:3001/gifts/getGifts").then((res) => {
-      console.log(res.data);
-      // setAllGifts(res.data);
-      console.log(res.data.length);
-    });
-  }, []);
-
   
 
   const getWelcomed = () => {
@@ -120,7 +112,7 @@ function Home() {
             <div className='title'><h1>Top Gifted Amounts</h1></div>
             <div className='gifts'>
               {
-                allGifts.map((gift) => <TopGift key={gift.id} from={gift.sender_address} to={gift.recipient_address} amount={gift.amount} dateTime={gift.createdAt} />)
+                topGifts.map((gift) => <TopGift key={gift.id} from={gift.sender_address} to={gift.recipient_address} amount={gift.amount} dateTime={gift.createdAt} />)
               }
             </div>
           </div>
