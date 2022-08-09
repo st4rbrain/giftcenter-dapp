@@ -5,22 +5,36 @@ import Navbar from '../components/Navbar';
 import './../Home.css';
 import Axios from 'axios';
 import { ethers } from 'ethers';
-import RecentGiftsPagination from '../components/homeGiftsPagination';
 
 
 function Home({contract}) {
   const [topGifts, setTopGifts] = useState([]);
   const [allGifts, setAllGifts] = useState([]);
+  const [giftedAmounts, setGiftedAmounts] = useState();
+  const [totalGifts, setTotalGifts] = useState();
+  const [currentPage, setCurrentPage] = useState(0);
+  const [totalPages, setTotalPages] = useState(0);
+
+  const giftsperpage = 8;
 
   useEffect(() => {
       Axios.get("http://localhost:3001/gifts/getGifts").then((res) => {
       setAllGifts(res.data[0]);
       setTopGifts(res.data[1]);
+      setTotalGifts(res.data[0].length);
+
+      // calculating total amounts that have been gifted
+      let total = 0;
+      res.data[0].forEach(element => {
+        total += element.amount;
+      });
+      setGiftedAmounts(total.toFixed(4));
+
+      setTotalPages(Math.ceil(res.data[0].length / 8));
     });
   }, []);
 
   useEffect(() => {
-      console.log("Contract Listener added");
       contract.on("Gifted", (count, from, to, msg, amt, time) => {
 
         const formattedAmt = ethers.utils.formatEther(amt);
@@ -56,14 +70,6 @@ function Home({contract}) {
     console.log ("Welcome to the App!")
   }
 
-  const totalAmountsGifted = () => {
-    let total = 0;
-    allGifts.forEach(element => {
-      total += element.amount;
-    });
-    return total;
-  }
-
   return (
     <div>
       {/* show navbar */}
@@ -88,11 +94,11 @@ function Home({contract}) {
         <div className='alldata'>
           <div className='homedataline'>
             <div className='homedatalabel'>Total Amounts Gifted</div>
-            <div className='homedatavalue'>{totalAmountsGifted()}</div>
+            <div className='homedatavalue'>{giftedAmounts}</div>
           </div>
           <div className='homedataline'>
             <div className='homedatalabel'>Total Gifts Sent</div>
-            <div className='homedatavalue'>{allGifts.length}</div>
+            <div className='homedatavalue'>{totalGifts}</div>
           </div>
       </div>
           <div className='giftheading'>
@@ -106,10 +112,11 @@ function Home({contract}) {
 
           {/* topgifts listing  */}
           <div className='topgifts'>
-            <div className='title'><h1>Top Gifted Amounts</h1></div>
+            <div className='title'><h1>Top Gifts</h1></div>
             <div className='gifts'>
               {
-                topGifts.map((gift) => <TopGift key={gift.id} from={gift.sender_address} to={gift.recipient_address} amount={gift.amount} dateTime={gift.createdAt} />)
+                topGifts.map((gift) => 
+                <TopGift key={gift.id} from={gift.sender_address} to={gift.recipient_address} amount={gift.amount} dateTime={gift.createdAt} />)
               }
             </div>
           </div>
@@ -117,14 +124,25 @@ function Home({contract}) {
           {/* dailygifts listing  */}
           <div className='dailygifts'>
             <div className='title'><h1>Latest Gifts</h1></div>
-            <div className='gifts' id="allgifts">
+            <div className='gifts'>
+              <div className='recentGiftsLine'>
               {
-                allGifts.map((gift) => <RecentGift key={gift.id} from={gift.sender_address} to={gift.recipient_address} amount={gift.amount} dateTime={gift.createdAt} />)
+                allGifts.slice(currentPage*giftsperpage, (currentPage*giftsperpage)+giftsperpage/2).map((gift) => 
+                <RecentGift key={gift.id} from={gift.sender_address} to={gift.recipient_address} amount={gift.amount} dateTime={gift.createdAt} />
+                )
               }
+              </div>
+              <div className='recentGiftsLine'>
+              {
+                allGifts.slice((currentPage*giftsperpage)+giftsperpage/2, (currentPage*giftsperpage)+giftsperpage).map((gift) => 
+                <RecentGift key={gift.id} from={gift.sender_address} to={gift.recipient_address} amount={gift.amount} dateTime={gift.createdAt} />
+                )
+              }
+              </div>
             </div>
 
               {/* pagination */}
-            <RecentGiftsPagination />
+            <RecentGiftsPagination totalPages={totalPages} setCurrentPage={setCurrentPage}/>
 
           </div>
         </div>
@@ -149,6 +167,28 @@ function Home({contract}) {
   );
 }
 
+
+function RecentGiftsPagination({totalPages, setCurrentPage}) {
+  return ( 
+      <div className='pagination'>
+          <button className='pagelabel'><i className='fa fa-angle-left'></i>Prev</button>
+          <div className='nums'>
+              {
+              Array(totalPages).fill().map((_, idx) => 1 + idx).map((page) => 
+              <button key={page} className='pagenum' onClick={() => {
+                  setCurrentPage(page-1);
+                  console.log("clicked on", page);
+              }}>{page}</button>)
+              }
+              {/* <button className='pagenum'></button>
+              <button className='pagenum'>2</button>
+              <button className='pagenum'>3</button>
+              <button className='pagenum'>4</button> */}
+          </div>
+          <button className='pagelabel'>Next<i className='fa fa-angle-right'></i></button>
+      </div>
+   );
+}
 
 
 export default Home;

@@ -76,7 +76,7 @@
     margin: 5px 0px;
     border: 2px solid white;
     border-radius: 5px;
-    box-shadow: 1px 1px 20px rgb(230, 230, 230) inset;
+    box-shadow: 1px 1px 10px rgba(255, 255, 255, 0.76) inset;
 }
 
 .itemline {
@@ -177,9 +177,10 @@
 
 .cardlinemsginput {
     width: 360px;
-    height: 80px;
+    height: 100px;
     border-radius: 5px;
     border: 1px solid white;
+    resize: none;
     font-weight: bold;
     padding: 2px 8px;
     color: white;

@@ -6,6 +6,7 @@
     flex-direction: column;
     justify-content: center;
     margin: 20px 25px;
+    margin-bottom: 30px;
     padding: 2px 15px;
     padding-top: 20px;
     padding-bottom: 10px;
@@ -32,13 +33,13 @@
     display: flex;
     justify-content: center;
     align-items: center;
+    color: white;
   }
 
   .rgdatelabel {
     margin-left: 100px;
     padding-bottom: 2px;
     font-size: 11px;
-    color: rgb(235, 235, 235);
   }
 
 

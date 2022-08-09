@@ -7,7 +7,6 @@ import moment from 'moment';
 
 const GiftCenterABI = [
   "function sendGift(address _recipient, string memory _message) public payable",
-  "function setAccount(address _account) external",
   "function withdrawAmount(address _account, uint _amt) external",
   "event withDrawal(address from, uint amount)",
   "event currentAccount(address account)",
@@ -31,17 +30,36 @@ function Dapp() {
   const [receivedData, setReceivedData] = useState([]);
   const [sentThisWeek, setSentThisWeek] = useState(0);
   const [receivedThisWeek, setReceivedThisWeek] = useState(0);
+  const [withdrawBtnVisible, setWithdrawBtnVisible] = useState(false);
 
-
+  // checking if valid local storage vars
   useEffect(() => {
     const acc = window.localStorage.getItem('CURRENTLY_CONNECTED_WALLET');
     const conn= window.localStorage.getItem('IS_WALLET_CONNECTED');
-    const accbal = window.localStorage.getItem('ACCOUNT_BALANCE');
 
+    if(conn === null || acc === null) {
+      window.localStorage.removeItem('IS_WALLET_CONNECTED');
+      window.localStorage.removeItem('CURRENTLY_CONNECTED_WALLET');
+    } else {
+      try {
+        if(JSON.parse(conn) === false && acc !== null) {
+        window.localStorage.removeItem('IS_WALLET_CONNECTED');
+        window.localStorage.removeItem('CURRENTLY_CONNECTED_WALLET');
+        } else {
+        if (ethers.utils.isAddress(JSON.parse(acc))){
+          setAccount(JSON.parse(acc)); 
+          setWalletConnected(JSON.parse(conn));
+        } else {
+          window.localStorage.removeItem('IS_WALLET_CONNECTED');
+          window.localStorage.removeItem('CURRENTLY_CONNECTED_WALLET');
+        }
+        }
+      } catch (err) {
+          window.localStorage.removeItem('IS_WALLET_CONNECTED');
+          window.localStorage.removeItem('CURRENTLY_CONNECTED_WALLET');
+      }
+  }
 
-    if (acc !== null) setAccount(JSON.parse(acc));
-    if (accbal !== null) setAccountBalance(JSON.parse(accbal));
-    if (conn !== null) setWalletConnected(JSON.parse(conn));
   }, []);
 
 
@@ -88,6 +106,7 @@ function Dapp() {
         recipient: from
       }).then((res) => {
         console.log(res);
+        window.location.reload(true);
       })
     })
     return () => {
@@ -116,7 +135,11 @@ function Dapp() {
             totalAmountReceived += element.amount;
           });
 
-          setLoading(false);
+          setTimeout(() => {
+            setLoading(false);
+            if (totalAmountToWithdraw > 0) setWithdrawBtnVisible(true);
+          }, 500);
+          
           setReceivedAmount(totalAmountReceived);
           setSentAmount(totalAmountSent);
           setAmountToWithdraw(totalAmountToWithdraw);
@@ -175,56 +198,51 @@ function Dapp() {
     }
   }
 
-  const connect = async () => {
+
+  const connectToWallet = async () => {
+    try {
+      const accounts = await window.ethereum.request({
+        method: "eth_requestAccounts",
+      });
+      const account = accounts[0];
+      const check_add = ethers.utils.getAddress(account);
+
+      setAccount(account);
+      console.log("Connected to account", check_add);
+
+      setWalletConnected(true);
+      // contract.setAccount(account);
+      setLoading(true);
+
+      window.localStorage.setItem('IS_WALLET_CONNECTED', JSON.stringify(true));
+      window.localStorage.setItem('CURRENTLY_CONNECTED_WALLET', JSON.stringify(account));
+      
+    } catch(error) {
+      console.log(error);
+    }
+  }
+
+  const connect = () => {
     if(!walletConnected) {
       if (window.ethereum) {
-        try {
-            const accounts = await window.ethereum.request({
-              method: "eth_requestAccounts",
-            });
-            const account = accounts[0];
-            const check_add = ethers.utils.getAddress(account);
-
-            setAccount(account);
-            console.log("Connected to account", check_add);
-
-            setWalletConnected(true);
-            // contract.setAccount(account);
-            setLoading(true);
-
-            window.localStorage.setItem('IS_WALLET_CONNECTED', JSON.stringify(true));
-            window.localStorage.setItem('CURRENTLY_CONNECTED_WALLET', JSON.stringify(account));
-            
-          } catch(error) {
-            console.log(error);
-          }
+        connectToWallet();
       } else {
           alert("Install Metamask Extension");
       }
     }
-    
   }
 
   const disconnect = async () => {
     setWalletConnected(false);
-    setSentData([]);
-    setReceivedData([]);
-    setSentAmount(0);
-    setReceivedAmount(0);
     setAccount("Connect Wallet");
-    setLoading(false);
-    setAccountBalance(0);
 
     window.localStorage.removeItem('IS_WALLET_CONNECTED');
     window.localStorage.removeItem('CURRENTLY_CONNECTED_WALLET');
-    window.localStorage.removeItem('SENT_AMOUNT');
-    window.localStorage.removeItem("RECEIVED_AMOUNT");
-    window.localStorage.removeItem('WITHDRAW_AMOUNT');
-    window.localStorage.removeItem('SENT_DATA');
-    window.localStorage.removeItem('RECEIVED_DATA');
-    window.localStorage.removeItem('ACCOUNT_BALANCE');
   }
 
+  const formatAmount = (amt) => {
+    return amt.toFixed(2);
+  }
 
     return ( 
       <div>
@@ -235,11 +253,12 @@ function Dapp() {
                     <div className="top">
                         <div className="logo">GiftCenter</div>
                         <div className="buttons">
-                          {walletConnected ? !loading ?
+                        {walletConnected ? withdrawBtnVisible ?
                           <div><button className="connectbtn" onClick={withdraw}>Withdraw</button></div>: null : null
-                          }
+                        }
                           <div><button className="connectbtn" onClick={connect}>{account}</button></div>
                           <div><button className="connectbtn" onClick={disconnect}>Disconnect</button></div>
+                          
                         </div>
                     </div>
                     <div className="details">
@@ -253,7 +272,7 @@ function Dapp() {
                               </div>
                               <div className="dataline">
                                 <div className="datalabel">Amount to Withdraw: </div>
-                                <div className="datavalue">{amountToWithdraw}</div>
+                                <div className="datavalue">{formatAmount(amountToWithdraw)}</div>
                               </div>
                             </div>}
                         </div>
@@ -271,7 +290,7 @@ function Dapp() {
                               </div>
                               <div className="dataline">
                                 <div className="datalabel">Total Sent Amount: </div>
-                                <div className="datavalue">{sentAmount}</div>
+                                <div className="datavalue">{formatAmount(sentAmount)}</div>
                               </div>
                             </div>
                             }
@@ -290,7 +309,7 @@ function Dapp() {
                               </div>
                               <div className="dataline">
                                 <div className="datalabel">Total Received Amount: </div>
-                                <div className="datavalue">{receivedAmount}</div>
+                                <div className="datavalue">{formatAmount(receivedAmount)}</div>
                               </div>
                             </div>
                             }

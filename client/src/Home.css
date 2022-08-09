@@ -153,6 +153,7 @@ h5 {
   background: transparent;
   border: 3px solid white;
   width: 1000px;
+  height: 206px;
   border-radius: 10px;
   margin-bottom: 50px;
   box-shadow: 5px 5px 20px black;
@@ -238,7 +239,6 @@ h5 {
   display: flex;
   /* background: linear-gradient(to bottom, rgb(170, 96, 255), rgb(252, 252, 252), rgb(109, 238, 255)); */
   background-image: url('./images/dailygifts.png');
-  flex-wrap: wrap;
   margin: 10px 0px;
   flex-direction: column;
   justify-content: space-between;
@@ -246,10 +246,12 @@ h5 {
   padding-bottom: 5px;
   border-radius: 5px;
   border: 3px solid white;
-  min-width: 760px;
+  min-width: 1160px;
+  height: 563px;;
   /* min-height: 330px; */
   box-shadow: 10px 10px 25px rgba(0, 0, 0, 0.651);
 }
+
 
 .title {
   font-size: 40px;
@@ -274,10 +276,22 @@ h5 {
   justify-content: center;
 }
 
+.dailygifts .gifts {
+  padding-left: 35px;
+  display: flex;
+  flex-direction: column;
+}
+
+.recentGiftsLine {
+  display: flex;
+  flex-wrap: wrap;
+  height: 176px;
+  width: 1061px;
+}
+
 .pagination {
   display: flex;
-  margin: 10px auto;
-  margin-top: 30px;
+  margin: 0px auto;
   margin-bottom: 0px;
   justify-content: center;
   align-items: center;
@@ -291,9 +305,9 @@ i {
 
 .pagination .pagelabel {
   cursor: pointer;
-  border: 1px solid white;
+  border: 2px solid white;
   color: white;
-  background-image: linear-gradient(to bottom right, rgb(96, 170, 255), rgb(198, 194, 255));
+  background-image: linear-gradient(to bottom, rgba(0, 174, 255, 0.781), rgba(0, 217, 255, 0.76));
   border-radius: 3px;
   margin: 10px 10px;
   font-size: 16px;
@@ -301,7 +315,7 @@ i {
   height: 35px;
   font-weight: bold;
   padding: 0px 5px;
-  box-shadow: 3px 3px 20px 2px rgb(93, 136, 216);
+  box-shadow: -1px -1px 10px rgba(4, 0, 255, 0.384) inset;
 }
 
 .nums {
@@ -309,27 +323,28 @@ i {
   justify-content: center;
   align-items: center;
   border-radius: 5px;
-  box-shadow: 2px 2px 10px 2px rgb(151, 80, 209) ;
+  
 }
 
 .nums .pagenum {
   cursor: pointer;
-  background-image: linear-gradient(to bottom right, rgba(255, 0, 255, 0.438), rgba(229, 123, 255, 0.808));
+  background-image: linear-gradient(to bottom, rgba(255, 85, 255, 0.438), rgba(255, 123, 233, 0.808));
   text-align: center;
-  border: 1px solid white;
+  border: 2px solid white;
   font-family: 'Montserrat';
   color: white;
   width: 40px;
   height: 33px;
   font-weight: bold;
+  box-shadow: -1px -1px 20px rgba(255, 0, 0, 0.493) inset;
 }
 
 .nums .pagenum:hover {
-  background-image: linear-gradient(to bottom right, rgb(255, 0, 157), rgba(255, 115, 225, 0.808));
+  background-image: linear-gradient(to bottom, rgb(225, 0, 255), rgba(255, 77, 175, 0.808));
 }
 
 .pagelabel:hover {
-  background-image: linear-gradient(to bottom right, rgb(0, 89, 255), rgba(132, 219, 230, 0.815));
+  background-image: linear-gradient(to bottom, rgba(55, 0, 255, 0.801), rgba(0, 217, 255, 0.76));
 }
 
 .footer {

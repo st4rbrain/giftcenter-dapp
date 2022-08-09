@@ -34,7 +34,7 @@ function GiftsTables({contract, sentData, receivedData}) {
                     </div>
                     <div className="list">
                         {
-                            sentData.map((data) => <SentGiftUI key={data.id} to={data.recipient_address} amount={data.amount} dateTime={data.createdAt}></SentGiftUI>)
+                            sentData.slice(0, 3).map((data) => <SentGiftUI key={data.id} to={data.recipient_address} amount={data.amount} dateTime={data.createdAt}></SentGiftUI>)
                         }
                     </div>
                 </div>
@@ -110,7 +110,7 @@ function GiftsTables({contract, sentData, receivedData}) {
                             </div>
                         </div> */}
                         {
-                            receivedData.map((data) => <ReceivedGiftUI key={data.id} from={data.sender_address} amount={data.amount} dateTime={data.createdAt}></ReceivedGiftUI>)
+                            receivedData.slice(0, 3).map((data) => <ReceivedGiftUI key={data.id} from={data.sender_address} amount={data.amount} dateTime={data.createdAt}></ReceivedGiftUI>)
                         }
                     </div>
                 </div>
