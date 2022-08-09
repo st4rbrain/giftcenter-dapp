@@ -21,6 +21,15 @@ function Home({contract}) {
       Axios.get("http://localhost:3001/gifts/getGifts").then((res) => {
       setAllGifts(res.data[0]);
       setTopGifts(res.data[1]);
+      let k = 0;
+      const giftsCounter = setInterval(() => { 
+          k += 1;
+          setTotalGifts(k)
+          if (k === res.data[0].length) {
+            clearInterval(giftsCounter)
+          }
+      }, 70);
+
       setTotalGifts(res.data[0].length);
 
       // calculating total amounts that have been gifted
@@ -28,11 +37,21 @@ function Home({contract}) {
       res.data[0].forEach(element => {
         total += element.amount;
       });
-      setGiftedAmounts(total.toFixed(4));
 
+      let i = 0;
+      const counter = setInterval(() => {
+        i += 0.01
+        setGiftedAmounts(i.toFixed(4))
+        if (i.toFixed(2) === total.toFixed(2)) {
+          clearInterval(counter)
+        }
+      }, 1);
+
+      
       setTotalPages(Math.ceil(res.data[0].length / giftsperpage));
     });
   }, []);
+
 
   useEffect(() => {
       contract.on("Gifted", (count, from, to, msg, amt, time) => {
