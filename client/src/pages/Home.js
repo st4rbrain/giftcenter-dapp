@@ -169,11 +169,11 @@ function Home({contract}) {
 
 
 function RecentGiftsPagination({totalPages, setCurrentPage, currentPage}) {
-  const [currentNumsSet, setCurrentNumsSet] = useState();
+  const [currentNumsSet, setCurrentNumsSet] = useState([]);
   const [active, setActive] = useState(1);
 
   useEffect(() => {
-    if(totalPages <= 5)
+    if(totalPages < 5)
       setCurrentNumsSet(Array(totalPages).fill().map((_, idx) => 1 + idx))
     else
       setCurrentNumsSet([1, 2, 3, 4, 5])
