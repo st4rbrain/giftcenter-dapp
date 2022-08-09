@@ -138,11 +138,45 @@ h5 {
 }
 
 .giftlist {
-  background-image: linear-gradient(to bottom right, #877ffd, #51aed3, #9a4fc5, #c453b1, #e056b7);
+  background-image: linear-gradient(to bottom right, #d7fd7f, #51d37c, #42dbe0, #783dffc9);
   padding: 80px 0px;
   padding-bottom: 120px;
   animation: bg-move 10s infinite alternate;
   background-size: 400%;
+}
+
+.alldata {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  /* background-image: linear-gradient(to bottom right, rgb(7, 146, 146), rgb(223, 207, 67)); */
+  background: transparent;
+  border: 3px solid white;
+  width: 1000px;
+  border-radius: 10px;
+  margin-bottom: 50px;
+  box-shadow: 5px 5px 20px black;
+}
+
+.homedataline {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  font-size: 50px;
+  margin: 40px 60px;
+  color: white;
+}
+
+.homedatalabel {
+  font-family: 'Montserrat';
+  font-size: 40px;
+  margin: 5px 0;
+}
+
+.homedatavalue {
+  font-weight: bold;
+  font-family: 'Montserrat';
+  text-align: center;
 }
 
 @keyframes bg-move {
@@ -194,9 +228,9 @@ h5 {
   border-radius: 5px;
   border: 3px solid white;
   min-width: 760px;
-  min-height: 350px;
+  min-height: 400px;
   max-height: 600px;
-  margin-bottom: 40px;
+  margin-bottom: 120px;
   box-shadow: 10px 10px 25px rgba(0, 0, 0, 0.671);
 }
 

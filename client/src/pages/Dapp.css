@@ -105,23 +105,25 @@
 }
 
 .datalabel {
-    min-width: 180px;
+    min-width: 170px;
+    margin-right: 5px;
 }
 
 .datavalue {
     font-weight: bold;
+    min-width: 40px;
+    text-align: center;
 }
 
 .details .box .data {
     display: flex;
     align-items: center;
-    text-align: center;
     color: white;
     font-size: 14px;
     font-family: 'Montserrat';
     max-width: 280px;
     max-height: 150px;
-    padding: 2px 0px;
+    padding-top: 15px;
 }
 
 .details .box .loading {

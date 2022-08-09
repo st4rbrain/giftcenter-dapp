@@ -3,6 +3,7 @@ import "./Dapp.css";
 import GiftsTables from "../components/DappTables/DappTables";
 import {ethers} from 'ethers';
 import Axios from "axios";
+import moment from 'moment';
 
 const GiftCenterABI = [
   "function sendGift(address _recipient, string memory _message) public payable",
@@ -20,6 +21,7 @@ const contract = new ethers.Contract(giftcenterAddress, GiftCenterABI, signer);
 function Dapp() {
     
   const [account, setAccount] = useState("Connect Wallet");
+  const [accountBalance, setAccountBalance] = useState(0);
   const [walletConnected, setWalletConnected] = useState(false);
   const [loading, setLoading] = useState(false);
   const [receivedAmount, setReceivedAmount] = useState(0);
@@ -27,49 +29,77 @@ function Dapp() {
   const [amountToWithdraw, setAmountToWithdraw] = useState(0);
   const [sentData, setSentData] = useState([]);
   const [receivedData, setReceivedData] = useState([]);
+  const [sentThisWeek, setSentThisWeek] = useState(0);
+  const [receivedThisWeek, setReceivedThisWeek] = useState(0);
 
-  // const getBalance = async (account) => {
-  //   const balanace = await contract.getBalance(account);
-  //   console.log(`Balance of ${account} is ${ethers.utils.formatEther(balanace)} MATIC`);
-  // }
 
   useEffect(() => {
     const acc = window.localStorage.getItem('CURRENTLY_CONNECTED_WALLET');
     const conn= window.localStorage.getItem('IS_WALLET_CONNECTED');
-    const sent = window.localStorage.getItem('SENT_AMOUNT');
-    const received = window.localStorage.getItem('RECEIVED_AMOUNT');
-    const received_data = window.localStorage.getItem('RECEIVED_DATA');
-    const sent_data = window.localStorage.getItem('SENT_DATA');
-    const withdraw = window.localStorage.getItem('WITHDRAW_AMOUNT');
+    const accbal = window.localStorage.getItem('ACCOUNT_BALANCE');
+
 
     if (acc !== null) setAccount(JSON.parse(acc));
+    if (accbal !== null) setAccountBalance(JSON.parse(accbal));
     if (conn !== null) setWalletConnected(JSON.parse(conn));
-    if (sent !== null) setSentAmount(JSON.parse(sent));
-    if (received !== null) setReceivedAmount(JSON.parse(received));
-    if (sent_data !== null) setSentData(JSON.parse(sent_data));
-    if (received_data !== null) setReceivedData(JSON.parse(received_data));
-    if (withdraw !== null) setAmountToWithdraw(JSON.parse(withdraw));
   }, []);
 
-  // useEffect(() => {
-  //   if(account !== "Connect Wallet") {
-  //     console.log("Setting account:", account);
-  //       contract.setAccount(account);
-  //   }
-      
-  // }, [account]);
 
   useEffect(() => {
 
-    contract.on("currentAccount", (address) => {
-      console.log(address);
-      const fetchAccountDetails = async() => {
-        await Axios.post('http://localhost:3001/gifts/accountInfo', {
-          sender: address,
-          recipient: address
-        }).then((res) => {
-          console.log(res.data);
+    // contract.on("currentAccount", (address) => {
+    //   console.log(address);
+    //   const fetchAccountDetails = async() => {
+    //     await Axios.post('http://localhost:3001/gifts/accountInfo', {
+    //       sender: address,
+    //       recipient: address
+    //     }).then((res) => {
+    //       console.log(res.data);
 
+    //       setSentData(res.data[0]);
+    //       setReceivedData(res.data[1]);
+    //       let totalAmountSent = 0;
+    //       let totalAmountReceived = 0;
+    //       let totalAmountToWithdraw = 0;
+
+    //       res.data[0].forEach(element => {
+    //         totalAmountSent += element.amount;
+    //       });
+    //       res.data[1].forEach(element => {
+    //         if(element.withdrawn === false) {
+    //           totalAmountToWithdraw += element.amount;
+    //         }
+    //         totalAmountReceived += element.amount;
+    //       });
+
+    //       setLoading(false);
+    //       setReceivedAmount(totalAmountReceived);
+    //       setSentAmount(totalAmountSent);
+    //       setAmountToWithdraw(totalAmountToWithdraw);
+    //     })
+    //   }
+    //   console.log("Fetching Amounts");
+    //   fetchAccountDetails();
+    // });
+
+    contract.on("withDrawal", (from, amt) => {
+      console.log(`${amt} withdrawn successfully to the account ${from}`);
+      Axios.post("http://localhost:3001/gifts/withdrawn", {
+        recipient: from
+      }).then((res) => {
+        console.log(res);
+      })
+    })
+    return () => {
+      // contract.removeAllListeners("currentAccount");
+      contract.removeAllListeners("withDrawal");
+    }
+  }, [])
+
+
+  useEffect(() => {
+    const fetchAccountDetails = async (address) => {
+        await Axios.get('http://localhost:3001/gifts/accountInfo/'+address).then((res) => {
           setSentData(res.data[0]);
           setReceivedData(res.data[1]);
           let totalAmountSent = 0;
@@ -91,30 +121,48 @@ function Dapp() {
           setSentAmount(totalAmountSent);
           setAmountToWithdraw(totalAmountToWithdraw);
 
-          window.localStorage.setItem('SENT_AMOUNT', JSON.stringify(totalAmountSent));
-          window.localStorage.setItem('RECEIVED_AMOUNT', JSON.stringify(totalAmountReceived));
-          window.localStorage.setItem('SENT_DATA', JSON.stringify(res.data[0]));
-          window.localStorage.setItem('RECEIVED_DATA', JSON.stringify(res.data[1]));
-          window.localStorage.setItem('WITHDRAW_AMOUNT', JSON.stringify(totalAmountToWithdraw));
-        })
-      }
-      console.log("Fetching Amounts");
-      fetchAccountDetails();
-    });
-
-    contract.on("withDrawal", (from, amt) => {
-      console.log(`${amt} withdrawn successfully to the account ${from}`);
-      Axios.post("http://localhost:3001/gifts/withdrawn", {
-        recipient: from
-      }).then((res) => {
-        console.log(res);
       })
-    })
-    return () => {
-      contract.removeAllListeners("currentAccount");
-      contract.removeAllListeners("withDrawal");
     }
-  }, [])
+
+    if (account !== "Connect Wallet") {
+        setLoading(true);
+        fetchAccountDetails(ethers.utils.getAddress(account));
+    }
+  
+  }, [account])
+
+  useEffect(() => {
+    const getBalance = async () => {
+      const accBalanace = Number(ethers.utils.formatEther((await provider.getBalance(account))._hex)).toFixed(2);
+      setAccountBalance(accBalanace);
+    }
+
+    if (account !== "Connect Wallet")
+      getBalance(account)
+  })
+
+
+  useEffect(() => {
+    const todayDate = new Date();
+    const sevenDaysBefore = moment(todayDate).subtract(7, 'days');
+    let thisWeekSent = 0;
+    let thisWeekReceived = 0;
+    for (let i = 0; i < sentData.length; i++) {
+      if (moment(sentData[i].createdAt).isBetween(sevenDaysBefore, todayDate)){
+        thisWeekSent += 1;
+      }
+    }
+    for (let i = 0; i < receivedData.length; i++) {
+      if (moment(receivedData[i].createdAt).isBetween(sevenDaysBefore, todayDate)){
+        thisWeekReceived += 1;
+      }
+    }
+    setSentThisWeek(thisWeekSent);
+    setReceivedThisWeek(thisWeekReceived);
+
+  }, [sentData, receivedData])
+
+
 
   const withdraw = async() => {
     if (amountToWithdraw !== 0) {
@@ -135,13 +183,13 @@ function Dapp() {
               method: "eth_requestAccounts",
             });
             const account = accounts[0];
-            // getBalance(account);
+            const check_add = ethers.utils.getAddress(account);
 
             setAccount(account);
-            console.log("Connected to account", accounts[0]);
+            console.log("Connected to account", check_add);
 
             setWalletConnected(true);
-            contract.setAccount(account);
+            // contract.setAccount(account);
             setLoading(true);
 
             window.localStorage.setItem('IS_WALLET_CONNECTED', JSON.stringify(true));
@@ -165,6 +213,8 @@ function Dapp() {
     setReceivedAmount(0);
     setAccount("Connect Wallet");
     setLoading(false);
+    setAccountBalance(0);
+
     window.localStorage.removeItem('IS_WALLET_CONNECTED');
     window.localStorage.removeItem('CURRENTLY_CONNECTED_WALLET');
     window.localStorage.removeItem('SENT_AMOUNT');
@@ -172,6 +222,7 @@ function Dapp() {
     window.localStorage.removeItem('WITHDRAW_AMOUNT');
     window.localStorage.removeItem('SENT_DATA');
     window.localStorage.removeItem('RECEIVED_DATA');
+    window.localStorage.removeItem('ACCOUNT_BALANCE');
   }
 
 
@@ -184,8 +235,8 @@ function Dapp() {
                     <div className="top">
                         <div className="logo">GiftCenter</div>
                         <div className="buttons">
-                          {walletConnected ? 
-                          <div><button className="connectbtn" onClick={withdraw}>Withdraw</button></div>: null
+                          {walletConnected ? !loading ?
+                          <div><button className="connectbtn" onClick={withdraw}>Withdraw</button></div>: null : null
                           }
                           <div><button className="connectbtn" onClick={connect}>{account}</button></div>
                           <div><button className="connectbtn" onClick={disconnect}>Disconnect</button></div>
@@ -197,12 +248,8 @@ function Dapp() {
                             {loading ? <div className="loading">Loading...</div> :
                             <div>
                               <div className="dataline">
-                                <div className="datalabel">Total Received Amount: </div>
-                                <div className="datavalue">{receivedAmount}</div>
-                              </div>
-                              <div className="dataline">
-                                <div className="datalabel">Total Sent Amount: </div>
-                                <div className="datavalue">{sentAmount}</div>
+                                <div className="datalabel">Account Balance: </div>
+                                <div className="datavalue">{accountBalance}</div>
                               </div>
                               <div className="dataline">
                                 <div className="datalabel">Amount to Withdraw: </div>
@@ -212,11 +259,41 @@ function Dapp() {
                         </div>
                         <div className="box">
                             <div className="boxtitle">Sent Gifts Data</div>
-                            <div className="data">Total</div>
+                            { loading ? <div className="loading">Loading...</div> :
+                            <div>
+                              <div className="dataline">
+                                <div className="datalabel">This Week: </div>
+                                <div className="datavalue">{sentThisWeek}</div>
+                              </div>
+                              <div className="dataline">
+                                <div className="datalabel">All Time: </div>
+                                <div className="datavalue">{sentData.length}</div>
+                              </div>
+                              <div className="dataline">
+                                <div className="datalabel">Total Sent Amount: </div>
+                                <div className="datavalue">{sentAmount}</div>
+                              </div>
+                            </div>
+                            }
                         </div>
                         <div className="box">
                             <div className="boxtitle">Received Gifts Data</div>
-                            <div className="data">This shows the data of all the gifts that have been reveived</div>
+                            { loading ? <div className="loading">Loading...</div> :
+                            <div>
+                              <div className="dataline">
+                                <div className="datalabel">This Week: </div>
+                                <div className="datavalue">{receivedThisWeek}</div>
+                              </div>
+                              <div className="dataline">
+                                <div className="datalabel">All Time: </div>
+                                <div className="datavalue">{receivedData.length}</div>
+                              </div>
+                              <div className="dataline">
+                                <div className="datalabel">Total Received Amount: </div>
+                                <div className="datavalue">{receivedAmount}</div>
+                              </div>
+                            </div>
+                            }
                         </div>
                     </div>
                 </div>
@@ -237,19 +314,16 @@ function Dapp() {
                 </div>
                 <div className="details">
                     <div className="box">
-                        <div className="boxtitle">Balance</div>
-                        {loading ? <div className="loading">Loading...</div> :
-                        <div>
-                          <div className="data">No balances</div>
-                        </div>}
+                      <div className="boxtitle">Balance</div>
+                        <div className="data">No balances ...</div>
                     </div>
                     <div className="box">
                         <div className="boxtitle">Sent Gifts Data</div>
-                        <div className="data">This shows the data of all the gifts that have been sent</div>
+                        <div className="data">...</div>
                     </div>
                     <div className="box">
                         <div className="boxtitle">Received Gifts Data</div>
-                        <div className="data">This shows the data of all the gifts that have been reveived</div>
+                        <div className="data">...</div>
                     </div>
                 </div>
             </div>

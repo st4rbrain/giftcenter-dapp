@@ -45,21 +45,18 @@ function GiftsTables({contract, sentData, receivedData}) {
                             <div className="cardlinelabel">Recipient Address</div>
                             <input className="cardlineinput" id="address" autoComplete='off' onChange={(e) => {
                                 setAddress(e.target.value);
-                                console.log(e.target.value);
                             }}></input>
                         </div>
                         <div className="cardline">
                             <div className="cardlinelabel">Message</div>
                             <textarea className="cardlinemsginput" id="message" autoComplete='off' onChange={(e) => {
                                 setMsg(e.target.value);
-                                console.log(e.target.value);
                             }}></textarea>
                         </div>
                         <div className="cardline">
                             <div className="cardlinelabel">Amount</div>
                             <input className="cardlineinput" id="amount" autoComplete='off' onChange={(e) => {
                                 setAmount(e.target.value);
-                                console.log(e.target.value);
                             }}></input>
                         </div>
                     </div>

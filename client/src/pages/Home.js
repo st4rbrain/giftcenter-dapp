@@ -6,7 +6,7 @@ import './../Home.css';
 import Axios from 'axios';
 import { ethers } from 'ethers';
 import RecentGiftsPagination from '../components/homeGiftsPagination';
-import {allGiftArray} from './../giftsData';
+
 
 function Home({contract}) {
   const [topGifts, setTopGifts] = useState([]);
@@ -30,36 +30,18 @@ function Home({contract}) {
 
         const postGift = async () => {
           await Axios.post('http://localhost:3001/gifts/postGifts', {
-            id: newId, 
-            sender_address: from,
-            recipient_address: to,
-            message: msg,
-            amount: amtToFloat,
-            createdAt: date,
-            withdrawn: false
+              id: newId, 
+              sender_address: from,
+              recipient_address: to,
+              message: msg,
+              amount: amtToFloat,
+              createdAt: date,
+              withdrawn: false
           }).then((res) => {
             console.log("Added a new gift!!");
             window.location.reload(true);
         });
 
-
-        // await Axios.post("http://localhost:3001/gifts/addSenderInfo", {
-        //   id: newId, 
-        //   sender_address: from,
-        //   recipient_address: to,
-        //   message: msg,
-        //   amount: amtToFloat,
-        //   createdAt: date
-        // })
-
-        // await Axios.post("http://localhost:3001/gifts/addReceiverInfo", {
-        //   id: newId, 
-        //   sender_address: from,
-        //   recipient_address: to,
-        //   message: msg,
-        //   amount: amtToFloat,
-        //   createdAt: date
-        // })
         }
 
         console.log("Posting gift to the database");
@@ -69,10 +51,17 @@ function Home({contract}) {
       return () => contract.removeAllListeners("Gifted");
   }, [contract]);
   
-  
 
   const getWelcomed = () => {
     console.log ("Welcome to the App!")
+  }
+
+  const totalAmountsGifted = () => {
+    let total = 0;
+    allGifts.forEach(element => {
+      total += element.amount;
+    });
+    return total;
   }
 
   return (
@@ -92,17 +81,25 @@ function Home({contract}) {
               </div>
           </div>
       </header>
-
       {/* show the gift records */}
+      
       <section className='giftlist'>
         <div className='container'>
+        <div className='alldata'>
+          <div className='homedataline'>
+            <div className='homedatalabel'>Total Amounts Gifted</div>
+            <div className='homedatavalue'>{totalAmountsGifted()}</div>
+          </div>
+          <div className='homedataline'>
+            <div className='homedatalabel'>Total Gifts Sent</div>
+            <div className='homedatavalue'>{allGifts.length}</div>
+          </div>
+      </div>
           <div className='giftheading'>
             <div className='gftheader'>
               Gifted Items
             </div>
             <div className='gftdesc'>
-              This is a record of all the gifts that have been sent over the past decade
-              This is a record of all the gifts that have been sent over the past decade
               This is a record of all the gifts that have been sent over the past decade
             </div>
           </div>
