@@ -1,5 +1,5 @@
 import { ethers } from 'ethers';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import ReceivedGiftUI from '../dappReceivedGift';
 import SentGiftUI from '../dappSentGift';
 import './DappTables.css';
@@ -10,6 +10,13 @@ function GiftsTables({contract, sentData, receivedData}) {
     const [address, setAddress] = useState();
     const [msg, setMsg] = useState();
     const [amount, setAmount] = useState();
+
+    const giftsPerPage = 3;
+
+    const totalSentPages = Math.ceil(sentData.length / giftsPerPage)
+    const totalReceivedPages = Math.ceil(receivedData.length / giftsPerPage)
+    const [currentSentPage, setCurrentSentPage] = useState(0);
+    const [currentReceivedPage, setCurrentReceivedPage] = useState(0);
         
     const sendgift = async () => {
         try{
@@ -34,9 +41,10 @@ function GiftsTables({contract, sentData, receivedData}) {
                     </div>
                     <div className="list">
                         {
-                            sentData.slice(0, 3).map((data) => <SentGiftUI key={data.id} to={data.recipient_address} amount={data.amount} dateTime={data.createdAt}></SentGiftUI>)
+                            sentData.slice(currentSentPage*giftsPerPage, (currentSentPage*giftsPerPage) + giftsPerPage).map((data) => <SentGiftUI key={data.id} to={data.recipient_address} amount={data.amount} dateTime={data.createdAt}></SentGiftUI>)
                         }
                     </div>
+                    <DashBoardPagination totalPages={totalSentPages} setCurrentPage={setCurrentSentPage} currentPage={currentSentPage} ></DashBoardPagination>
                 </div>
                 <div className="sendgift">
                     <div className="cardheading">Send Gift</div>
@@ -68,55 +76,87 @@ function GiftsTables({contract, sentData, receivedData}) {
                         <div className="tableinfo">This tables lists all of the gifts that are sent</div>
                     </div>
                     <div className="list">
-                        {/* <div className="listitem">
-                            <div className="itemline">
-                                <div className="linelabel">From</div>
-                                <div className="linedata">0x98xsfgas248345j3h5jkll34523h71</div>
-                            </div>
-                            <div className="itemline">
-                                <div className="linelabel">Amount</div>
-                                <div className="linedata">5000</div>
-                            </div>
-                            <div className="recorddate">
-                                <div className="datelabel">Date -</div>
-                                <div className="date">01/12/2021</div>
-                            </div>
-                        </div>
-                        <div className="listitem">
-                            <div className="itemline">
-                                <div className="linelabel">From</div>
-                                <div className="linedata">0x98xsfgas248345j3h5jkll34523h71</div>
-                            </div>
-                            <div className="itemline">
-                                <div className="linelabel">Amount</div>
-                                <div className="linedata">5000</div>
-                            </div>
-                            <div className="recorddate">
-                                <div className="datelabel">Date -</div>
-                                <div className="date">01/12/2021</div>
-                            </div>
-                        </div><div className="listitem">
-                            <div className="itemline">
-                                <div className="linelabel">From</div>
-                                <div className="linedata">0x98xsfgas248345j3h5jkll34523h71</div>
-                            </div>
-                            <div className="itemline">
-                                <div className="linelabel">Amount</div>
-                                <div className="linedata">5000</div>
-                            </div>
-                            <div className="recorddate">
-                                <div className="datelabel">Date -</div>
-                                <div className="date">01/12/2021</div>
-                            </div>
-                        </div> */}
                         {
-                            receivedData.slice(0, 3).map((data) => <ReceivedGiftUI key={data.id} from={data.sender_address} amount={data.amount} dateTime={data.createdAt}></ReceivedGiftUI>)
+                            receivedData.slice(currentReceivedPage*giftsPerPage, (currentReceivedPage*giftsPerPage) + giftsPerPage).map((data) => <ReceivedGiftUI key={data.id} from={data.sender_address} amount={data.amount} dateTime={data.createdAt}></ReceivedGiftUI>)
                         }
                     </div>
+                    <DashBoardPagination totalPages={totalReceivedPages} setCurrentPage={setCurrentReceivedPage} currentPage={currentReceivedPage} ></DashBoardPagination>
                 </div>
             </div>
         </div>
      );
 }
+
+function DashBoardPagination({totalPages, setCurrentPage, currentPage}) {
+    const [currentNumsSet, setCurrentNumsSet] = useState([]);
+    const [active, setActive] = useState(1);
+  
+    useEffect(() => {
+        if(totalPages < 3)
+            setCurrentNumsSet(Array(totalPages).fill().map((_, idx) => 1 + idx))
+        else
+            setCurrentNumsSet([1, 2, 3])
+    }, [totalPages])
+  
+    return ( 
+        <div className='dapppagination'>
+
+            {/* prev button */}
+            <button className='dapppagelabel' onClick={() => {
+              if (currentPage > 0) {
+                console.log("current page is:", currentPage);
+                setCurrentPage(currentPage -1);
+                setActive(currentPage);
+                if (currentNumsSet[0] !== 1)
+                  setCurrentNumsSet(Array(3).fill().map((_, idx) => (currentNumsSet[0] - 1) + idx))
+              }   
+            }}><i className='fa fa-angle-left'></i></button>
+
+            {/* numbers */}
+            <div className='dappnums'>
+              {
+                currentNumsSet >= 3 ?
+                currentNumsSet[0] > 1 ? 
+                <div className='dappdotsleft'>
+                  <div className='dappdot'>.</div>
+                  <div className='dappdot'>.</div>
+                  <div className='dappdot'>.</div>
+                </div> : null : null
+              }
+              {
+  
+                currentNumsSet.map((pageNum) => 
+                <button key={pageNum} className={pageNum === active ? 'dappnumactive' : 'dapppagenum'} onClick={() => {
+                    setCurrentPage(pageNum - 1);
+                    setActive(pageNum);
+                    console.log("clicked on", pageNum);
+                }}>{pageNum}</button>)
+              }
+              {
+                currentNumsSet.length >= 3 ?
+                currentNumsSet[2] < totalPages ? 
+                <div className='dappdots'>
+                  <div className='dappdot'>.</div>
+                  <div className='dappdot'>.</div>
+                  <div className='dappdot'>.</div>
+                </div> : null : null
+              }
+  
+            </div>
+
+            {/* next button */}
+            <button className='dapppagelabel' onClick={() => {
+              if (currentPage+1 < totalPages) {
+                setCurrentPage(currentPage+1);
+                setActive(currentPage+2);
+                console.log('current page is:', currentPage+2)
+                if (currentPage+2 >= 4)
+                  setCurrentNumsSet(Array(3).fill().map((_, idx) => currentNumsSet[1] + idx))
+  
+              }
+            }}><i className='fa fa-angle-right'></i></button>
+        </div>
+     );
+  }
 
 export default GiftsTables;

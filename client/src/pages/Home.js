@@ -30,7 +30,7 @@ function Home({contract}) {
       });
       setGiftedAmounts(total.toFixed(4));
 
-      setTotalPages(Math.ceil(res.data[0].length / 8));
+      setTotalPages(Math.ceil(res.data[0].length / giftsperpage));
     });
   }, []);
 
@@ -142,7 +142,7 @@ function Home({contract}) {
             </div>
 
               {/* pagination */}
-            <RecentGiftsPagination totalPages={totalPages} setCurrentPage={setCurrentPage}/>
+            <RecentGiftsPagination totalPages={totalPages} setCurrentPage={setCurrentPage} currentPage={currentPage} />
 
           </div>
         </div>
@@ -168,24 +168,66 @@ function Home({contract}) {
 }
 
 
-function RecentGiftsPagination({totalPages, setCurrentPage}) {
+function RecentGiftsPagination({totalPages, setCurrentPage, currentPage}) {
+  const [currentNumsSet, setCurrentNumsSet] = useState();
+  const [active, setActive] = useState(1);
+
+  useEffect(() => {
+    if(totalPages <= 5)
+      setCurrentNumsSet(Array(totalPages).fill().map((_, idx) => 1 + idx))
+    else
+      setCurrentNumsSet([1, 2, 3, 4, 5])
+  }, [totalPages])
+
   return ( 
       <div className='pagination'>
-          <button className='pagelabel'><i className='fa fa-angle-left'></i>Prev</button>
+          <button className='pagelabel' onClick={() => {
+            if (currentPage > 0) {
+              setCurrentPage(currentPage -1);
+              setActive(currentPage);
+              if (currentNumsSet[0] !== 1)
+                setCurrentNumsSet(Array(5).fill().map((_, idx) => (currentNumsSet[0] - 1) + idx))
+            }   
+          }}><i className='fa fa-angle-left'></i>Prev</button>
           <div className='nums'>
-              {
-              Array(totalPages).fill().map((_, idx) => 1 + idx).map((page) => 
-              <button key={page} className='pagenum' onClick={() => {
-                  setCurrentPage(page-1);
-                  console.log("clicked on", page);
-              }}>{page}</button>)
-              }
-              {/* <button className='pagenum'></button>
-              <button className='pagenum'>2</button>
-              <button className='pagenum'>3</button>
-              <button className='pagenum'>4</button> */}
+            {
+              currentNumsSet >= 5 ?
+              currentNumsSet[0] > 1 ? 
+              <div className='dotsleft'>
+                <div className='dot'>.</div>
+                <div className='dot'>.</div>
+                <div className='dot'>.</div>
+              </div> : null : null
+            }
+            {
+
+              currentNumsSet.map((pageNum) => 
+              <button key={pageNum} className={pageNum === active ? 'active' : 'pagenum'} onClick={() => {
+                  setCurrentPage(pageNum - 1);
+                  setActive(pageNum);
+                  console.log("clicked on", pageNum);
+              }}>{pageNum}</button>)
+            }
+            {
+              currentNumsSet.length >=5 ?
+              currentNumsSet[4] < totalPages ? 
+              <div className='dots'>
+                <div className='dot'>.</div>
+                <div className='dot'>.</div>
+                <div className='dot'>.</div>
+              </div> : null : null
+            }
+
           </div>
-          <button className='pagelabel'>Next<i className='fa fa-angle-right'></i></button>
+          <button className='pagelabel' onClick={() => {
+            if (currentPage+1 < totalPages) {
+              setCurrentPage(currentPage+1);
+              setActive(currentPage+2);
+              if (currentPage+2 >= 6)
+                setCurrentNumsSet(Array(5).fill().map((_, idx) => currentNumsSet[1] + idx))
+
+            }
+          }}>Next<i className='fa fa-angle-right'></i></button>
       </div>
    );
 }

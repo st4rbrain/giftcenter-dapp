@@ -14,7 +14,7 @@ ul {
 }
 
 .navbar {
-  background: linear-gradient(to bottom right, #8d45ff, rgb(131, 160, 255),rgb(216, 243, 255));
+  background: linear-gradient(to bottom right, rgb(176, 194, 255), #5c21bb);
   color: white;
   height: 70px;
 }
@@ -79,7 +79,7 @@ ul {
 }
 
 .header {
-  background: linear-gradient(to bottom right, rgb(245, 87, 147), #fffd77);
+  background: linear-gradient(to bottom right, #fffd7a, rgb(201, 49, 107));
   color: white;
   min-height: 600px;
 }
@@ -138,10 +138,10 @@ h5 {
 }
 
 .giftlist {
-  background-image: linear-gradient(to bottom right, #d7fd7f, #51d37c, #42dbe0, #783dffc9);
+  background-image: linear-gradient(to bottom right, rgb(255, 0, 128), #ddc660, #51d387, #42dbe0, #783dffc9, rgb(255, 86, 142));
   padding: 80px 0px;
   padding-bottom: 120px;
-  animation: bg-move 10s infinite alternate;
+  animation: bg-move 15s infinite alternate;
   background-size: 400%;
 }
 
@@ -326,7 +326,7 @@ i {
   
 }
 
-.nums .pagenum {
+.pagenum {
   cursor: pointer;
   background-image: linear-gradient(to bottom, rgba(255, 85, 255, 0.438), rgba(255, 123, 233, 0.808));
   text-align: center;
@@ -339,8 +339,48 @@ i {
   box-shadow: -1px -1px 20px rgba(255, 0, 0, 0.493) inset;
 }
 
-.nums .pagenum:hover {
+.pagenum:hover {
   background-image: linear-gradient(to bottom, rgb(225, 0, 255), rgba(255, 77, 175, 0.808));
+}
+
+.active {
+  cursor: pointer;
+  background-image: linear-gradient(to bottom, rgba(123, 255, 163, 0.808), rgba(0, 190, 117, 0.781));
+  text-align: center;
+  border: 2px solid white;
+  font-family: 'Montserrat';
+  color: white;
+  width: 40px;
+  height: 33px;
+  font-weight: bold;
+  box-shadow: -1px -1px 20px rgba(82, 223, 0, 0.822) inset;
+}
+
+.active:hover {
+  background-image: linear-gradient(to bottom, rgba(66, 177, 44, 0.836), rgb(160, 184, 21));
+}
+
+.dots {
+  display: flex;
+  justify-content: center;
+  align-items: flex-end;
+  padding-left: 5px;
+}
+
+.dotsleft {
+  display: flex;
+  justify-content: center;
+  align-items: flex-end;
+  padding-right: 5px;
+}
+
+.dot {
+  color: rgb(255, 255, 255);
+  display: flex;
+  font-weight: bold;
+  justify-content: center;
+  font-family: 'Montserrat';
+  font-size: 30px;
 }
 
 .pagelabel:hover {
@@ -373,6 +413,7 @@ i {
   margin-top: 30px;
   font-family: 'Allura';
   font-size: 45px;
+  font-weight: bold;
   display: flex;
   flex-direction: column;
   line-height: 1em;

@@ -61,7 +61,7 @@
 .list {
     display: flex;
     flex-direction: column;
-    min-height: 200px;
+    height: 300px;
     margin: 10px 0;
     align-items: center;
 }
@@ -210,3 +210,102 @@
     background: linear-gradient(to bottom, rgb(180, 12, 138), rgb(255, 113, 144));
 }
 
+
+.dapppagination {
+    display: flex;
+    margin: 0px auto;
+    justify-content: center;
+    align-items: center;
+    text-decoration: none;
+    font-family: 'Montserrat';
+  }
+  
+  i {
+    margin: 0px 5px;
+  }
+  
+.dapppagelabel {
+    cursor: pointer;
+    border: 2px solid white;
+    color: white;
+    /* background-image: linear-gradient(to bottom, rgba(196, 52, 52, 0.781), rgba(134, 58, 14, 0.329)); */
+    background: transparent;
+    border-radius: 10px;
+    margin: 10px 10px;
+    font-size: 16px;
+    width: 35px;
+    height: 35px;
+    font-weight: bold;
+    padding: 0px 5px;
+    box-shadow: -1px -1px 10px rgba(255, 123, 0, 0.384) inset;
+  }
+  
+  .dappnums {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  .dapppagenum {
+    cursor: pointer;
+    /* background-image: linear-gradient(to bottom, rgba(255, 85, 255, 0.438), rgba(255, 123, 233, 0.808)); */
+    background: transparent;
+    text-align: center;
+    border: 2px solid white;
+    font-family: 'Montserrat';
+    margin: 0px 2px;
+    color: white;
+    border-radius: 10px;
+    width: 35px;
+    height: 33px;
+    font-weight: bold;
+  }
+  
+  .dapppagenum:hover {
+    background-image: linear-gradient(to bottom, rgb(255, 82, 82), rgba(255, 193, 227, 0.808));
+  }
+  
+  .dappnumactive {
+    cursor: pointer;
+    background-image: linear-gradient(to bottom, rgba(196, 19, 19, 0.774), rgba(255, 158, 79, 0.781));
+    text-align: center;
+    border: 2px solid white;
+    font-family: 'Montserrat';
+    margin: 0 2px;
+    color: white;
+    border-radius: 10px;
+    width: 35px;
+    height: 33px;
+    font-weight: bold;
+  }
+  
+  .dappnumactive:hover {
+    background-image: linear-gradient(to bottom, rgba(209, 0, 0, 0.959), rgba(255, 208, 79, 0.781));
+  }
+  
+  .dappdots {
+    display: flex;
+    justify-content: center;
+    align-items: flex-end;
+    padding-left: 5px;
+  }
+  
+  .dappdotsleft {
+    display: flex;
+    justify-content: center;
+    align-items: flex-end;
+    padding-right: 5px;
+  }
+  
+  .dappdot {
+    color: rgb(255, 255, 255);
+    display: flex;
+    font-weight: bold;
+    justify-content: center;
+    font-family: 'Montserrat';
+    font-size: 30px;
+  }
+  
+  .dapppagelabel:hover {
+    background-image: linear-gradient(to bottom, rgb(255, 82, 82), rgba(255, 193, 227, 0.808));
+  }
