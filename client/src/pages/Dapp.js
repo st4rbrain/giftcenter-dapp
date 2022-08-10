@@ -12,6 +12,20 @@ const chainSymbols = {
   5: "GoreliETH"
 }
 
+const hexChainIds = {
+  80001 : "0x13881",
+  1 : "0x1",
+  137: "0x89",
+  5: "0x5"
+}
+
+const rpcURLs = {
+  1: 'https://mainnet.infura.io/v3/',
+  137: 'https://polygon-rpc.com/',
+  80001: 'https://matic-mumbai.chainstacklabs.com',
+  5: 'https://matic-mumbai.chainstacklabs.com'
+}
+
 const chainNames = {
   80001 : "Polygon Mumbai",
   1 : "Ethereum Mainnet",
@@ -311,6 +325,45 @@ function Dapp() {
     }
     return "alertlogo"
   }
+  
+  const otherNetworks = () => {
+    let nets = []
+    for(const key in chainNames) {
+      if(key !== window.ethereum.networkVersion)
+        nets.push(key)
+    }
+    return nets
+  }
+
+  const switchNetwork = async(network) => {
+    try {
+      // check if the chain to connect to is installed
+      await window.ethereum.request({
+        method: 'wallet_switchEthereumChain',
+        params: [{ chainId: hexChainIds[network] }], // chainId must be in hexadecimal numbers
+      });
+    } catch (error) {
+      // This error code indicates that the chain has not been added to MetaMask
+      // if it is not, then install it into the user MetaMask
+      if (error.code === 4902) {
+        try {
+          await window.ethereum.request({
+            method: hexChainIds[network],
+            params: [
+              {
+                chainId: `0x${network.toString(16)}`,
+                rpcUrl: rpcURLs[network],
+              },
+            ],
+          });
+        } catch (addError) {
+          console.error(addError);
+        }
+      }
+      console.error(error);
+  }
+}
+
 
     return ( 
       <div>
@@ -337,7 +390,17 @@ function Dapp() {
                             </button>
                             <div className="dropdown-content">
                               <div className="dropdownhead">Switch Network</div>
-                              <button className="dropdown-content-btn-line">
+                              {
+                                otherNetworks().map((network) => 
+                                <button key={network} className="dropdown-content-btn-line" onClick={() => {
+                                  switchNetwork(network)
+                                }}>
+                                  <div className={networkLogosClass[network]}></div>
+                                  <div className="dropdown-content-label">{chainNames[network]}</div>
+                                </button>
+                                )
+                              }
+                              {/* <button className="dropdown-content-btn-line">
                                 <div className="ethnetworklogo"></div>
                                 <div className="dropdown-content-label">Goreli Testnet</div>
                               </button>
@@ -348,7 +411,7 @@ function Dapp() {
                               <button className="dropdown-content-btn-line">
                                 <div className="maticnetworklogo"></div>
                                 <div className="dropdown-content-label">Polygon Mumbai</div>
-                              </button>
+                              </button> */}
                             </div>
                           </div>
                           {

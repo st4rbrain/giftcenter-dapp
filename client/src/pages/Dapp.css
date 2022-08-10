@@ -91,7 +91,7 @@ input::selection, textarea::selection{
 }
 
 .connectbtn:hover {
-    background-color: rgba(255, 255, 255, 0.363);
+    background-color: rgba(255, 255, 255, 0.247);
     color: rgb(255, 255, 255);
 }
 
@@ -135,7 +135,7 @@ input::selection, textarea::selection{
 }
 
 .networkdropbtn:hover {
-    background-color: rgba(255, 255, 255, 0.295);
+    background-color: rgba(255, 255, 255, 0.247);
     color: rgb(255, 255, 255);
 }
 
@@ -172,7 +172,6 @@ input::selection, textarea::selection{
     border: 3px solid white;
     border-radius: 10px;
     width: 280px;
-    height: 200px;
     z-index: 1;
 }
 
@@ -197,7 +196,7 @@ input::selection, textarea::selection{
 }
 
 .dropdown-content-btn-line:hover {
-    background: linear-gradient(to bottom right, rgba(252, 222, 74, 0.822), rgba(255, 153, 70, 0.349));
+    background-color: rgba(255, 255, 255, 0.247);
 }
 
 .ethnetworklogo {
