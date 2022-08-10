@@ -11,7 +11,7 @@ const GiftCenterABI = [
 ];
 
 
-const url = "https://small-bold-dream.matic-testnet.discover.quiknode.pro/4e7c4314ce145b2aae49af69f438667ba35f897d/";
+const url = "https://polygon-mumbai.g.alchemy.com/v2/M2y-N2dpx1yQ1CHnLmfxlL5ThnajzQco";
 const giftcenterAddress = '0x44B78BdEE21810B87d78178Ba4DE299526e24127';
 const provider = new ethers.providers.JsonRpcProvider(url);
 const contract = new ethers.Contract(giftcenterAddress, GiftCenterABI, provider);

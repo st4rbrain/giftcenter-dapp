@@ -5,6 +5,13 @@ import {ethers} from 'ethers';
 import Axios from "axios";
 import moment from 'moment';
 
+const chains = {
+  80001 : "mMATIC",
+  1 : "ETH",
+  137: "MATIC",
+  5: "GoreliETH"
+}
+
 const GiftCenterABI = [
   "function sendGift(address _recipient, string memory _message) public payable",
   "function withdrawAmount(address _account, uint _amt) external",
@@ -118,7 +125,9 @@ function Dapp() {
 
   useEffect(() => {
     const fetchAccountDetails = async (address) => {
-        await Axios.get('http://localhost:3001/gifts/accountInfo/'+address).then((res) => {
+        await Axios.post('http://localhost:3001/gifts/accountInfo/', {
+          address: address
+        }).then((res) => {
           setSentData(res.data[0]);
           setReceivedData(res.data[1]);
           let totalAmountSent = 0;
@@ -154,17 +163,31 @@ function Dapp() {
   
   }, [account])
 
+
+  // get account balance
   useEffect(() => {
     const getBalance = async () => {
       const accBalanace = Number(ethers.utils.formatEther((await provider.getBalance(account))._hex)).toFixed(2);
       setAccountBalance(accBalanace);
     }
-
     if (account !== "Connect Wallet")
       getBalance(account)
+  }, [account])
+
+  // check if chain has been changed
+  useEffect(() => {
+    if(window.ethereum) {
+      window.ethereum.on("chainChanged", () => {
+        for(const key in chains) {
+          if(window.ethereum.networkVersion === key)
+            window.location.reload(true);
+        }
+        
+      });
+    }
   })
 
-
+  // to sort gifts of latest week
   useEffect(() => {
     const todayDate = new Date();
     const sevenDaysBefore = moment(todayDate).subtract(7, 'days');
@@ -199,6 +222,7 @@ function Dapp() {
   }
 
 
+
   const connectToWallet = async () => {
     try {
       const accounts = await window.ethereum.request({
@@ -229,6 +253,14 @@ function Dapp() {
       } else {
           alert("Install Metamask Extension");
       }
+    } else {
+      document.getElementsByClassName("modal")[0].style.display = "block";
+      // window.onclick = (event) => {
+      //   let modal = document.getElementsByClassName("modal")[0]
+      //   if (event.target === modal) {
+      //     modal.style.display = "none";
+      //   }
+      // }
     }
   }
 
@@ -253,12 +285,8 @@ function Dapp() {
                     <div className="top">
                         <div className="logo">GiftCenter</div>
                         <div className="buttons">
-                        {walletConnected ? withdrawBtnVisible ?
-                          <div><button className="connectbtn" onClick={withdraw}>Withdraw</button></div>: null : null
-                        }
-                          <div><button className="connectbtn" onClick={connect}>{account}</button></div>
-                          <div><button className="connectbtn" onClick={disconnect}>Disconnect</button></div>
-                          
+                          <div className="accountdata">{accountBalance} {chains[window.ethereum.networkVersion]}</div>
+                          <div><button className="connectbtn" onClick={connect}>{walletConnected ? <div className="address">{account.substring(0, 6)}<div className="addressdots">...</div>{account.substring(account.length -4, account.length)}</div> : {account} }</button></div>
                         </div>
                     </div>
                     <div className="details">
@@ -267,13 +295,14 @@ function Dapp() {
                             {loading ? <div className="loading">Loading...</div> :
                             <div>
                               <div className="dataline">
-                                <div className="datalabel">Account Balance: </div>
-                                <div className="datavalue">{accountBalance}</div>
-                              </div>
-                              <div className="dataline">
                                 <div className="datalabel">Amount to Withdraw: </div>
                                 <div className="datavalue">{formatAmount(amountToWithdraw)}</div>
                               </div>
+                              {walletConnected ? withdrawBtnVisible ?
+                                <div className="withdrawbtnline">
+                                  <button className="smallbtn" onClick={withdraw}>Withdraw</button>
+                                </div>: null : null
+                              }
                             </div>}
                         </div>
                         <div className="box">
@@ -318,6 +347,25 @@ function Dapp() {
                 </div>
             </header>
             <GiftsTables contract={contract} sentData={sentData} receivedData={receivedData} />
+            <div className="modal">
+              <div className="modal-content">
+                <div className="modalhead">
+                  <div className="modalheading">Account</div>
+                  <button className="modalcross" onClick={() => {
+                    document.getElementsByClassName('modal')[0].style.display = "none";
+                  }
+                  }>&times;</button>
+                </div>
+                <div className="modalaccountdetails">
+                  <div className="modaldetailhead">
+                    <div className="modaldetailheading">Connected with Metamask</div>
+                    <button className="smallbtn" onClick={disconnect}>Disconnect</button>
+                  </div>
+                  <div className="addressbar">{account.substring(0, 6)}...{account.substring(account.length -4, account.length)}</div>
+                </div>
+                
+              </div>
+            </div>
         </div>
         : <div>
         <header className="dappheader">

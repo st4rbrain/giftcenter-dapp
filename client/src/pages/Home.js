@@ -77,10 +77,8 @@ function Home({contract}) {
 
         }
 
-        console.log("Posting gift to the database");
         postGift();
       });
-
       return () => contract.removeAllListeners("Gifted");
   }, [contract]);
   

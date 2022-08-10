@@ -61,8 +61,9 @@
 .list {
     display: flex;
     flex-direction: column;
-    height: 300px;
-    margin: 10px 0;
+    align-items: center;
+    height: 340px;
+    margin-bottom: 0px;
     align-items: center;
 }
 
@@ -180,6 +181,7 @@
     height: 100px;
     border-radius: 5px;
     border: 1px solid white;
+    overflow: hidden;
     resize: none;
     font-weight: bold;
     padding: 2px 8px;
@@ -191,7 +193,7 @@
 }
 
 .sendbtn {
-    cursor: pointer;
+    cursor: url('./../../images/handcursor.svg'), auto;
     margin: 10px auto;
     margin-top: 20px;
     width: 300px;
@@ -216,22 +218,23 @@
     margin: 0px auto;
     justify-content: center;
     align-items: center;
+    padding-bottom: 5px;
     text-decoration: none;
     font-family: 'Montserrat';
   }
   
   i {
+    cursor: url('./../../images/handcursor.svg'), auto;
     margin: 0px 5px;
   }
   
 .dapppagelabel {
-    cursor: pointer;
+    cursor: url('./../../images/handcursor.svg'), auto;
     border: 2px solid white;
     color: white;
-    /* background-image: linear-gradient(to bottom, rgba(196, 52, 52, 0.781), rgba(134, 58, 14, 0.329)); */
     background: transparent;
     border-radius: 10px;
-    margin: 5px 10px;
+    margin: 0 10px;
     font-size: 16px;
     width: 35px;
     height: 35px;
@@ -247,8 +250,7 @@
   }
   
   .dapppagenum {
-    cursor: pointer;
-    /* background-image: linear-gradient(to bottom, rgba(255, 85, 255, 0.438), rgba(255, 123, 233, 0.808)); */
+    cursor: url('./../../images/handcursor.svg'), auto;
     background: transparent;
     text-align: center;
     border: 2px solid white;
@@ -266,7 +268,7 @@
   }
   
   .dappnumactive {
-    cursor: pointer;
+    cursor: url('./../../images/handcursor.svg'), auto;
     background-image: linear-gradient(to bottom, rgba(196, 19, 19, 0.774), rgba(255, 158, 79, 0.781));
     text-align: center;
     border: 2px solid white;
@@ -308,4 +310,8 @@
   
   .dapppagelabel:hover {
     background-image: linear-gradient(to bottom, rgb(255, 82, 82), rgba(255, 193, 227, 0.808));
+  }
+
+  .dapppagelabel:active {
+    background-image: linear-gradient(to bottom, rgba(196, 19, 19, 0.774), rgba(255, 158, 79, 0.781));
   }

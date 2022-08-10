@@ -1,7 +1,37 @@
+
 * {
     box-sizing: border-box;
     margin: 0;
     padding: 0;
+    cursor: url('./../images/cursor.svg'), auto;
+}
+
+input, textarea {
+    cursor: url('./../images/textcursor.svg'), auto;
+}
+
+input:hover, textarea:hover {
+    background: transparent;
+}
+
+input:focus, textarea:focus {
+    outline: none;
+    border: 2px solid white;
+    background: transparent;
+}
+
+.addressdots {
+    cursor: url('./../images/handcursor.svg'), auto;
+}
+
+::selection{
+    color: none;
+    background: none;
+}
+
+input::selection, textarea::selection{
+    background-color: rgb(255, 254, 173);
+    color: rgb(175, 0, 0);
 }
 
 .dappcontainer {
@@ -40,16 +70,32 @@
 .buttons {
     display: flex;
     justify-content: center;
+    padding-right: 10px;
     align-items: center;
 }
 
 .connectbtn {
-    cursor: pointer;
+    cursor: url('./../images/handcursor.svg'), auto;
     overflow: hidden;
     text-overflow: ellipsis;
     margin: 0px 10px;
     background: transparent;
-    padding: 0px 10px;
+    width: 180px;
+    height: 50px;
+    font-family: 'Montserrat';
+    font-weight: bold;
+    font-size: 16px;
+    border-radius: 15px;
+    border: 2px solid white;
+    color: white;
+}
+
+.accountdata {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 0px 10px;
+    background: transparent;
     width: 180px;
     height: 50px;
     font-family: 'Montserrat';
@@ -102,6 +148,13 @@
     font-family: 'Montserrat';
     font-size: 14px;
     margin: 3px 0px;
+}
+
+.withdrawbtnline {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 15px;
 }
 
 .datalabel {
@@ -176,3 +229,103 @@
     color: rgba(240, 248, 255, 0.822);
     font-size: 14px;
 }
+
+.modal {
+    display: none;
+    position: fixed; 
+    z-index: 1;
+    left: 0;
+    top: 0;
+    width: 100%; 
+    height: 100%;
+    background-color: rgba(0,0,0,0.7);
+  }
+  
+  .modal-content {
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    background: linear-gradient(to bottom right, rgb(255, 192, 110), rgb(199, 43, 43));
+    margin: 15% auto;
+    border: 3px solid white;
+    border-radius: 10px;
+    padding: 10px 30px;
+    width: 35%; 
+    height: 35%;
+  }
+
+  .modalhead {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    color: white;
+    font-family: 'Montserrat';
+    font-weight: bold;
+  }
+
+  .modalcross {
+    cursor: url('./../images/handcursor.svg'), auto;
+    font-size: 35px;
+    background: transparent;
+    border: 0px;
+    color: white;
+  }
+
+  .modalheading {
+      font-size: 20px;
+  }
+
+  .modalaccountdetails {
+    background: linear-gradient(to bottom right, rgba(255, 0, 0, 0.192), rgba(255, 247, 209, 0.822));
+    margin: 10px auto;
+    border: 1px solid white;
+    border-radius: 20px;
+    padding: 20px 20px;
+    width: 400px; 
+    height: 150px;
+  }
+
+  .modaldetailhead {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-family: 'Montserrat';
+    font-size: 14px;
+    color: white;
+  }
+
+  .smallbtn {
+    cursor: url('./../images/handcursor.svg'), auto;
+    display: flex;
+    justify-content: center;
+    background: transparent;
+    align-items: center;
+    color: white;
+    width: 100px;
+    height: 30px;
+    border: 1px solid white;
+    font-size: 13px;
+    border-radius: 10px;
+  }
+
+  .smallbtn:hover {
+    background-color: white;
+    color: black;
+  }
+
+  .address {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      cursor: url('./../images/handcursor.svg'), auto;
+  }
+
+
+  .addressbar {
+    font-family: 'Montserrat';
+    align-items: center;
+    margin: 10px 0;
+    color: white;  
+    font-size: 20px;
+    font-weight: bold;
+  }
