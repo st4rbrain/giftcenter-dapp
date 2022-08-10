@@ -1,15 +1,29 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import "./Dapp.css";
 import GiftsTables from "../components/DappTables/DappTables";
 import {ethers} from 'ethers';
 import Axios from "axios";
 import moment from 'moment';
 
-const chains = {
+const chainSymbols = {
   80001 : "mMATIC",
   1 : "ETH",
   137: "MATIC",
   5: "GoreliETH"
+}
+
+const chainNames = {
+  80001 : "Polygon Mumbai",
+  1 : "Ethereum Mainnet",
+  137: "Polygon Mainnet",
+  5: "Goreli Testnet"
+}
+
+const networkLogosClass = {
+  80001 : "maticnetworklogo",
+  1 : "ethnetworklogo",
+  137: "maticnetworklogo",
+  5: "ethnetworklogo"
 }
 
 const GiftCenterABI = [
@@ -38,6 +52,7 @@ function Dapp() {
   const [sentThisWeek, setSentThisWeek] = useState(0);
   const [receivedThisWeek, setReceivedThisWeek] = useState(0);
   const [withdrawBtnVisible, setWithdrawBtnVisible] = useState(false);
+  const dropdownClickCounter = useRef(0)
 
   // checking if valid local storage vars
   useEffect(() => {
@@ -178,11 +193,7 @@ function Dapp() {
   useEffect(() => {
     if(window.ethereum) {
       window.ethereum.on("chainChanged", () => {
-        for(const key in chains) {
-          if(window.ethereum.networkVersion === key)
-            window.location.reload(true);
-        }
-        
+        window.location.reload(true)
       });
     }
   })
@@ -276,6 +287,31 @@ function Dapp() {
     return amt.toFixed(2);
   }
 
+  const isSupportedChain = () => {
+    for (const key in chainSymbols) {
+      if (key === window.ethereum.networkVersion) {
+        return 1
+      }
+    }
+    return 0
+  }
+
+  const currentChainName = () => {
+    for (const key in chainSymbols) {
+      if (key === window.ethereum.networkVersion)
+        return chainNames[key]
+    }
+    return "Switch Network"
+  }
+
+  const getNetworkLogo = () => {
+    for (const key in networkLogosClass) {
+      if (key === window.ethereum.networkVersion)
+        return networkLogosClass[key]
+    }
+    return "alertlogo"
+  }
+
     return ( 
       <div>
         {walletConnected ?
@@ -285,7 +321,40 @@ function Dapp() {
                     <div className="top">
                         <div className="logo">GiftCenter</div>
                         <div className="buttons">
-                          <div className="accountdata">{accountBalance} {chains[window.ethereum.networkVersion]}</div>
+                          <div className="networksdropdown">
+                            <button className={isSupportedChain() ? "networkdropbtn" : "networkerror"} onClick={() => {
+                              if (dropdownClickCounter.current % 2 === 0)
+                                document.getElementsByClassName('dropdown-content')[0].style.display = "block";
+                              else
+                                document.getElementsByClassName('dropdown-content')[0].style.display = "none";
+                              dropdownClickCounter.current += 1
+                            }}>
+                              <div className={getNetworkLogo()}></div>
+                              {
+                                currentChainName()
+                              }
+                              <i className='fa fa-angle-down'></i>
+                            </button>
+                            <div className="dropdown-content">
+                              <div className="dropdownhead">Switch Network</div>
+                              <button className="dropdown-content-btn-line">
+                                <div className="ethnetworklogo"></div>
+                                <div className="dropdown-content-label">Goreli Testnet</div>
+                              </button>
+                              <button className="dropdown-content-btn-line">
+                                <div className="maticnetworklogo"></div>
+                                <div className="dropdown-content-label">Polygon Mainnet</div>
+                              </button>
+                              <button className="dropdown-content-btn-line">
+                                <div className="maticnetworklogo"></div>
+                                <div className="dropdown-content-label">Polygon Mumbai</div>
+                              </button>
+                            </div>
+                          </div>
+                          {
+                            isSupportedChain() ?
+                            <div className="accountdata">{accountBalance} {chainSymbols[window.ethereum.networkVersion]}</div> : null
+                          }
                           <div><button className="connectbtn" onClick={connect}>{walletConnected ? <div className="address">{account.substring(0, 6)}<div className="addressdots">...</div>{account.substring(account.length -4, account.length)}</div> : {account} }</button></div>
                         </div>
                     </div>

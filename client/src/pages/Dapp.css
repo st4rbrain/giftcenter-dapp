@@ -90,6 +90,11 @@ input::selection, textarea::selection{
     color: white;
 }
 
+.connectbtn:hover {
+    background-color: rgba(255, 255, 255, 0.363);
+    color: rgb(255, 255, 255);
+}
+
 .accountdata {
     display: flex;
     justify-content: center;
@@ -106,9 +111,132 @@ input::selection, textarea::selection{
     color: white;
 }
 
-.connectbtn:hover {
+.networksdropdown {
+    position: relative;
+    display: inline-block;
+}
+
+.networkdropbtn {
+    cursor: url('./../images/handcursor.svg'), auto;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 5px 10px;
+    background: transparent;
+    width: 190px;
+    height: 50px;
+    font-family: 'Montserrat';
+    padding: 0 10px;
+    font-weight: bold;
+    font-size: 16px;
+    border-radius: 15px;
+    border: 2px solid white;
+    color: white;
+}
+
+.networkdropbtn:hover {
+    background-color: rgba(255, 255, 255, 0.295);
+    color: rgb(255, 255, 255);
+}
+
+.networkdropbtn:active {
     background-color: rgb(255, 255, 255);
-    color: black;
+    color: rgb(0, 0, 0);
+}
+
+.networkerror {
+    cursor: url('./../images/handcursor.svg'), auto;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 5px 10px;
+    background-image: linear-gradient(to bottom right, red, orange);
+    width: 190px;
+    height: 50px;
+    font-family: 'Montserrat';
+    padding: 0 10px;
+    font-weight: bold;
+    font-size: 16px;
+    border-radius: 15px;
+    border: 2px solid white;
+    color: white;
+}
+  
+.dropdown-content {
+    display: none;
+    position: absolute;
+    left: -40px;
+    margin-top: 10px;
+    padding: 10px 10px;
+    background: linear-gradient(to bottom right, rgb(255, 192, 110), rgb(199, 43, 43));
+    border: 3px solid white;
+    border-radius: 10px;
+    width: 280px;
+    height: 200px;
+    z-index: 1;
+}
+
+.dropdownhead {
+    color: white;
+    font-family: 'Montserrat';
+    font-weight: bold;
+    text-align: center;
+    margin-bottom: 17px;
+}
+
+.dropdown-content-btn-line {
+    cursor: url('./../images/handcursor.svg'), auto;
+    display: flex;
+    align-items: center;
+    border: 1px solid white;
+    background: transparent;
+    border-radius: 5px;
+    width: 100%;
+    margin-bottom: 6px;
+    padding: 0 10px;
+}
+
+.dropdown-content-btn-line:hover {
+    background: linear-gradient(to bottom right, rgba(252, 222, 74, 0.822), rgba(255, 153, 70, 0.349));
+}
+
+.ethnetworklogo {
+    cursor: url('./../images/handcursor.svg'), auto;
+    background-image: url('./../images/ethlogo.svg');
+    background-repeat: no-repeat;
+    background-position: center;
+    width: 30px;
+    height: 35px;
+}
+
+.maticnetworklogo {
+    cursor: url('./../images/handcursor.svg'), auto;
+    background-image: url('./../images/matic.svg');
+    background-repeat: no-repeat;
+    background-position: center;
+    width: 30px;
+    height: 35px;
+}
+
+.alertlogo {
+    cursor: url('./../images/handcursor.svg'), auto;
+    background-image: url('./../images/alertlogo.svg');
+    background-repeat: no-repeat;
+    background-position: center;
+    width: 30px;
+    height: 35px;
+}
+
+.dropdown-content-label {
+    cursor: url('./../images/handcursor.svg'), auto;
+    color: white;
+    display: flex;
+    align-items: center;
+    padding-left: 5px;
+    font-weight: bold;
+    font-size: 14px;
+    font-family: 'Montserrat';
+    height: 40px;
 }
 
 .dappheader .details {
