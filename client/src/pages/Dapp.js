@@ -5,6 +5,13 @@ import {ethers} from 'ethers';
 import Axios from "axios";
 import moment from 'moment';
 
+const contractAddresses = {
+  80001: "0x44B78BdEE21810B87d78178Ba4DE299526e24127",
+  5: "0xA83DC56a158C36C22c3A457EDe8396A289Cfca0c",
+  137: "0x44B78BdEE21810B87d78178Ba4DE299526e24127",
+  1: "0xA83DC56a158C36C22c3A457EDe8396A289Cfca0c"
+}
+
 const chainSymbols = {
   80001 : "mMATIC",
   1 : "ETH",
@@ -47,16 +54,18 @@ const GiftCenterABI = [
   "event currentAccount(address account)",
 ]
 
-const giftcenterAddress = '0x44B78BdEE21810B87d78178Ba4DE299526e24127';
+
 const provider = new ethers.providers.Web3Provider(window.ethereum);
 const signer = provider.getSigner();
-const contract = new ethers.Contract(giftcenterAddress, GiftCenterABI, signer);
 
 function Dapp() {
     
   const [account, setAccount] = useState("Connect Wallet");
   const [accountBalance, setAccountBalance] = useState(0);
   const [walletConnected, setWalletConnected] = useState(false);
+  const [contract, setContract] = useState()
+  const [networkLabelHidden, setNetworkLabelHidden] = useState(true)
+
   const [loading, setLoading] = useState(false);
   const [receivedAmount, setReceivedAmount] = useState(0);
   const [sentAmount, setSentAmount] = useState(0);
@@ -66,6 +75,7 @@ function Dapp() {
   const [sentThisWeek, setSentThisWeek] = useState(0);
   const [receivedThisWeek, setReceivedThisWeek] = useState(0);
   const [withdrawBtnVisible, setWithdrawBtnVisible] = useState(false);
+  const [allowedToSend, setAllowedToSend] = useState(false)
   const dropdownClickCounter = useRef(0)
 
   // checking if valid local storage vars
@@ -100,56 +110,44 @@ function Dapp() {
 
 
   useEffect(() => {
-
-    // contract.on("currentAccount", (address) => {
-    //   console.log(address);
-    //   const fetchAccountDetails = async() => {
-    //     await Axios.post('http://localhost:3001/gifts/accountInfo', {
-    //       sender: address,
-    //       recipient: address
-    //     }).then((res) => {
-    //       console.log(res.data);
-
-    //       setSentData(res.data[0]);
-    //       setReceivedData(res.data[1]);
-    //       let totalAmountSent = 0;
-    //       let totalAmountReceived = 0;
-    //       let totalAmountToWithdraw = 0;
-
-    //       res.data[0].forEach(element => {
-    //         totalAmountSent += element.amount;
-    //       });
-    //       res.data[1].forEach(element => {
-    //         if(element.withdrawn === false) {
-    //           totalAmountToWithdraw += element.amount;
-    //         }
-    //         totalAmountReceived += element.amount;
-    //       });
-
-    //       setLoading(false);
-    //       setReceivedAmount(totalAmountReceived);
-    //       setSentAmount(totalAmountSent);
-    //       setAmountToWithdraw(totalAmountToWithdraw);
-    //     })
-    //   }
-    //   console.log("Fetching Amounts");
-    //   fetchAccountDetails();
-    // });
-
-    contract.on("withDrawal", (from, amt) => {
-      console.log(`${amt} withdrawn successfully to the account ${from}`);
-      Axios.post("http://localhost:3001/gifts/withdrawn", {
-        recipient: from
-      }).then((res) => {
-        console.log(res);
-        window.location.reload(true);
-      })
-    })
-    return () => {
-      // contract.removeAllListeners("currentAccount");
-      contract.removeAllListeners("withDrawal");
-    }
+    setTimeout(() => {
+      setNetworkLabelHidden(false)
+    }, 500);
   }, [])
+
+
+// setting up the contract
+  useEffect(() => {
+    if (window.ethereum) {
+      if(window.ethereum.networkVersion) {
+        if(isSupportedChain()) {
+          const contract = new ethers.Contract(contractAddresses[window.ethereum.networkVersion], GiftCenterABI, signer);
+          setContract(contract)
+          console.log("set", window.ethereum.networkVersion)
+          setAllowedToSend(true)
+        }
+      } 
+    }
+  }, [receivedAmount])
+
+  useEffect(() => {
+    if (contract) {
+      contract.on("withDrawal", (from, amt) => {
+        console.log(`${amt} withdrawn successfully to the account ${from}`);
+        Axios.post("http://localhost:3001/gifts/withdrawn", {
+          recipient: from
+        }).then((res) => {
+          console.log(res);
+          window.location.reload(true);
+        })
+      })
+      return () => {
+        // contract.removeAllListeners("currentAccount");
+        contract.removeAllListeners("withDrawal");
+      }
+    }
+    
+  }, [contract])
 
 
   useEffect(() => {
@@ -175,8 +173,10 @@ function Dapp() {
 
           setTimeout(() => {
             setLoading(false);
-            if (totalAmountToWithdraw > 0) setWithdrawBtnVisible(true);
+            if (totalAmountToWithdraw > 0) 
+              setWithdrawBtnVisible(true);
           }, 500);
+          
           
           setReceivedAmount(totalAmountReceived);
           setSentAmount(totalAmountSent);
@@ -211,7 +211,6 @@ function Dapp() {
       });
     }
   })
-
   // to sort gifts of latest week
   useEffect(() => {
     const todayDate = new Date();
@@ -232,7 +231,6 @@ function Dapp() {
     setReceivedThisWeek(thisWeekReceived);
 
   }, [sentData, receivedData])
-
 
 
   const withdraw = async() => {
@@ -260,7 +258,6 @@ function Dapp() {
       console.log("Connected to account", check_add);
 
       setWalletConnected(true);
-      // contract.setAccount(account);
       setLoading(true);
 
       window.localStorage.setItem('IS_WALLET_CONNECTED', JSON.stringify(true));
@@ -279,13 +276,8 @@ function Dapp() {
           alert("Install Metamask Extension");
       }
     } else {
-      document.getElementsByClassName("modal")[0].style.display = "block";
-      // window.onclick = (event) => {
-      //   let modal = document.getElementsByClassName("modal")[0]
-      //   if (event.target === modal) {
-      //     modal.style.display = "none";
-      //   }
-      // }
+        document.getElementsByClassName("modal")[0].style.display = "block";
+
     }
   }
 
@@ -302,11 +294,9 @@ function Dapp() {
   }
 
   const isSupportedChain = () => {
-    for (const key in chainSymbols) {
-      if (key === window.ethereum.networkVersion) {
+    for (const key in chainSymbols) 
+      if (key === window.ethereum.networkVersion) 
         return 1
-      }
-    }
     return 0
   }
 
@@ -364,7 +354,6 @@ function Dapp() {
   }
 }
 
-
     return ( 
       <div>
         {walletConnected ?
@@ -374,9 +363,10 @@ function Dapp() {
                     <div className="top">
                         <div className="logo">GiftCenter</div>
                         <div className="buttons">
+                          { !networkLabelHidden ?
                           <div className="networksdropdown">
                             <button className={isSupportedChain() ? "networkdropbtn" : "networkerror"} onClick={() => {
-                              if (dropdownClickCounter.current % 2 === 0)
+                              if (dropdownClickCounter.current % 2 === 0) 
                                 document.getElementsByClassName('dropdown-content')[0].style.display = "block";
                               else
                                 document.getElementsByClassName('dropdown-content')[0].style.display = "none";
@@ -400,23 +390,13 @@ function Dapp() {
                                 </button>
                                 )
                               }
-                              {/* <button className="dropdown-content-btn-line">
-                                <div className="ethnetworklogo"></div>
-                                <div className="dropdown-content-label">Goreli Testnet</div>
-                              </button>
-                              <button className="dropdown-content-btn-line">
-                                <div className="maticnetworklogo"></div>
-                                <div className="dropdown-content-label">Polygon Mainnet</div>
-                              </button>
-                              <button className="dropdown-content-btn-line">
-                                <div className="maticnetworklogo"></div>
-                                <div className="dropdown-content-label">Polygon Mumbai</div>
-                              </button> */}
                             </div>
-                          </div>
+                          </div> : null
+                          }
                           {
+                            !networkLabelHidden ?
                             isSupportedChain() ?
-                            <div className="accountdata">{accountBalance} {chainSymbols[window.ethereum.networkVersion]}</div> : null
+                            <div className="accountdata">{accountBalance} {chainSymbols[window.ethereum.networkVersion]}</div> : null : null
                           }
                           <div><button className="connectbtn" onClick={connect}>{walletConnected ? <div className="address">{account.substring(0, 6)}<div className="addressdots">...</div>{account.substring(account.length -4, account.length)}</div> : {account} }</button></div>
                         </div>
@@ -478,7 +458,7 @@ function Dapp() {
                     </div>
                 </div>
             </header>
-            <GiftsTables contract={contract} sentData={sentData} receivedData={receivedData} />
+            <GiftsTables contract={contract} sentData={sentData} receivedData={receivedData} allowedToSend={allowedToSend}/>
             <div className="modal">
               <div className="modal-content">
                 <div className="modalhead">

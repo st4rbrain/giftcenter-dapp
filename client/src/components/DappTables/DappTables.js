@@ -5,7 +5,7 @@ import SentGiftUI from '../dappSentGift';
 import './DappTables.css';
 
   
-function GiftsTables({contract, sentData, receivedData}) {
+function GiftsTables({contract, sentData, receivedData, allowedToSend}) {
 
     const [address, setAddress] = useState();
     const [msg, setMsg] = useState();
@@ -19,16 +19,17 @@ function GiftsTables({contract, sentData, receivedData}) {
     const [currentReceivedPage, setCurrentReceivedPage] = useState(0);
         
     const sendgift = async () => {
-        try{
-            await contract.sendGift(address, msg, {value: ethers.utils.parseEther(amount)});
-            console.log("Sent successfully");
-        } catch(error) {
-            if (error.code === 4001){
-                console.log("Transaction Rejected");
-            } else {
-                alert("Invalid Data");
+        if(allowedToSend) {
+            try{
+                await contract.sendGift(address, msg, {value: ethers.utils.parseEther(amount)});
+                console.log("Sent successfully");
+            } catch(error) {
+                console.log(error)
             }
         }
+        else
+            alert("Please switch network!!")
+        
     }
 
     return ( 
@@ -115,7 +116,7 @@ function DashBoardPagination({totalPages, setCurrentPage, currentPage}) {
             {/* numbers */}
             <div className='dappnums'>
               {
-                currentNumsSet >= 3 ?
+                currentNumsSet.length >= 3 ?
                 currentNumsSet[0] > 1 ? 
                 <div className='dappdotsleft'>
                   <div className='dappdot'>.</div>

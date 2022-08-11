@@ -11,16 +11,32 @@ const GiftCenterABI = [
 ];
 
 
-const url = "https://polygon-mumbai.g.alchemy.com/v2/M2y-N2dpx1yQ1CHnLmfxlL5ThnajzQco";
-const giftcenterAddress = '0x44B78BdEE21810B87d78178Ba4DE299526e24127';
-const provider = new ethers.providers.JsonRpcProvider(url);
-const contract = new ethers.Contract(giftcenterAddress, GiftCenterABI, provider);
+const contractAddresses = {
+  80001: "0x44B78BdEE21810B87d78178Ba4DE299526e24127",
+  5: "0xA83DC56a158C36C22c3A457EDe8396A289Cfca0c",
+}
+
+const rpcURLs = {
+  80001: "https://polygon-mumbai.g.alchemy.com/v2/M2y-N2dpx1yQ1CHnLmfxlL5ThnajzQco",
+  5: "https://eth-goerli.g.alchemy.com/v2/wd2mv8Mb-R-zkfs5wLLG3og1RUHTaSTC"
+}
+
+const contracts = {
+
+}
+
+for (const key in contractAddresses) {
+  const provider = new ethers.providers.JsonRpcProvider(rpcURLs[key])
+  const contract = new ethers.Contract(contractAddresses[key], GiftCenterABI, provider)
+  contracts[key] = contract
+}
+
 
 function App() {
   return (
     <>
       <Routes>
-        <Route path="/" element={<Home contract={contract}/>}></Route>
+        <Route path="/" element={<Home contracts={contracts}/>}></Route>
         <Route path="/dapp" element={<Dapp/>}></Route>
       </Routes>
     </>

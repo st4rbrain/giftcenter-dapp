@@ -7,7 +7,15 @@ import Axios from 'axios';
 import { ethers } from 'ethers';
 
 
-function Home({contract}) {
+// const chainSymbols = {
+//   80001 : "mMATIC",
+//   1 : "ETH",
+//   137: "MATIC",
+//   5: "GoreliETH"
+// }
+
+
+function Home({contracts}) {
   const [topGifts, setTopGifts] = useState([]);
   const [allGifts, setAllGifts] = useState([]);
   const [giftedAmounts, setGiftedAmounts] = useState();
@@ -54,7 +62,9 @@ function Home({contract}) {
 
 
   useEffect(() => {
-      contract.on("Gifted", (count, from, to, msg, amt, time) => {
+
+    //for polygon mumbai
+      contracts[80001].on("Gifted", (count, from, to, msg, amt, time) => {
 
         const formattedAmt = ethers.utils.formatEther(amt);
         const date = new Date(time*1000);
@@ -69,18 +79,56 @@ function Home({contract}) {
               message: msg,
               amount: amtToFloat,
               createdAt: date,
-              withdrawn: false
+              withdrawn: false,
+              token: "mMATIC"
           }).then((res) => {
             console.log("Added a new gift!!");
             window.location.reload(true);
         });
 
         }
-
         postGift();
       });
-      return () => contract.removeAllListeners("Gifted");
-  }, [contract]);
+      
+    return () => {
+      contracts[80001].removeAllListeners("Gifted");
+    } 
+  }, [contracts]);
+
+
+  useEffect(() => {
+
+    //for goreli testnet
+      contracts[5].on("Gifted", (count, from, to, msg, amt, time) => {
+
+        const formattedAmt = ethers.utils.formatEther(amt);
+        const date = new Date(time*1000);
+        const amtToFloat = parseFloat(formattedAmt);
+        const newId = Number(count);
+
+        const postGift = async () => {
+          await Axios.post('http://localhost:3001/gifts/postGifts', {
+              id: newId, 
+              sender_address: from,
+              recipient_address: to,
+              message: msg,
+              amount: amtToFloat,
+              createdAt: date,
+              withdrawn: false,
+              token: "GoreliETH"
+          }).then((res) => {
+            console.log("Added a new gift!!");
+            window.location.reload(true);
+        });
+
+        }
+        postGift();
+      });
+      
+    return () => {
+      contracts[5].removeAllListeners("Gifted");
+    } 
+  }, [contracts]);
   
 
   const getWelcomed = () => {
@@ -208,7 +256,7 @@ function RecentGiftsPagination({totalPages, setCurrentPage, currentPage}) {
           }}><i className='fa fa-angle-left'></i>Prev</button>
           <div className='nums'>
             {
-              currentNumsSet >= 5 ?
+              currentNumsSet.length >= 5 ?
               currentNumsSet[0] > 1 ? 
               <div className='dotsleft'>
                 <div className='dot'>.</div>

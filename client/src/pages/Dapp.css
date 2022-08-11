@@ -407,8 +407,8 @@ input::selection, textarea::selection{
     margin: 10px auto;
     border: 1px solid white;
     border-radius: 20px;
-    padding: 20px 20px;
-    width: 400px; 
+    padding: 10px 20px;
+    width: 360px; 
     height: 150px;
   }
 
