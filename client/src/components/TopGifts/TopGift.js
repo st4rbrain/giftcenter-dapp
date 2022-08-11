@@ -1,7 +1,7 @@
 import React from "react";
 import './TopGift.css';
 
-function TopGift({from, to, amount, dateTime}) {
+function TopGift({from, to, amount, token, dateTime}) {
     const inMillisecs = Date.parse(dateTime);
     const date = new Date(inMillisecs);
     const formattedDate = date.getDate()+"/"+(date.getMonth()+1)+"/"+date.getFullYear();
@@ -20,7 +20,7 @@ function TopGift({from, to, amount, dateTime}) {
                 </div>
                 <div className='topgiftline'>
                     <div className='topgiftlabel'>Amount</div>
-                    <div className='topgiftdata'>{amount}</div>
+                    <div className='topgiftamount'>{amount}<span className="token">{token}</span></div>
                 </div>
                 <div className="topgiftdate">
                     <div className="tgdatelabel">{formattedDate} {formattedTime}</div>

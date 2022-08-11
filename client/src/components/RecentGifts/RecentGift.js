@@ -1,7 +1,7 @@
 import React from "react";
 import './RecentGift.css';
 
-function RecentGift({from, to, amount, dateTime}) {
+function RecentGift({from, to, amount, token, dateTime}) {
 
     const inMillisecs = Date.parse(dateTime);
     const date = new Date(inMillisecs);
@@ -21,7 +21,7 @@ function RecentGift({from, to, amount, dateTime}) {
                 </div>
                 <div className='recentgiftline'>
                     <div className='recentgiftlabel'>Amount</div>
-                    <div className='recentgiftdata'>{amount}</div>
+                    <div className='recentgiftamount'>{amount}<span className="token">{token}</span></div>
                 </div>
                 <div className="recentgiftdate">
                     <div className="rgdatelabel">{formattedDate} {formattedTime}</div>

@@ -181,7 +181,7 @@ function Home({contracts}) {
             <div className='gifts'>
               {
                 topGifts.map((gift) => 
-                <TopGift key={gift.id} from={gift.sender_address} to={gift.recipient_address} amount={gift.amount} dateTime={gift.createdAt} />)
+                <TopGift key={gift.id} from={gift.sender_address} to={gift.recipient_address} amount={gift.amount} token={gift.token} dateTime={gift.createdAt} />)
               }
             </div>
           </div>
@@ -193,14 +193,14 @@ function Home({contracts}) {
               <div className='recentGiftsLine'>
               {
                 allGifts.slice(currentPage*giftsperpage, (currentPage*giftsperpage)+giftsperpage/2).map((gift) => 
-                <RecentGift key={gift.id} from={gift.sender_address} to={gift.recipient_address} amount={gift.amount} dateTime={gift.createdAt} />
+                <RecentGift key={gift.id} from={gift.sender_address} to={gift.recipient_address} amount={gift.amount} token={gift.token} dateTime={gift.createdAt} />
                 )
               }
               </div>
               <div className='recentGiftsLine'>
               {
                 allGifts.slice((currentPage*giftsperpage)+giftsperpage/2, (currentPage*giftsperpage)+giftsperpage).map((gift) => 
-                <RecentGift key={gift.id} from={gift.sender_address} to={gift.recipient_address} amount={gift.amount} dateTime={gift.createdAt} />
+                <RecentGift key={gift.id} from={gift.sender_address} to={gift.recipient_address} amount={gift.amount} token={gift.token} dateTime={gift.createdAt} />
                 )
               }
               </div>

@@ -27,8 +27,8 @@
 
   .topgiftlabel {
     cursor: url('./../../images/handcursor.svg'), auto;
-    font-size: 28px;
-    min-width: 90px;
+    font-size: 25px;
+    min-width: 78px;
   }
 
   .topgiftdata {
@@ -37,7 +37,21 @@
     font-style: italic;
     font-family: 'Montserrat';
     font-size: 14px;
-    max-width: 185px;
+    max-width: 194px;
+  }
+
+  .topgiftamount {
+    cursor: url('./../../images/handcursor.svg'), auto;
+    word-wrap: break-word;
+    font-style: italic;
+    font-weight: bold;
+    font-family: 'Montserrat';
+    font-size: 14px;
+    max-width: 194px;
+  }
+
+  .token {
+    padding-left: 10px;
   }
 
   .topgiftdate {
