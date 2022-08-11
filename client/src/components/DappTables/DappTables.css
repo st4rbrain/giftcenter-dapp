@@ -88,7 +88,7 @@
 
 .linelabel {
     color: white;
-    min-width: 70px;
+    min-width: 65px;
     font-size: 20px;
     font-family: "Great Vibes";
 }
@@ -97,7 +97,7 @@
     word-wrap: break-word;
     font-style: italic;
     color: white;
-    max-width: 185px;
+    max-width: 195px;
     font-family: "Montserrat";
     font-size: 14px;
 }
