@@ -6,6 +6,10 @@
     cursor: url('./../images/cursor.svg'), auto;
 }
 
+button {
+    outline: none;
+}
+
 input, textarea {
     cursor: url('./../images/textcursor.svg'), auto;
 }
@@ -279,9 +283,50 @@ input::selection, textarea::selection{
 
 .withdrawbtnline {
     display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-top: 15px;
+    padding-left: 2px;
+}
+
+.boxbtn {
+    cursor: url('./../images/handcursor.svg'), auto;
+    display: flex;
+    justify-content: center;
+    background: transparent;
+    align-items: center;
+    margin: 0px 16px;
+    color: white;
+    width: 105px;
+    padding: 0px 2px;
+    height: 30px;
+    border: 1px solid white;
+    font-weight: bold;
+    font-size: 13px;
+    border-radius: 5px;
+  }
+
+  .boxbtn:hover {
+    background-color: rgba(255, 255, 255, 0.356);
+    color: rgb(255, 255, 255);
+  }
+
+  .boxbtn:active {
+    background-color: rgb(255, 255, 255);
+    color: rgb(0, 0, 0);
+  }
+
+.tokendata {
+    display: flex;
     justify-content: center;
     align-items: center;
-    margin-top: 15px;
+    min-width: 120px;
+    margin: 0px 10px;
+}
+
+.tokenamount {
+    font-weight: bold;
+    padding-left: 5px;
 }
 
 .datalabel {
@@ -376,7 +421,7 @@ input::selection, textarea::selection{
     margin: 15% auto;
     border: 3px solid white;
     border-radius: 10px;
-    padding: 10px 30px;
+    padding: 15px 30px;
     width: 35%; 
     height: 35%;
   }
@@ -408,7 +453,7 @@ input::selection, textarea::selection{
     border: 1px solid white;
     border-radius: 20px;
     padding: 10px 20px;
-    width: 360px; 
+    width: 400px; 
     height: 150px;
   }
 

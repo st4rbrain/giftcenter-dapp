@@ -5,7 +5,7 @@ import SentGiftUI from '../dappSentGift';
 import './DappTables.css';
 
   
-function GiftsTables({contract, sentData, receivedData, allowedToSend}) {
+function GiftsTables({contract, sentData, receivedData, allowedToSend, account, chainSymbols}) {
 
     const [address, setAddress] = useState();
     const [msg, setMsg] = useState();
@@ -20,12 +20,16 @@ function GiftsTables({contract, sentData, receivedData, allowedToSend}) {
         
     const sendgift = async () => {
         if(allowedToSend) {
-            try{
-                await contract.sendGift(address, msg, {value: ethers.utils.parseEther(amount)});
-                console.log("Sent successfully");
-            } catch(error) {
-                console.log(error)
-            }
+            if(address !== account) {
+                try{
+                    await contract.sendGift(address, msg, {value: ethers.utils.parseEther(amount)});
+                    console.log("Sent successfully");
+                } catch(error) {
+                    if(error.code === 32000)    
+                        alert("Please wait a bit before sending again!")
+                }
+            } else alert("Can't Gift yourself")
+            
         }
         else
             alert("Please switch network!!")
@@ -41,8 +45,10 @@ function GiftsTables({contract, sentData, receivedData, allowedToSend}) {
                         <div className="tableinfo">This tables lists all of the gifts that are sent</div>
                     </div>
                     <div className="list">
-                        {
-                            sentData.slice(currentSentPage*giftsPerPage, (currentSentPage*giftsPerPage) + giftsPerPage).map((data) => <SentGiftUI key={data.id} to={data.recipient_address} amount={data.amount} dateTime={data.createdAt}></SentGiftUI>)
+                        {   
+                            sentData.length ?
+                            sentData.slice(currentSentPage*giftsPerPage, (currentSentPage*giftsPerPage) + giftsPerPage).map((data) => <SentGiftUI key={data.id} to={data.recipient_address} amount={data.amount} dateTime={data.createdAt}></SentGiftUI>) :
+                            <div className='oops'>No Gifts Sent :(</div>
                         }
                     </div>
                     <DashBoardPagination totalPages={totalSentPages} setCurrentPage={setCurrentSentPage} currentPage={currentSentPage} ></DashBoardPagination>
@@ -52,21 +58,23 @@ function GiftsTables({contract, sentData, receivedData, allowedToSend}) {
                     <div className="card">
                         <div className="cardline">
                             <div className="cardlinelabel">Recipient Address</div>
-                            <input className="cardlineinput" id="address" autoComplete='off' spellCheck='false' onChange={(e) => {
+                            <input className="cardlineinput" autoComplete='off' spellCheck='false' onChange={(e) => {
                                 setAddress(e.target.value);
                             }}></input>
                         </div>
                         <div className="cardline">
                             <div className="cardlinelabel">Message</div>
-                            <textarea className="cardlinemsginput" id="message" autoComplete='off' spellCheck='false'maxLength='200' onChange={(e) => {
+                            <textarea className="cardlinemsginput" autoComplete='off' spellCheck='false'maxLength='200' onChange={(e) => {
                                 setMsg(e.target.value);
                             }}></textarea>
                         </div>
                         <div className="cardline">
                             <div className="cardlinelabel">Amount</div>
-                            <input className="cardlineinput" id="amount" autoComplete='off' spellCheck='false' onChange={(e) => {
-                                setAmount(e.target.value);
-                            }}></input>
+                            <div className='cardlineamtinput'>
+                                <input className="amountinput" autoComplete='off' spellCheck='false' onChange={(e) => {
+                                    setAmount(e.target.value);
+                                }}></input><div className='gifttokenlabel'>{chainSymbols[window.ethereum.networkVersion]}</div>
+                            </div>
                         </div>
                     </div>
                     <button className="sendbtn" onClick={sendgift}>Send Gift</button>
@@ -78,7 +86,9 @@ function GiftsTables({contract, sentData, receivedData, allowedToSend}) {
                     </div>
                     <div className="list">
                         {
-                            receivedData.slice(currentReceivedPage*giftsPerPage, (currentReceivedPage*giftsPerPage) + giftsPerPage).map((data) => <ReceivedGiftUI key={data.id} from={data.sender_address} amount={data.amount} dateTime={data.createdAt}></ReceivedGiftUI>)
+                            receivedData.length ?
+                            receivedData.slice(currentReceivedPage*giftsPerPage, (currentReceivedPage*giftsPerPage) + giftsPerPage).map((data) => <ReceivedGiftUI key={data.id} from={data.sender_address} amount={data.amount} dateTime={data.createdAt}></ReceivedGiftUI>) :
+                            <div className='oops'>No Gifts Received :(</div>
                         }
                     </div>
                     <DashBoardPagination totalPages={totalReceivedPages} setCurrentPage={setCurrentReceivedPage} currentPage={currentReceivedPage} ></DashBoardPagination>

@@ -54,11 +54,7 @@ const GiftCenterABI = [
   "event currentAccount(address account)",
 ]
 
-
-const provider = new ethers.providers.Web3Provider(window.ethereum);
-const signer = provider.getSigner();
-
-function Dapp() {
+function Dapp({contracts}) {
     
   const [account, setAccount] = useState("Connect Wallet");
   const [accountBalance, setAccountBalance] = useState(0);
@@ -69,12 +65,15 @@ function Dapp() {
   const [loading, setLoading] = useState(false);
   const [receivedAmount, setReceivedAmount] = useState(0);
   const [sentAmount, setSentAmount] = useState(0);
-  const [amountToWithdraw, setAmountToWithdraw] = useState(0);
+  const [ethToWithdraw, setEthToWithdraw] = useState(0);
+  const [maticToWithdraw, setMaticToWithdraw] = useState(0);
   const [sentData, setSentData] = useState([]);
   const [receivedData, setReceivedData] = useState([]);
   const [sentThisWeek, setSentThisWeek] = useState(0);
   const [receivedThisWeek, setReceivedThisWeek] = useState(0);
-  const [withdrawBtnVisible, setWithdrawBtnVisible] = useState(false);
+
+  // const [ethWithdrawBtnVisible, setEthWithdrawBtnVisible] = useState(false);
+  // const [maticWithdrawBtnVisible, setMaticWithdrawBtnVisible] = useState(false);
   const [allowedToSend, setAllowedToSend] = useState(false)
   const dropdownClickCounter = useRef(0)
 
@@ -110,6 +109,32 @@ function Dapp() {
 
 
   useEffect(() => {
+    contracts[80001].on("withDrawal", (from, amt) => {
+      console.log(`${amt} withdrawn successfully to the account ${from}`);
+      Axios.post("http://localhost:3001/gifts/withdrawn", {
+        recipient: from
+      })
+    })
+    return () => {
+      contracts[80001].removeAllListeners("withDrawal");
+    }
+
+  }, [contracts])
+
+  useEffect(() => {
+    contracts[5].on("withDrawal", (from, amt) => {
+      console.log(`${amt} withdrawn successfully to the account ${from}`);
+      Axios.post("http://localhost:3001/gifts/withdrawn", {
+        recipient: from
+      })
+    })
+    return () => {
+      contracts[5].removeAllListeners("withDrawal");
+    }
+
+  }, [contracts])
+
+  useEffect(() => {
     setTimeout(() => {
       setNetworkLabelHidden(false)
     }, 500);
@@ -119,35 +144,15 @@ function Dapp() {
 // setting up the contract
   useEffect(() => {
     if (window.ethereum) {
-      if(window.ethereum.networkVersion) {
         if(isSupportedChain()) {
+          const provider = new ethers.providers.Web3Provider(window.ethereum);
+          const signer = provider.getSigner();
           const contract = new ethers.Contract(contractAddresses[window.ethereum.networkVersion], GiftCenterABI, signer);
           setContract(contract)
-          console.log("set", window.ethereum.networkVersion)
           setAllowedToSend(true)
         }
       } 
-    }
   }, [receivedAmount])
-
-  useEffect(() => {
-    if (contract) {
-      contract.on("withDrawal", (from, amt) => {
-        console.log(`${amt} withdrawn successfully to the account ${from}`);
-        Axios.post("http://localhost:3001/gifts/withdrawn", {
-          recipient: from
-        }).then((res) => {
-          console.log(res);
-          window.location.reload(true);
-        })
-      })
-      return () => {
-        // contract.removeAllListeners("currentAccount");
-        contract.removeAllListeners("withDrawal");
-      }
-    }
-    
-  }, [contract])
 
 
   useEffect(() => {
@@ -159,28 +164,35 @@ function Dapp() {
           setReceivedData(res.data[1]);
           let totalAmountSent = 0;
           let totalAmountReceived = 0;
-          let totalAmountToWithdraw = 0;
+          let totalETHToWithdraw = 0;
+          let totalMATICToWithdraw = 0;
 
           res.data[0].forEach(element => {
             totalAmountSent += element.amount;
           });
+
           res.data[1].forEach(element => {
             if(element.withdrawn === false) {
-              totalAmountToWithdraw += element.amount;
+              if(element.token === "GoreliETH")
+                totalETHToWithdraw += element.amount;
+              else
+                totalMATICToWithdraw += element.amount
             }
             totalAmountReceived += element.amount;
           });
-
           setTimeout(() => {
             setLoading(false);
-            if (totalAmountToWithdraw > 0) 
-              setWithdrawBtnVisible(true);
+            // if (totalETHToWithdraw > 0) 
+            //   setEthWithdrawBtnVisible(true);
+            // if(totalMATICToWithdraw > 0)
+            //   setMaticWithdrawBtnVisible(true);
           }, 500);
           
           
           setReceivedAmount(totalAmountReceived);
           setSentAmount(totalAmountSent);
-          setAmountToWithdraw(totalAmountToWithdraw);
+          setEthToWithdraw(totalETHToWithdraw)
+          setMaticToWithdraw(totalMATICToWithdraw)
 
       })
     }
@@ -195,13 +207,21 @@ function Dapp() {
 
   // get account balance
   useEffect(() => {
-    const getBalance = async () => {
-      const accBalanace = Number(ethers.utils.formatEther((await provider.getBalance(account))._hex)).toFixed(2);
-      setAccountBalance(accBalanace);
+    const getBalance = async() => {
+      if(window.ethereum) {
+        if(account !== "Connect Wallet" && loading === true) {
+          try {
+            const provider = new ethers.providers.Web3Provider(window.ethereum);
+            const accBalanace = Number(ethers.utils.formatEther((await provider.getBalance(account))._hex)).toFixed(2);
+            setAccountBalance(accBalanace);
+          } catch(e) {
+            console.error(e.message)
+          }
+        }
+      }
     }
-    if (account !== "Connect Wallet")
-      getBalance(account)
-  }, [account])
+      getBalance()
+  }, [loading, account])
 
   // check if chain has been changed
   useEffect(() => {
@@ -210,7 +230,11 @@ function Dapp() {
         window.location.reload(true)
       });
     }
+    return () => {
+      window.ethereum.removeAllListeners("chainChanged");
+    } 
   })
+
   // to sort gifts of latest week
   useEffect(() => {
     const todayDate = new Date();
@@ -233,17 +257,36 @@ function Dapp() {
   }, [sentData, receivedData])
 
 
-  const withdraw = async() => {
-    if (amountToWithdraw !== 0) {
-      console.log(amountToWithdraw);
-      const toWei = ethers.utils.parseUnits(amountToWithdraw.toString(), 18);
-      console.log(toWei);
-      contract.withdrawAmount(account, toWei);
+  const withdrawETH = () => {
+    if(ethToWithdraw > 0) {
+      switchNetwork(5);
+      const toWei = ethers.utils.parseUnits(ethToWithdraw.toString(), 18);
+      try {
+        contract.withdrawAmount(account, toWei);
+      } catch(err) {
+        if (err.code === 32000)
+          alert("Please wait a bit and try again")
+      }
+      
     } else {
-      console.log("No amounts to withdraw");
-    }
+      alert("No amounts to withdraw")
+    } 
   }
 
+  const withdrawMATIC = () => {
+    if(maticToWithdraw > 0) {
+      switchNetwork(80001)
+      const toWei = ethers.utils.parseUnits(maticToWithdraw.toString(), 18);
+      try {
+        contract.withdrawAmount(account, toWei);
+      } catch(err) {
+        if (err.code === 32000)
+          alert("Please wait a bit and try again")
+      }
+    } else {
+      alert("No amounts to withdraw")
+    }
+  }
 
 
   const connectToWallet = async () => {
@@ -251,7 +294,7 @@ function Dapp() {
       const accounts = await window.ethereum.request({
         method: "eth_requestAccounts",
       });
-      const account = accounts[0];
+      const account = accounts[0]
       const check_add = ethers.utils.getAddress(account);
 
       setAccount(account);
@@ -262,9 +305,8 @@ function Dapp() {
 
       window.localStorage.setItem('IS_WALLET_CONNECTED', JSON.stringify(true));
       window.localStorage.setItem('CURRENTLY_CONNECTED_WALLET', JSON.stringify(account));
-      
     } catch(error) {
-      console.log(error);
+      
     }
   }
 
@@ -294,64 +336,75 @@ function Dapp() {
   }
 
   const isSupportedChain = () => {
-    for (const key in chainSymbols) 
-      if (key === window.ethereum.networkVersion) 
-        return 1
-    return 0
+    if(window.ethereum) {
+      for (const key in chainSymbols) 
+        if (key === window.ethereum.networkVersion) 
+          return 1
+      return 0
+    }
   }
 
   const currentChainName = () => {
-    for (const key in chainSymbols) {
-      if (key === window.ethereum.networkVersion)
-        return chainNames[key]
+    if(window.ethereum) {
+      for (const key in chainSymbols) {
+        if (key === window.ethereum.networkVersion)
+          return chainNames[key]
+      }
+      return "Switch Network"
     }
-    return "Switch Network"
   }
 
   const getNetworkLogo = () => {
-    for (const key in networkLogosClass) {
-      if (key === window.ethereum.networkVersion)
-        return networkLogosClass[key]
+    if(window.ethereum) {
+      for (const key in networkLogosClass) {
+        if (key === window.ethereum.networkVersion)
+          return networkLogosClass[key]
+      }
+      return "alertlogo"
     }
-    return "alertlogo"
+    
   }
   
   const otherNetworks = () => {
-    let nets = []
-    for(const key in chainNames) {
-      if(key !== window.ethereum.networkVersion)
-        nets.push(key)
+    if(window.ethereum) {
+      let nets = []
+      for(const key in chainNames) {
+        if(key !== window.ethereum.networkVersion)
+          nets.push(key)
+      }
+      return nets
     }
-    return nets
   }
 
   const switchNetwork = async(network) => {
-    try {
-      // check if the chain to connect to is installed
-      await window.ethereum.request({
-        method: 'wallet_switchEthereumChain',
-        params: [{ chainId: hexChainIds[network] }], // chainId must be in hexadecimal numbers
-      });
-    } catch (error) {
-      // This error code indicates that the chain has not been added to MetaMask
-      // if it is not, then install it into the user MetaMask
-      if (error.code === 4902) {
-        try {
-          await window.ethereum.request({
-            method: hexChainIds[network],
-            params: [
-              {
-                chainId: `0x${network.toString(16)}`,
-                rpcUrl: rpcURLs[network],
-              },
-            ],
-          });
-        } catch (addError) {
-          console.error(addError);
+    if(window.ethereum.network !== network) {
+      try {
+        // check if the chain to connect to is installed
+        await window.ethereum.request({
+          method: 'wallet_switchEthereumChain',
+          params: [{ chainId: hexChainIds[network] }], // chainId must be in hexadecimal numbers
+        });
+      } catch (error) {
+        // This error code indicates that the chain has not been added to MetaMask
+        // if it is not, then install it into the user MetaMask
+        if (error.code === 4902) {
+          try {
+            await window.ethereum.request({
+              method: hexChainIds[network],
+              params: [
+                {
+                  chainId: `0x${network.toString(16)}`,
+                  rpcUrl: rpcURLs[network],
+                },
+              ],
+            });
+          } catch (addError) {
+            console.error(addError);
+          }
         }
-      }
-      console.error(error);
-  }
+        console.error(error);
+    }
+    }
 }
 
     return ( 
@@ -398,24 +451,32 @@ function Dapp() {
                             isSupportedChain() ?
                             <div className="accountdata">{accountBalance} {chainSymbols[window.ethereum.networkVersion]}</div> : null : null
                           }
-                          <div><button className="connectbtn" onClick={connect}>{walletConnected ? <div className="address">{account.substring(0, 6)}<div className="addressdots">...</div>{account.substring(account.length -4, account.length)}</div> : {account} }</button></div>
+                          <div><button className="connectbtn" onClick={connect}>{walletConnected ? <div className="address">{ethers.utils.getAddress(account).substring(0, 6)}<div className="addressdots">...</div>{ethers.utils.getAddress(account).substring(account.length -4, account.length)}</div> : {account} }</button></div>
                         </div>
                     </div>
                     <div className="details">
                         <div className="box">
-                            <div className="boxtitle">Balance</div>
+                            <div className="boxtitle">Withdraw Amounts</div>
                             {loading ? <div className="loading">Loading...</div> :
                             <div>
                               <div className="dataline">
-                                <div className="datalabel">Amount to Withdraw: </div>
-                                <div className="datavalue">{formatAmount(amountToWithdraw)}</div>
+                                {/* <div className="datalabel">Amount to Withdraw: </div>
+                                <div className="datavalue">{formatAmount(amountToWithdraw)}</div> */}
+                                <div className="tokendata">
+                                  <div className="tokenlabel">GoreliETH :</div>
+                                  <div className="tokenamount">{ethToWithdraw}</div>
+                                </div>
+                                <div className="tokendata">
+                                  <div className="tokenlabel">mMATIC :</div>
+                                  <div className="tokenamount">{maticToWithdraw}</div>
+                                </div>
                               </div>
-                              {walletConnected ? withdrawBtnVisible ?
                                 <div className="withdrawbtnline">
-                                  <button className="smallbtn" onClick={withdraw}>Withdraw</button>
-                                </div>: null : null
-                              }
-                            </div>}
+                                  <button className="boxbtn" onClick={withdrawETH}>GoreliETH</button>
+                                  <button className="boxbtn" onClick={withdrawMATIC}>mMATIC</button>
+                                </div>
+                            </div>
+                            }
                         </div>
                         <div className="box">
                             <div className="boxtitle">Sent Gifts Data</div>
@@ -458,7 +519,7 @@ function Dapp() {
                     </div>
                 </div>
             </header>
-            <GiftsTables contract={contract} sentData={sentData} receivedData={receivedData} allowedToSend={allowedToSend}/>
+            <GiftsTables contract={contract} sentData={sentData} receivedData={receivedData} allowedToSend={allowedToSend} account={ethers.utils.getAddress(account)} chainSymbols={chainSymbols} />
             <div className="modal">
               <div className="modal-content">
                 <div className="modalhead">
@@ -493,8 +554,8 @@ function Dapp() {
                 </div>
                 <div className="details">
                     <div className="box">
-                      <div className="boxtitle">Balance</div>
-                        <div className="data">No balances ...</div>
+                      <div className="boxtitle">Withdraw Amounts</div>
+                        <div className="data">...</div>
                     </div>
                     <div className="box">
                         <div className="boxtitle">Sent Gifts Data</div>

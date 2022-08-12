@@ -21,7 +21,7 @@ function RecentGift({from, to, amount, token, dateTime}) {
                 </div>
                 <div className='recentgiftline'>
                     <div className='recentgiftlabel'>Amount</div>
-                    <div className='recentgiftamount'>{amount}<span className="token">{token}</span></div>
+                    <div className='recentgiftamount'>{amount}<span className="recentgifttoken">{token}</span></div>
                 </div>
                 <div className="recentgiftdate">
                     <div className="rgdatelabel">{formattedDate} {formattedTime}</div>

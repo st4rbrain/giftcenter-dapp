@@ -52,6 +52,7 @@
 
   .token {
     padding-left: 10px;
+    cursor: url('./../../images/handcursor.svg'), auto;
   }
 
   .topgiftdate {

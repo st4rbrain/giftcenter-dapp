@@ -7,14 +7,6 @@ import Axios from 'axios';
 import { ethers } from 'ethers';
 
 
-// const chainSymbols = {
-//   80001 : "mMATIC",
-//   1 : "ETH",
-//   137: "MATIC",
-//   5: "GoreliETH"
-// }
-
-
 function Home({contracts}) {
   const [topGifts, setTopGifts] = useState([]);
   const [allGifts, setAllGifts] = useState([]);
@@ -60,16 +52,16 @@ function Home({contracts}) {
     });
   }, []);
 
-
   useEffect(() => {
 
     //for polygon mumbai
-      contracts[80001].on("Gifted", (count, from, to, msg, amt, time) => {
+      contracts[80001].on("Gifted", (count, from, to, msg, amt, time, event) => {
 
         const formattedAmt = ethers.utils.formatEther(amt);
         const date = new Date(time*1000);
         const amtToFloat = parseFloat(formattedAmt);
         const newId = Number(count);
+        console.log(event)
 
         const postGift = async () => {
           await Axios.post('http://localhost:3001/gifts/postGifts', {
@@ -80,7 +72,7 @@ function Home({contracts}) {
               amount: amtToFloat,
               createdAt: date,
               withdrawn: false,
-              token: "mMATIC"
+              token: "mMATIC",
           }).then((res) => {
             console.log("Added a new gift!!");
             window.location.reload(true);
@@ -177,7 +169,7 @@ function Home({contracts}) {
 
           {/* topgifts listing  */}
           <div className='topgifts'>
-            <div className='title'><h1>Top Gifts</h1></div>
+            <div className='title'><h1>Top Five Gifts</h1></div>
             <div className='gifts'>
               {
                 topGifts.map((gift) => 
