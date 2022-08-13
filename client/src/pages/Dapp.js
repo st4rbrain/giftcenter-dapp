@@ -302,7 +302,7 @@ function Dapp({contracts}) {
       try {
         contract.withdrawAmount(account, toWei);
       } catch(err) {
-        if (err.code === 32603)
+        if (err.code === 32000)
           alert("Please wait a bit and try again")
       }
       
@@ -322,7 +322,7 @@ function Dapp({contracts}) {
       try {
         contract.withdrawAmount(account, toWei);
       } catch(err) {
-        if (err.code === 32603)
+        if (err.code === 32000)
           alert("Please wait a bit and try again")
       }
     } else {
