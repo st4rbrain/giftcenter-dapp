@@ -1,0 +1,156 @@
+.notification-success {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    position: absolute;
+    top: 36%;
+    right: 0px;
+    width: 300px;
+    background-image: linear-gradient(to bottom right, rgb(0, 161, 21), rgb(181, 255, 112));
+    border: 3px solid white;
+    border-right: 0px;
+    border-radius: 5px 0px 0px 5px;
+    height: 120px;
+    z-index: 1;
+    animation: notification 5s forwards ease-out;
+}
+
+.notification-warning {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    position: absolute;
+    top: 36%;
+    right: 0px;
+    width: 300px;
+    background-image: linear-gradient(to bottom right, rgb(214, 123, 3), rgb(255, 176, 112));
+    border: 3px solid white;
+    border-right: 0px;
+    border-radius: 5px 0px 0px 5px;
+    height: 120px;
+    z-index: 1;
+    animation: notification 5s forwards ease-out;
+}
+
+.notification-casual {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    position: absolute;
+    top: 36%;
+    right: 0px;
+    width: 300px;
+    background-image: linear-gradient(to bottom right, rgb(185, 0, 124), rgb(255, 131, 249));
+    border: 3px solid white;
+    border-right: 0px;
+    border-radius: 5px 0px 0px 5px;
+    height: 120px;
+    z-index: 1;
+    animation: notification 5s forwards ease-out;
+}
+
+.notification-error {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    position: absolute;
+    top: 38%;
+    right: 0px;
+    width: 300px;
+    background-image: linear-gradient(to bottom right, rgb(167, 0, 0), rgb(255, 112, 112));
+    border: 3px solid white;
+    border-right: 0px;
+    border-radius: 5px 0px 0px 5px;
+    height: 115px;
+    z-index: 1;
+    animation: notification 5s forwards ease-out;
+}
+
+@keyframes notification {
+    0% {opacity: 0; right: -100px;}
+    5% {opacity: 1; right: 0px;}
+    90% {opacity: 1; right: 0px;}
+    100% {opacity: 0; right: -100px;}
+}
+
+
+.notification-head {
+    display: flex;
+    align-items: center;
+    height: 40px;
+    padding: 30px 10px;
+    padding-left: 10px;
+}
+
+.success-notification-logo {
+    background-image: url('./../images/tick.png');
+    height: 30px;
+    width: 30px;
+}
+
+.error-notification-logo {
+    background-image: url('./../images/cross.png');
+    height: 30px;
+    width: 30px;
+}
+
+.warning-notification-logo {
+    background-image: url('./../images/alertlogo.png');
+    height: 30px;
+    width: 30px;
+}
+
+.casual-notification-logo {
+    background-image: url('./../images/casual.png');
+    height: 30px;
+    width: 30px;
+}
+
+.notification-heading {
+    color: white;
+    text-align: center;
+    font-family: 'Montserrat';
+    font-weight: bold;
+    font-size: 18px;
+    min-width: 140px;
+    max-width: 140px;
+    margin: 0px 20px;
+}
+
+.success-notification-cross {
+    top: -2px;
+    left: 8px;
+    cursor: url('./../images/handcursor.svg'), auto;
+    position: relative;
+    color: white;
+    background: transparent;
+    font-family: 'Montserrat';
+    outline: none;
+    border: none;
+    font-weight: bold;
+    font-size: 30px;
+}
+
+.error-notification-cross {
+    left: 8px;
+    cursor: url('./../images/handcursor.svg'), auto;
+    position: relative;
+    color: white;
+    background: transparent;
+    font-family: 'Montserrat';
+    outline: none;
+    border: none;
+    font-weight: bold;
+    font-size: 30px;
+}
+
+.notification-desc {
+    display: flex;
+    justify-content: center;
+    text-align: center;
+    height: 30px;
+    padding: 0px 10px;
+    padding-left: 10px;
+    color: white;
+    font-family: 'Montserrat';
+}

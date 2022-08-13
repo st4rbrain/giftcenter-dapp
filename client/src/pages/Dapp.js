@@ -1,6 +1,8 @@
 import { useEffect, useRef, useState } from "react";
 import "./Dapp.css";
 import GiftsTables from "../components/DappTables/DappTables";
+import { WithdrawNotification, UnsupportedNetworkNotification } from "../components/notification";
+import { WithdrawErrorNotification, ComingSoonNetworkNotification } from "../components/notification";
 import {ethers} from 'ethers';
 import Axios from "axios";
 import moment from 'moment';
@@ -25,6 +27,7 @@ const hexChainIds = {
   137: "0x89",
   5: "0x5"
 }
+
 
 const rpcURLs = {
   1: 'https://mainnet.infura.io/v3/',
@@ -54,6 +57,8 @@ const GiftCenterABI = [
   "event currentAccount(address account)",
 ]
 
+const provider = new ethers.providers.Web3Provider(window.ethereum);
+
 function Dapp({contracts}) {
     
   const [account, setAccount] = useState("Connect Wallet");
@@ -61,6 +66,10 @@ function Dapp({contracts}) {
   const [walletConnected, setWalletConnected] = useState(false);
   const [contract, setContract] = useState()
   const [networkLabelHidden, setNetworkLabelHidden] = useState(true)
+  const [withdrawNotificationVisible, setWithdrawNotificationVisible] = useState(false)
+  const [unsupportedNetworkNotification, setUnsupportedNetworkNotification] = useState(false)
+  const [withdrawErrorNotificationVisible, setWithdrawErrorNotificationVisible] = useState(false)
+  const [comingSoonNetworkNotificationVisible, setComingSoonNetworkNotificationVisible] = useState(false)
 
   const [loading, setLoading] = useState(false);
   const [receivedAmount, setReceivedAmount] = useState(0);
@@ -112,7 +121,13 @@ function Dapp({contracts}) {
     contracts[80001].on("withDrawal", (from, amt) => {
       console.log(`${amt} withdrawn successfully to the account ${from}`);
       Axios.post("http://localhost:3001/gifts/withdrawn", {
-        recipient: from
+        recipient: from,
+        token: "mMATIC"
+      }).then((res) => {
+        setWithdrawNotificationVisible(true)
+        setTimeout(() => {
+          setWithdrawNotificationVisible(false)
+        }, 5000);
       })
     })
     return () => {
@@ -125,7 +140,13 @@ function Dapp({contracts}) {
     contracts[5].on("withDrawal", (from, amt) => {
       console.log(`${amt} withdrawn successfully to the account ${from}`);
       Axios.post("http://localhost:3001/gifts/withdrawn", {
-        recipient: from
+        recipient: from,
+        token: "GoreliETH"
+      }).then((res) => {
+        setWithdrawNotificationVisible(true)
+        setTimeout(() => {
+          setWithdrawNotificationVisible(false)
+        }, 5000);
       })
     })
     return () => {
@@ -140,7 +161,33 @@ function Dapp({contracts}) {
     }, 500);
   }, [])
 
+  window.onload = () => {
+    const checkNetwork = async () => {
+      if (window.ethereum) {
+        const currentChainId = await window.ethereum.request({
+          method: 'eth_chainId',
+        });
+      if(!supportedChainIds(currentChainId)) {
+        setUnsupportedNetworkNotification(true)
+        setTimeout(() => {
+          setUnsupportedNetworkNotification(false)
+        }, 5000);
+      }
+      if(currentChainId === "0x1" || currentChainId === "0x89") {
+        setComingSoonNetworkNotificationVisible(true)
+        setTimeout(() => {
+          setComingSoonNetworkNotificationVisible(false)
+        }, 5000);
+      }
+      }
+    }
+    checkNetwork()
+  }
 
+// const reloadP = () => {
+//     sessionStorage.setItem("reloading", "true");
+//     document.location.reload();
+// }
 // setting up the contract
   useEffect(() => {
     if (window.ethereum) {
@@ -150,7 +197,7 @@ function Dapp({contracts}) {
           const contract = new ethers.Contract(contractAddresses[window.ethereum.networkVersion], GiftCenterABI, signer);
           setContract(contract)
           setAllowedToSend(true)
-        }
+        } 
       } 
   }, [receivedAmount])
 
@@ -170,7 +217,6 @@ function Dapp({contracts}) {
           res.data[0].forEach(element => {
             totalAmountSent += element.amount;
           });
-
           res.data[1].forEach(element => {
             if(element.withdrawn === false) {
               if(element.token === "GoreliETH")
@@ -204,30 +250,22 @@ function Dapp({contracts}) {
   
   }, [account])
 
-
-  // get account balance
   useEffect(() => {
-    const getBalance = async() => {
-      if(window.ethereum) {
-        if(account !== "Connect Wallet" && loading === true) {
-          try {
-            const provider = new ethers.providers.Web3Provider(window.ethereum);
-            const accBalanace = Number(ethers.utils.formatEther((await provider.getBalance(account))._hex)).toFixed(2);
-            setAccountBalance(accBalanace);
-          } catch(e) {
-            console.error(e.message)
-          }
-        }
+    const getBalance = async () => {
+      if(account !== "Connect Wallet") {
+        const accBalanace = parseFloat(ethers.utils.formatEther((await provider.getBalance(account))._hex)).toFixed(4);
+        setAccountBalance(accBalanace);
       }
     }
-      getBalance()
-  }, [loading, account])
-
+    getBalance()
+    
+  }, [account])
+  
   // check if chain has been changed
   useEffect(() => {
     if(window.ethereum) {
       window.ethereum.on("chainChanged", () => {
-        window.location.reload(true)
+        document.location.reload(true)
       });
     }
     return () => {
@@ -256,7 +294,7 @@ function Dapp({contracts}) {
 
   }, [sentData, receivedData])
 
-
+  //function to withdraw goreli eth
   const withdrawETH = () => {
     if(ethToWithdraw > 0) {
       switchNetwork(5);
@@ -264,15 +302,19 @@ function Dapp({contracts}) {
       try {
         contract.withdrawAmount(account, toWei);
       } catch(err) {
-        if (err.code === 32000)
+        if (err.code === 32603)
           alert("Please wait a bit and try again")
       }
       
     } else {
-      alert("No amounts to withdraw")
+      setWithdrawErrorNotificationVisible(true)
+      setTimeout(() => {
+        setWithdrawErrorNotificationVisible(false)
+      }, 5000);
     } 
   }
 
+  //function to withdraw mumbai matic
   const withdrawMATIC = () => {
     if(maticToWithdraw > 0) {
       switchNetwork(80001)
@@ -280,11 +322,14 @@ function Dapp({contracts}) {
       try {
         contract.withdrawAmount(account, toWei);
       } catch(err) {
-        if (err.code === 32000)
+        if (err.code === 32603)
           alert("Please wait a bit and try again")
       }
     } else {
-      alert("No amounts to withdraw")
+      setWithdrawErrorNotificationVisible(true)
+      setTimeout(() => {
+        setWithdrawErrorNotificationVisible(false)
+      }, 5000);
     }
   }
 
@@ -299,6 +344,8 @@ function Dapp({contracts}) {
 
       setAccount(account);
       console.log("Connected to account", check_add);
+      const accBalanace = parseFloat(ethers.utils.formatEther((await provider.getBalance(account))._hex)).toFixed(4);
+      setAccountBalance(accBalanace);
 
       setWalletConnected(true);
       setLoading(true);
@@ -332,7 +379,7 @@ function Dapp({contracts}) {
   }
 
   const formatAmount = (amt) => {
-    return amt.toFixed(2);
+    return amt.toFixed(4);
   }
 
   const isSupportedChain = () => {
@@ -352,6 +399,14 @@ function Dapp({contracts}) {
       }
       return "Switch Network"
     }
+  }
+
+  const supportedChainIds = (chainid) => {
+    for (const key in hexChainIds) {
+      if (hexChainIds[key] === chainid)
+        return 1
+    }
+    return 0
   }
 
   const getNetworkLogo = () => {
@@ -375,6 +430,7 @@ function Dapp({contracts}) {
       return nets
     }
   }
+
 
   const switchNetwork = async(network) => {
     if(window.ethereum.network !== network) {
@@ -455,6 +511,18 @@ function Dapp({contracts}) {
                         </div>
                     </div>
                     <div className="details">
+                      {
+                        withdrawNotificationVisible ? <WithdrawNotification /> : null
+                      }
+                      {
+                        unsupportedNetworkNotification ? <UnsupportedNetworkNotification /> : null
+                      }
+                      {
+                        withdrawErrorNotificationVisible ? <WithdrawErrorNotification /> : null
+                      }
+                      {
+                        comingSoonNetworkNotificationVisible ? <ComingSoonNetworkNotification /> : null
+                      }
                         <div className="box">
                             <div className="boxtitle">Withdraw Amounts</div>
                             {loading ? <div className="loading">Loading...</div> :
@@ -463,12 +531,12 @@ function Dapp({contracts}) {
                                 {/* <div className="datalabel">Amount to Withdraw: </div>
                                 <div className="datavalue">{formatAmount(amountToWithdraw)}</div> */}
                                 <div className="tokendata">
-                                  <div className="tokenlabel">GoreliETH :</div>
-                                  <div className="tokenamount">{ethToWithdraw}</div>
+                                  <div className="tokenlabel">GoreliETH</div>
+                                  <div className="tokenamount">{formatAmount(ethToWithdraw)}</div>
                                 </div>
                                 <div className="tokendata">
-                                  <div className="tokenlabel">mMATIC :</div>
-                                  <div className="tokenamount">{maticToWithdraw}</div>
+                                  <div className="tokenlabel">mMATIC</div>
+                                  <div className="tokenamount">{formatAmount(maticToWithdraw)}</div>
                                 </div>
                               </div>
                                 <div className="withdrawbtnline">

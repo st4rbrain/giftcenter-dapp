@@ -2,6 +2,8 @@ import { ethers } from 'ethers';
 import { useState, useEffect } from 'react';
 import ReceivedGiftUI from '../dappReceivedGift';
 import SentGiftUI from '../dappSentGift';
+import { SendGiftNotification, GiftYourselfNotification, UnsupportedNetworkNotification } from '../notification';
+import { ComingSoonNetworkNotification, InvalidDataNotification, ShortMsgNotification } from '../notification';
 import './DappTables.css';
 
   
@@ -17,28 +19,111 @@ function GiftsTables({contract, sentData, receivedData, allowedToSend, account, 
     const totalReceivedPages = Math.ceil(receivedData.length / giftsPerPage)
     const [currentSentPage, setCurrentSentPage] = useState(0);
     const [currentReceivedPage, setCurrentReceivedPage] = useState(0);
+    const [sendGiftNotificationVisible, setSendGiftNotificationVisible] = useState(false)
+    const [giftYourselfNotification, setGiftYourselfNotification] = useState(false)
+    const [unsupportedNetworkNotification, setUnsupportedNetworkNotification] = useState(false)
+    const [comingSoonNetworkNotificationVisible, setComingSoonNetworkNotificationVisible] = useState(false)
+    const [invalidDataNotificationVisible, setInvalidDataNotificationVisible] = useState(false)
+    const [shortMsgNotificationVisible, setShortMsgNotificationVisible] = useState(false)
+
         
     const sendgift = async () => {
-        if(allowedToSend) {
-            if(address !== account) {
-                try{
-                    await contract.sendGift(address, msg, {value: ethers.utils.parseEther(amount)});
-                    console.log("Sent successfully");
-                } catch(error) {
-                    if(error.code === 32000)    
-                        alert("Please wait a bit before sending again!")
+        setInvalidDataNotificationVisible(false);
+        setUnsupportedNetworkNotification(false);
+        setComingSoonNetworkNotificationVisible(false);
+        setSendGiftNotificationVisible(false);
+        setGiftYourselfNotification(false)
+        if(allowedToSend) {            
+            const checkNetwork = async () => {
+                if (window.ethereum) {
+                  const currentChainId = await window.ethereum.request({
+                    method: 'eth_chainId',
+                  });
+              
+                  if (currentChainId === "0x1" || currentChainId === "0x89") {
+                    if(currentChainId === "0x1" || currentChainId === "0x89") {
+                        setComingSoonNetworkNotificationVisible(true)
+                        setTimeout(() => {
+                          setComingSoonNetworkNotificationVisible(false)
+                        }, 5000);
+                      }
+                  }
+                  else {
+                      if(address && msg && amount) {
+                        if(address !== account) {
+                            if(msg && msg.length >= 10) {
+                                try{
+                                    await contract.sendGift(address, msg, {value: ethers.utils.parseEther(amount)});
+                                    console.log("Sent successfully");
+                                    setSendGiftNotificationVisible(true)
+                                    setTimeout(() => {
+                                        setSendGiftNotificationVisible(false)
+                                    }, 5000);
+                                } catch(error) {
+                                    console.log(error)
+                                    if(error.code === 32603)    
+                                        alert("Please wait a bit before sending again!")
+                                    else {
+                                        setInvalidDataNotificationVisible(true)
+                                        setTimeout(() => {
+                                            setInvalidDataNotificationVisible(false)
+                                        }, 5000);
+                                    }
+                                }
+                            } else {
+                                setShortMsgNotificationVisible(true)
+                                setTimeout(() => {
+                                    setShortMsgNotificationVisible(false)
+                                }, 5000);
+                            }
+                            
+                        } else {
+                            setGiftYourselfNotification(true)
+                            setTimeout(() => {
+                                setGiftYourselfNotification(false)
+                            }, 5000);
+                        }
+                      } else {
+                        setInvalidDataNotificationVisible(true)
+                        setTimeout(() => {
+                            setInvalidDataNotificationVisible(false)
+                        }, 5000);
+                      }
+                  }
                 }
-            } else alert("Can't Gift yourself")
-            
+            }
+            checkNetwork()
         }
-        else
-            alert("Please switch network!!")
+        else {
+            setUnsupportedNetworkNotification(true)
+            setTimeout(() => {
+                setUnsupportedNetworkNotification(false)
+            }, 5000);
+        }
         
     }
 
     return ( 
         <div className="giftstables">
             <div className="dappcontainer">
+                {
+                    sendGiftNotificationVisible ? <SendGiftNotification /> : null
+                }
+                {
+                    giftYourselfNotification ? <GiftYourselfNotification /> : null
+                }
+                {
+                    unsupportedNetworkNotification ? <UnsupportedNetworkNotification /> : null
+                }
+                {
+                    comingSoonNetworkNotificationVisible ? <ComingSoonNetworkNotification /> : null
+                }
+                {
+                    invalidDataNotificationVisible ? <InvalidDataNotification /> : null
+                }
+                {
+                    shortMsgNotificationVisible ? <ShortMsgNotification /> : null
+                }
                 <div className="table">
                     <div className="tableheader">
                         <div className="tabletitle">Gifts Sent</div>
@@ -64,7 +149,7 @@ function GiftsTables({contract, sentData, receivedData, allowedToSend, account, 
                         </div>
                         <div className="cardline">
                             <div className="cardlinelabel">Message</div>
-                            <textarea className="cardlinemsginput" autoComplete='off' spellCheck='false'maxLength='200' onChange={(e) => {
+                            <textarea className="cardlinemsginput" autoComplete='off' spellCheck='false' maxLength='200' placeholder='(min 10 characters) (max 200 characters)' onChange={(e) => {
                                 setMsg(e.target.value);
                             }}></textarea>
                         </div>

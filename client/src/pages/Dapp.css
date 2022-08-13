@@ -6,6 +6,26 @@
     cursor: url('./../images/cursor.svg'), auto;
 }
 
+::-webkit-scrollbar-track {
+    background: rgb(255, 255, 255);
+    border: 2px solid rgb(255, 255, 255);
+}
+
+::-webkit-scrollbar-thumb {
+    background-image: url('./../images/scroll-thumb.png');
+    border-radius: 10px;
+    border: 1px solid rgb(255, 255, 255);
+}
+
+
+::-webkit-scrollbar-thumb:hover {
+    background-image: url('./../images/scroll-thumb-hover.png');
+}
+
+::-webkit-scrollbar {
+    width: 18px;
+}
+
 button {
     outline: none;
 }
@@ -172,6 +192,7 @@ input::selection, textarea::selection{
     left: -40px;
     margin-top: 10px;
     padding: 10px 10px;
+    padding-bottom: 2px;
     background: linear-gradient(to bottom right, rgb(255, 192, 110), rgb(199, 43, 43));
     border: 3px solid white;
     border-radius: 10px;
@@ -184,7 +205,7 @@ input::selection, textarea::selection{
     font-family: 'Montserrat';
     font-weight: bold;
     text-align: center;
-    margin-bottom: 17px;
+    margin-bottom: 15px;
 }
 
 .dropdown-content-btn-line {
@@ -248,6 +269,7 @@ input::selection, textarea::selection{
     align-items: center;
 }
 
+
 .details .box {
     border: 2px solid white;
     display: flex;
@@ -285,7 +307,7 @@ input::selection, textarea::selection{
     display: flex;
     align-items: center;
     justify-content: space-between;
-    margin-top: 15px;
+    margin-top: 5px;
     padding-left: 2px;
 }
 
@@ -318,6 +340,7 @@ input::selection, textarea::selection{
 
 .tokendata {
     display: flex;
+    flex-direction: column;
     justify-content: center;
     align-items: center;
     min-width: 120px;
@@ -330,7 +353,7 @@ input::selection, textarea::selection{
 }
 
 .datalabel {
-    min-width: 170px;
+    width: 170px;
     margin-right: 5px;
 }
 

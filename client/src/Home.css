@@ -138,10 +138,10 @@ h5 {
 }
 
 .giftlist {
-  background-image: linear-gradient(to bottom right, rgb(255, 0, 128), #ddc660, #51d387, #42dbe0, #783dffc9, rgb(255, 86, 142));
+  background-image: linear-gradient(to bottom right, rgb(255, 0, 128), #dd60ad, #77ffa4, #42dbe0, #ff62f7e3, rgb(255, 45, 115));
   padding: 80px 0px;
   padding-bottom: 120px;
-  animation: bg-move 15s infinite alternate;
+  animation: bg-move 30s infinite alternate;
   background-size: 400%;
 }
 
@@ -153,31 +153,80 @@ h5 {
   background: transparent;
   border: 3px solid white;
   width: 1000px;
-  height: 206px;
+  height: 400px;
+  padding: 20px 20px;
   border-radius: 10px;
   margin-bottom: 50px;
   box-shadow: 5px 5px 20px black;
 }
 
-.homedataline {
+.giftedamounts {
   display: flex;
   flex-direction: column;
   justify-content: center;
-  font-size: 50px;
-  margin: 40px 60px;
+  width: 60%;
+}
+
+.giftedamountshead {
   color: white;
+  text-align: center;
+  font-size: 60px;
+  font-weight: bold;
+  font-family: 'Montserrat';
+}
+
+.giftedamountsdata {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin-top: 40px;
+}
+
+.giftedamountdataline {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 80%;
+  height: 66px;
 }
 
 .homedatalabel {
+  color: white;
   font-family: 'Montserrat';
   font-size: 40px;
-  margin: 5px 0;
+  min-width: 50%;
 }
 
 .homedatavalue {
+  color: white;
+  font-family: 'Montserrat';
+  font-size: 54px;
+  font-weight: bold;
+}
+
+.totalgifts {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  width: 40%;
+}
+
+.totalgiftshead {
+  color: white;
+  text-align: center;
+  font-size: 60px;
   font-weight: bold;
   font-family: 'Montserrat';
+}
+
+.totalgiftsdata {
+  color: white;
   text-align: center;
+  font-size: 150px;
+  font-weight: bold;
+  font-family: 'Montserrat';
+  height: 183px;
 }
 
 @keyframes bg-move {
@@ -198,12 +247,13 @@ h5 {
 
 .giftheading {
   display: flex;
+  margin-top: 60px;
   flex-direction: column;
   color: white;
   margin-bottom: 20px;
   justify-content: center;
   align-items: center;
-  font-family: "Great Vibes";
+  font-family: "Montserrat";
 }
 
 .giftheading .gftheader {
@@ -213,10 +263,10 @@ h5 {
 }
 
 .giftheading .gftdesc {
-  font-size: 30px;
+  font-size: 24px;
   text-align: center;
   margin-bottom: 20px;
-  width: 700px;
+  width: 800px;
 }
 
 .topgifts {

@@ -4,6 +4,10 @@
     padding: 0;
 }
 
+::placeholder {
+    color: rgba(226, 226, 226, 0.774);
+}
+
 .dappcontainer {
     max-width: 1200px;
     margin: 0 auto;
@@ -262,6 +266,10 @@
 
 .sendbtn:hover {
     background: linear-gradient(to bottom, rgb(180, 12, 138), rgb(255, 113, 144));
+}
+
+.sendbtn:active {
+    background: linear-gradient(to bottom, red, white);
 }
 
 

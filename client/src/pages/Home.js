@@ -10,7 +10,8 @@ import { ethers } from 'ethers';
 function Home({contracts}) {
   const [topGifts, setTopGifts] = useState([]);
   const [allGifts, setAllGifts] = useState([]);
-  const [giftedAmounts, setGiftedAmounts] = useState();
+  const [giftedmMATIC, setGiftedmMATIC] = useState();
+  const [giftedGoreliETH, setGiftedGoreliETH] = useState()
   const [totalGifts, setTotalGifts] = useState();
   const [currentPage, setCurrentPage] = useState(0);
   const [totalPages, setTotalPages] = useState(0);
@@ -21,31 +22,42 @@ function Home({contracts}) {
       Axios.get("http://localhost:3001/gifts/getGifts").then((res) => {
       setAllGifts(res.data[0]);
       setTopGifts(res.data[1]);
-      let k = 0;
+      
+      let k = res.data[0].length - 20;
+      console.log(k)
       const giftsCounter = setInterval(() => { 
           k += 1;
           setTotalGifts(k)
           if (k === res.data[0].length) {
             clearInterval(giftsCounter)
           }
-      }, 70);
+      }, 100);
+
+      // total - (k/100) total  = 25     20/total = 100 -k/ 100   2000/total = 100-k   k = 100 - 2000/total
 
       setTotalGifts(res.data[0].length);
 
       // calculating total amounts that have been gifted
-      let total = 0;
+      let totalGoreliETH = 0;
+      let totalmMATIC = 0;
       res.data[0].forEach(element => {
-        total += element.amount;
+        if(element.token === "GoreliETH")
+          totalGoreliETH += element.amount;
+        else
+          totalmMATIC += element.amount
       });
 
-      let i = 0;
+      let i = totalmMATIC - 0.0200;
+      let j = totalGoreliETH - 0.0200;
       const counter = setInterval(() => {
-        i += 0.01
-        setGiftedAmounts(i.toFixed(4))
-        if (i.toFixed(2) === total.toFixed(2)) {
+        i += 0.0001
+        j += 0.0001
+        setGiftedmMATIC(i.toFixed(4))
+        setGiftedGoreliETH(j.toFixed(4))
+        if (i.toFixed(4) === totalmMATIC.toFixed(4)) {
           clearInterval(counter)
         }
-      }, 1);
+      }, 10);
 
       
       setTotalPages(Math.ceil(res.data[0].length / giftsperpage));
@@ -74,7 +86,6 @@ function Home({contracts}) {
               withdrawn: false,
               token: "mMATIC",
           }).then((res) => {
-            console.log("Added a new gift!!");
             window.location.reload(true);
         });
 
@@ -109,7 +120,6 @@ function Home({contracts}) {
               withdrawn: false,
               token: "GoreliETH"
           }).then((res) => {
-            console.log("Added a new gift!!");
             window.location.reload(true);
         });
 
@@ -149,21 +159,30 @@ function Home({contracts}) {
       <section className='giftlist'>
         <div className='container'>
         <div className='alldata'>
-          <div className='homedataline'>
-            <div className='homedatalabel'>Total Amounts Gifted</div>
-            <div className='homedatavalue'>{giftedAmounts}</div>
+          <div className='giftedamounts'>
+              <div className='giftedamountshead'>Total Gifted Amounts</div>
+              <div className='giftedamountsdata'>
+                <div className='giftedamountdataline'>
+                  <div className='homedatalabel'>GoreliETH</div>
+                  <div className='homedatavalue'>{giftedGoreliETH}</div>
+                </div>
+                <div className='giftedamountdataline'>
+                  <div className='homedatalabel'>mMATIC</div>
+                  <div className='homedatavalue'>{giftedmMATIC}</div>
+                </div>
+              </div>
           </div>
-          <div className='homedataline'>
-            <div className='homedatalabel'>Total Gifts Sent</div>
-            <div className='homedatavalue'>{totalGifts}</div>
+          <div className='totalgifts'>
+              <div className='totalgiftshead'>Total Gifts</div>
+              <div className='totalgiftsdata'>{totalGifts}</div>
           </div>
-      </div>
+        </div>
           <div className='giftheading'>
             <div className='gftheader'>
-              Gifted Items
+              Gifts Listing
             </div>
             <div className='gftdesc'>
-              This is a record of all the gifts that have been sent over the past decade
+              This is the listing of all the gifts that are being sent over the currently supported Networks
             </div>
           </div>
 
@@ -180,7 +199,7 @@ function Home({contracts}) {
 
           {/* dailygifts listing  */}
           <div className='dailygifts'>
-            <div className='title'><h1>Latest Gifts</h1></div>
+            <div className='title'><h1>All Gifts</h1></div>
             <div className='gifts'>
               <div className='recentGiftsLine'>
               {
