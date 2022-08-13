@@ -61,7 +61,7 @@ function GiftsTables({contract, sentData, receivedData, allowedToSend, account, 
                                     }, 5000);
                                 } catch(error) {
                                     console.log(error)
-                                    if(error.code === 32603)    
+                                    if(error.code === 32000)    
                                         alert("Please wait a bit before sending again!")
                                     else {
                                         setInvalidDataNotificationVisible(true)
@@ -132,7 +132,8 @@ function GiftsTables({contract, sentData, receivedData, allowedToSend, account, 
                     <div className="list">
                         {   
                             sentData.length ?
-                            sentData.slice(currentSentPage*giftsPerPage, (currentSentPage*giftsPerPage) + giftsPerPage).map((data) => <SentGiftUI key={data.id} to={data.recipient_address} amount={data.amount} dateTime={data.createdAt}></SentGiftUI>) :
+                            sentData.slice(currentSentPage*giftsPerPage, (currentSentPage*giftsPerPage) + giftsPerPage).map((data) => <SentGiftUI key={data.id} to={data.recipient_address} from={data.sender_address} 
+                                amount={data.amount} msg={data.message} dateTime={data.createdAt} id={data.id} token={data.token} txHash={data.txHash}></SentGiftUI>) :
                             <div className='oops'>No Gifts Sent :(</div>
                         }
                     </div>
@@ -172,7 +173,8 @@ function GiftsTables({contract, sentData, receivedData, allowedToSend, account, 
                     <div className="list">
                         {
                             receivedData.length ?
-                            receivedData.slice(currentReceivedPage*giftsPerPage, (currentReceivedPage*giftsPerPage) + giftsPerPage).map((data) => <ReceivedGiftUI key={data.id} from={data.sender_address} amount={data.amount} dateTime={data.createdAt}></ReceivedGiftUI>) :
+                            receivedData.slice(currentReceivedPage*giftsPerPage, (currentReceivedPage*giftsPerPage) + giftsPerPage).map((data) => <ReceivedGiftUI key={data.id} from={data.sender_address} 
+                                to={data.recipient_address} msg={data.message} amount={data.amount} dateTime={data.createdAt} id={data.id} token={data.token} txHash={data.txHash}></ReceivedGiftUI>) :
                             <div className='oops'>No Gifts Received :(</div>
                         }
                     </div>

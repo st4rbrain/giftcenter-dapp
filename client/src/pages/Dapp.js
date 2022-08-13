@@ -366,7 +366,6 @@ function Dapp({contracts}) {
       }
     } else {
         document.getElementsByClassName("modal")[0].style.display = "block";
-
     }
   }
 
@@ -528,8 +527,6 @@ function Dapp({contracts}) {
                             {loading ? <div className="loading">Loading...</div> :
                             <div>
                               <div className="dataline">
-                                {/* <div className="datalabel">Amount to Withdraw: </div>
-                                <div className="datavalue">{formatAmount(amountToWithdraw)}</div> */}
                                 <div className="tokendata">
                                   <div className="tokenlabel">GoreliETH</div>
                                   <div className="tokenamount">{formatAmount(ethToWithdraw)}</div>

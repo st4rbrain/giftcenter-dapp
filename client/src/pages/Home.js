@@ -23,8 +23,7 @@ function Home({contracts}) {
       setAllGifts(res.data[0]);
       setTopGifts(res.data[1]);
       
-      let k = res.data[0].length - 20;
-      console.log(k)
+      let k = res.data[0].length - 21;
       const giftsCounter = setInterval(() => { 
           k += 1;
           setTotalGifts(k)
@@ -73,7 +72,6 @@ function Home({contracts}) {
         const date = new Date(time*1000);
         const amtToFloat = parseFloat(formattedAmt);
         const newId = Number(count);
-        console.log(event)
 
         const postGift = async () => {
           await Axios.post('http://localhost:3001/gifts/postGifts', {
@@ -85,6 +83,7 @@ function Home({contracts}) {
               createdAt: date,
               withdrawn: false,
               token: "mMATIC",
+              txHash: event.transactionHash
           }).then((res) => {
             window.location.reload(true);
         });

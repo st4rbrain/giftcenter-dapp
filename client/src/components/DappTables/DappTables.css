@@ -113,7 +113,17 @@
     color: white;
     max-width: 195px;
     font-family: "Montserrat";
-    font-size: 14px;
+    font-size: 13px;
+}
+
+.lineamtdata {
+    word-wrap: break-word;
+    font-style: italic;
+    color: white;
+    font-weight: bold;
+    max-width: 195px;
+    font-family: "Montserrat";
+    font-size: 12px;
 }
 
 .recorddate {
@@ -121,6 +131,7 @@
     align-items: center;
     justify-content: center;
     color: rgb(230, 230, 230);
+    margin-right: 70px;
 }
 
 .datelabel {
@@ -128,13 +139,32 @@
     font-size: 14px;
     font-style: italic;
     padding-top: 5px;
-    padding-left: 150px;
 }
 
 .date {
     font-style: italic;
     font-size: 12px;
     padding-top: 5px;
+    width: 82px;
+}
+
+.detailbtn {
+    cursor: url('./../../images/handcursor.svg'), auto;
+    background: url('./../../images/arrow.png');
+    width: 15px;
+    height: 10px;
+}
+
+.detailbtnlabel {
+    color: white;
+    font-family: 'Montserrat';
+    font-size: 12px;
+    margin-right: 5px;
+}
+
+.detail {
+    background: transparent;
+    border: none;
 }
 
 .sendgift {
@@ -374,4 +404,94 @@
 
   .dapppagelabel:active {
     background-image: linear-gradient(to bottom, rgba(196, 19, 19, 0.774), rgba(255, 158, 79, 0.781));
+  }
+
+
+  .detailmodal {
+    display: none;
+    position: fixed; 
+    z-index: 1;
+    left: 0;
+    top: 0;
+    width: 100%; 
+    height: 100%;
+    background-color: rgba(0,0,0,0.7);
+  }
+  
+  .detailmodal-content {
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    background: linear-gradient(to bottom right, rgb(255, 192, 110), rgb(199, 43, 43));
+    margin: 8% auto;
+    border: 3px solid white;
+    border-radius: 10px;
+    padding: 15px 30px;
+    width: 50%; 
+    height: 62%;
+  }
+
+  .detailmodalhead {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    color: white;
+    font-family: 'Montserrat';
+    font-weight: bold;
+  }
+
+  .detailmodalcross {
+    cursor: url('./../../images/handcursor.svg'), auto;
+    font-size: 35px;
+    background: transparent;
+    border: 0px;
+    color: white;
+  }
+
+  .detailmodalheading {
+      font-size: 20px;
+      padding-left: 15px;
+  }
+
+  .detailmodalgiftdetails {
+    background: linear-gradient(to bottom right, rgba(255, 0, 0, 0.192), rgba(255, 247, 209, 0.822));
+    margin: 10px auto;
+    border: 1px solid white;
+    border-radius: 20px;
+    padding: 10px 20px;
+    width: 600px; 
+    height: 320px;
+  }
+
+  .detailline {
+      display: flex;
+      margin: 5px 0px;
+      padding: 5px 10px;
+      color: white;
+      font-family: 'Montserrat';
+  }
+
+  .detaillabel {
+      width: 100px;
+      font-weight: bold;
+      font-size: 16px;
+  }
+
+  .detailvalue {
+      width: 430px;
+      word-wrap: break-word;
+  }
+
+  .detailmsgvalue {
+      width: 360px;
+      height: 80px;
+  }
+  
+  a {
+      color: rgb(255, 255, 255);
+      cursor: url('./../../images/handcursor.svg'), auto;
+  }
+
+  a:hover {
+      color: rgb(255, 72, 0);
   }
