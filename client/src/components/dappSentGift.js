@@ -30,8 +30,10 @@ function SentGiftUI({to, from, amount, msg, dateTime, id, token, txHash}) {
                         <div className="datelabel">Date -</div>
                         <div className="date">{formattedDate} {formattedTime}</div>
                     </div>
-                    <span className="detailbtnlabel">Details</span>
-                    <button className="detail" onClick={showGiftDetails}><div className="detailbtn"></div></button>
+                    <button className="giftdetail" onClick={showGiftDetails}>
+                        <span className="detailbtnlabel">Details</span>
+                        <div className="detailbtn"></div>
+                    </button>
                 </div>
             </div>
             <div className="detailmodal" id={setId}>

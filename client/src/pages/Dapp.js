@@ -3,6 +3,7 @@ import "./Dapp.css";
 import GiftsTables from "../components/DappTables/DappTables";
 import { WithdrawNotification, UnsupportedNetworkNotification } from "../components/notification";
 import { WithdrawErrorNotification, ComingSoonNetworkNotification } from "../components/notification";
+import jazzicon from "@metamask/jazzicon";
 import {ethers} from 'ethers';
 import Axios from "axios";
 import moment from 'moment';
@@ -63,6 +64,7 @@ function Dapp({contracts}) {
     
   const [account, setAccount] = useState("Connect Wallet");
   const [accountBalance, setAccountBalance] = useState(0);
+  const avatarRef = useRef()
   const [walletConnected, setWalletConnected] = useState(false);
   const [contract, setContract] = useState()
   const [networkLabelHidden, setNetworkLabelHidden] = useState(true)
@@ -260,6 +262,23 @@ function Dapp({contracts}) {
     getBalance()
     
   }, [account])
+
+  const getAvatar = () => {
+    const element = avatarRef.current;
+    if (element && account !== "Connect Wallet") {
+        const addr = account.slice(2, 10);
+        const seed = parseInt(addr, 16);
+        const icon = jazzicon(20, seed); //generates a size 20 icon
+        if (element.firstChild) {
+            element.removeChild(element.firstChild);
+        }
+        element.appendChild(icon);
+    }
+  }
+
+  useEffect(() => {
+    getAvatar()
+});
   
   // check if chain has been changed
   useEffect(() => {
@@ -343,6 +362,7 @@ function Dapp({contracts}) {
       const check_add = ethers.utils.getAddress(account);
 
       setAccount(account);
+      getAvatar();
       console.log("Connected to account", check_add);
       const accBalanace = parseFloat(ethers.utils.formatEther((await provider.getBalance(account))._hex)).toFixed(4);
       setAccountBalance(accBalanace);
@@ -506,7 +526,7 @@ function Dapp({contracts}) {
                             isSupportedChain() ?
                             <div className="accountdata">{accountBalance} {chainSymbols[window.ethereum.networkVersion]}</div> : null : null
                           }
-                          <div><button className="connectbtn" onClick={connect}>{walletConnected ? <div className="address">{ethers.utils.getAddress(account).substring(0, 6)}<div className="addressdots">...</div>{ethers.utils.getAddress(account).substring(account.length -4, account.length)}</div> : {account} }</button></div>
+                          <div><button className="connectbtn" onClick={connect}>{walletConnected ? <div className="address"><div className="identicon" ref={avatarRef}></div>{ethers.utils.getAddress(account).substring(0, 6)}<div className="addressdots">...</div>{ethers.utils.getAddress(account).substring(account.length -4, account.length)}</div> : {account} }</button></div>
                         </div>
                     </div>
                     <div className="details">

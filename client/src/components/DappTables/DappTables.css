@@ -156,15 +156,21 @@
 }
 
 .detailbtnlabel {
+    cursor: url('./../../images/handcursor.svg'), auto;
     color: white;
     font-family: 'Montserrat';
     font-size: 12px;
     margin-right: 5px;
 }
 
-.detail {
+.giftdetail {
+    cursor: url('./../../images/handcursor.svg'), auto;
     background: transparent;
     border: none;
+    margin-top: 5px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 .sendgift {
@@ -288,18 +294,18 @@
     border: 3px solid white;
     background: tra;
     font-weight: bold;
-    background: linear-gradient(to bottom, rgb(255, 93, 147), rgb(255, 0, 13));
+    background: linear-gradient(to bottom, rgb(255, 35, 108), rgb(156, 0, 8));
     color: white;
     font-family: 'Montserrat';
     font-size: 16px;
 }
 
 .sendbtn:hover {
-    background: linear-gradient(to bottom, rgb(180, 12, 138), rgb(255, 113, 144));
+    background: linear-gradient(to bottom, rgb(180, 12, 138), rgb(255, 82, 125));
 }
 
 .sendbtn:active {
-    background: linear-gradient(to bottom, red, white);
+    background: linear-gradient(to bottom, rgb(255, 93, 147), rgb(255, 0, 13));
 }
 
 
