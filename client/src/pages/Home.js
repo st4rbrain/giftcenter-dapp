@@ -22,7 +22,7 @@ function Home({contracts}) {
       Axios.get("http://localhost:3001/gifts/getGifts").then((res) => {
       setAllGifts(res.data[0]);
       setTopGifts(res.data[1]);
-      
+
       let k = res.data[0].length - 21;
       const giftsCounter = setInterval(() => { 
           k += 1;
@@ -31,8 +31,6 @@ function Home({contracts}) {
             clearInterval(giftsCounter)
           }
       }, 100);
-
-      // total - (k/100) total  = 25     20/total = 100 -k/ 100   2000/total = 100-k   k = 100 - 2000/total
 
       setTotalGifts(res.data[0].length);
 
@@ -57,11 +55,45 @@ function Home({contracts}) {
           clearInterval(counter)
         }
       }, 10);
-
       
       setTotalPages(Math.ceil(res.data[0].length / giftsperpage));
     });
   }, []);
+
+  const countingData = () => {
+    let k = allGifts.length - 21;
+      const giftsCounter = setInterval(() => { 
+          k += 1;
+          setTotalGifts(k)
+          if (k === allGifts.length) {
+            clearInterval(giftsCounter)
+          }
+      }, 100);
+
+      setTotalGifts(allGifts.length);
+
+      // calculating total amounts that have been gifted
+      let totalGoreliETH = 0;
+      let totalmMATIC = 0;
+      allGifts.forEach(element => {
+        if(element.token === "GoreliETH")
+          totalGoreliETH += element.amount;
+        else
+          totalmMATIC += element.amount
+      });
+
+      let i = totalmMATIC - 0.0200;
+      let j = totalGoreliETH - 0.0200;
+      const counter = setInterval(() => {
+        i += 0.0001
+        j += 0.0001
+        setGiftedmMATIC(i.toFixed(4))
+        setGiftedGoreliETH(j.toFixed(4))
+        if (i.toFixed(4) === totalmMATIC.toFixed(4)) {
+          clearInterval(counter)
+        }
+      }, 10);
+  }
 
   useEffect(() => {
 
@@ -143,7 +175,7 @@ function Home({contracts}) {
 
       {/* giftcenter header */}
       <header className="header">
-          <div className="container">
+          <div className="container" onMouseLeave={countingData}>
               <div className="hero">
                 <h5>Welcome to the </h5>
                 <h1>Gifting Service</h1>
@@ -153,13 +185,28 @@ function Home({contracts}) {
               </div>
           </div>
       </header>
-      {/* show the gift records */}
-      
-      <section className='giftlist'>
-        <div className='container'>
-        <div className='alldata'>
+
+      {/* show all the data */}
+      <section className='giftcenterdata'>
+        <div className='about'>
+          <div className='giftheading'>
+            <div className='gftheader'>
+              About
+            </div>
+            <div className='gftdesc'>
+              This is a gifting service that is built on the Blockchain.<br></br>
+              It can also be used as a <i>stylish</i> Crypto Transfer service.<br></br><br></br>
+              Currently it supports the transfer on native tokens on the<br></br> <b>Ethereum</b> and 
+              <b> Polygon</b> testnets.<br></br><br></br>
+              You can transfer <b>GoreliETH</b> and <b>mMATIC</b> tokens right now.<br></br>
+              Support for the transfer of Mainnet native tokens<br></br> <b>ETH</b> and <b>MATIC</b> is coming soon.
+              
+            </div>
+          </div>
+        </div>
+        <div className='alldata' id='numberdata'>
           <div className='giftedamounts'>
-              <div className='giftedamountshead'>Total Gifted Amounts</div>
+              <div className='giftedamountshead'>Amounts Gifted</div>
               <div className='giftedamountsdata'>
                 <div className='giftedamountdataline'>
                   <div className='homedatalabel'>GoreliETH</div>
@@ -176,6 +223,11 @@ function Home({contracts}) {
               <div className='totalgiftsdata'>{totalGifts}</div>
           </div>
         </div>
+      </section>
+
+      {/* show the gift records */}
+      <section className='giftlist'>
+        <div className='container'>
           <div className='giftheading'>
             <div className='gftheader'>
               Gifts Listing

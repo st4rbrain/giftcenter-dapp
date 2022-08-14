@@ -431,7 +431,7 @@
     background: linear-gradient(to bottom right, rgb(255, 192, 110), rgb(199, 43, 43));
     margin: 8% auto;
     border: 3px solid white;
-    border-radius: 10px;
+    border-radius: 5px;
     padding: 15px 30px;
     width: 50%; 
     height: 65%;
@@ -463,7 +463,7 @@
     background: linear-gradient(to bottom right, rgba(255, 0, 0, 0.192), rgba(255, 247, 209, 0.822));
     margin: 10px auto;
     border: 1px solid white;
-    border-radius: 20px;
+    border-radius: 5px;
     padding: 10px 20px;
     width: 600px; 
     height: 320px;

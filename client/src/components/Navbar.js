@@ -5,19 +5,18 @@ function Navbar({greet}) {
         <nav className="navbar">
         <div className="container">
             <div className="logo">GiftCenter</div>
-            <ul className="nav">
-                <li>
-                    <Link to="./">Home</Link>
-                </li>
-                <li>
-                    <Link to="./">About</Link>
-                </li>          
-                <li>
-                    <Link to="/">Blog</Link>
-                </li>
-            </ul>
-            <div>
-              <Link to='/dapp' target="_blank"><button className='appbtn' onClick={greet}>Launch App</button></Link>
+            <div className="links">
+                <ul className="nav">
+                    <li>
+                        <a href="/">Home</a>
+                    </li>
+                    <li>
+                        <a href="#numberdata">About</a>
+                    </li>          
+                </ul>
+                <div>
+                    <Link to='/dapp' target="_blank"><button className='appbtn' onClick={greet}>Launch App</button></Link>
+                </div>
             </div>
         </div>
       </nav>

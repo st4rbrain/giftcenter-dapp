@@ -72,6 +72,8 @@ function Dapp({contracts}) {
   const [comingSoonNetworkNotificationVisible, setComingSoonNetworkNotificationVisible] = useState(false)
 
   const [loading, setLoading] = useState(false);
+  const [withdrawnAmount, setWithdrawnAmount] = useState(0)
+  const [withdrawnToken, setWithdrawnToken] = useState()
   const [receivedAmount, setReceivedAmount] = useState(0);
   const [sentAmount, setSentAmount] = useState(0);
   const [ethToWithdraw, setEthToWithdraw] = useState(0);
@@ -308,6 +310,8 @@ function Dapp({contracts}) {
       
     } else {
       setWithdrawErrorNotificationVisible(true)
+      setWithdrawnToken("GoreliETH")
+      setWithdrawnAmount(ethToWithdraw)
       setTimeout(() => {
         setWithdrawErrorNotificationVisible(false)
       }, 5000);
@@ -327,6 +331,8 @@ function Dapp({contracts}) {
       }
     } else {
       setWithdrawErrorNotificationVisible(true)
+      setWithdrawnToken("mMATIC")
+      setWithdrawnAmount(maticToWithdraw)
       setTimeout(() => {
         setWithdrawErrorNotificationVisible(false)
       }, 5000);
@@ -511,7 +517,7 @@ function Dapp({contracts}) {
                     </div>
                     <div className="details">
                       {
-                        withdrawNotificationVisible ? <WithdrawNotification /> : null
+                        withdrawNotificationVisible ? <WithdrawNotification withdrawAmount={withdrawnAmount} withdrawnToken={withdrawnToken}/> : null
                       }
                       {
                         unsupportedNetworkNotification ? <UnsupportedNetworkNotification /> : null

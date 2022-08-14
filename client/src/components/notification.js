@@ -1,11 +1,11 @@
 import "./notification.css"
 
-export function WithdrawNotification() {
+export function WithdrawNotification({withdrawnAmount, withdrawnToken}) {
     return ( 
         <div className="notification-success">
             <div className="notification-head">
                 <div className="success-notification-logo"></div>
-                <div className="notification-heading">Successfully Withdrawn</div>
+                <div className="notification-heading">{withdrawnAmount} {withdrawnToken} Withdrawn</div>
                 <button className="success-notification-cross" onClick={() => {
                     document.getElementsByClassName('notification-success')[0].style.display = "none";
                   }
