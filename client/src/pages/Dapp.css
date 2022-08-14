@@ -104,7 +104,7 @@ input::selection, textarea::selection{
     text-overflow: ellipsis;
     margin: 0px 10px;
     background: transparent;
-    width: 185px;
+    width: 180px;
     height: 50px;
     font-family: 'Montserrat';
     font-weight: bold;
@@ -117,17 +117,6 @@ input::selection, textarea::selection{
 .connectbtn:hover {
     background-color: rgba(255, 255, 255, 0.247);
     color: rgb(255, 255, 255);
-}
-
-.identicon {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    margin-right: 5px;
-    width: 30px;
-    height: 30px;
-    border: 2px solid white;
-    border-radius: 50%;
 }
 
 .accountdata {
@@ -524,7 +513,6 @@ input::selection, textarea::selection{
       justify-content: center;
       align-items: center;
       cursor: url('./../images/handcursor.svg'), auto;
-      width: 180px;
   }
 
 
