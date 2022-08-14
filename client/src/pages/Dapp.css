@@ -68,10 +68,24 @@ input::selection, textarea::selection{
     background-image: linear-gradient(to bottom , rgb(255, 234, 115), rgb(168, 0, 84));
 }
 
-.dappheader .logo {
+.sitenav {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  .dappcontainer .logo {
+    background-image: url("./../images/GClogo.png");
+    width: 40px;
+    height: 47px;
     padding-left: 20px;
+    margin-right: 20px;
+  }
+  
+  .sitetitle {
     color: white;
-    font-size: 40px;
+    font-size: 35px;
+    padding-top: 10px;
     font-weight: bold;
     font-family: 'Great Vibes';
   }

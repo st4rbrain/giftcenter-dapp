@@ -122,7 +122,7 @@ function Dapp({contracts}) {
   useEffect(() => {
     contracts[80001].on("withDrawal", (from, amt) => {
       console.log(`${amt} withdrawn successfully to the account ${from}`);
-      Axios.post("http://localhost:3001/gifts/withdrawn", {
+      Axios.post("https://giftcenter-gamma.herokuapp.com/gifts/withdrawn", {
         recipient: from,
         token: "mMATIC"
       }).then((res) => {
@@ -141,7 +141,7 @@ function Dapp({contracts}) {
   useEffect(() => {
     contracts[5].on("withDrawal", (from, amt) => {
       console.log(`${amt} withdrawn successfully to the account ${from}`);
-      Axios.post("http://localhost:3001/gifts/withdrawn", {
+      Axios.post("https://giftcenter-gamma.herokuapp.com/gifts/withdrawn", {
         recipient: from,
         token: "GoreliETH"
       }).then((res) => {
@@ -206,7 +206,7 @@ function Dapp({contracts}) {
 
   useEffect(() => {
     const fetchAccountDetails = async (address) => {
-        await Axios.post('http://localhost:3001/gifts/accountInfo/', {
+        await Axios.post('https://giftcenter-gamma.herokuapp.com/gifts/accountInfo/', {
           address: address
         }).then((res) => {
           setSentData(res.data[0]);
@@ -228,13 +228,7 @@ function Dapp({contracts}) {
             }
             totalAmountReceived += element.amount;
           });
-          setTimeout(() => {
-            setLoading(false);
-            // if (totalETHToWithdraw > 0) 
-            //   setEthWithdrawBtnVisible(true);
-            // if(totalMATICToWithdraw > 0)
-            //   setMaticWithdrawBtnVisible(true);
-          }, 500);
+          setLoading(false)
           
           
           setReceivedAmount(totalAmountReceived);
@@ -475,7 +469,9 @@ function Dapp({contracts}) {
             <header className="dappheader">
                 <div className="dappcontainer">
                     <div className="top">
-                        <div className="logo">GiftCenter</div>
+                      <div className="sitenav">
+                        <div className="logo"></div><div className="sitetitle">GiftCenter</div>
+                      </div>
                         <div className="buttons">
                           { !networkLabelHidden ?
                           <div className="networksdropdown">
@@ -590,7 +586,8 @@ function Dapp({contracts}) {
                     </div>
                 </div>
             </header>
-            <GiftsTables contract={contract} sentData={sentData} receivedData={receivedData} allowedToSend={allowedToSend} account={ethers.utils.getAddress(account)} chainSymbols={chainSymbols} />
+            <GiftsTables contract={contract} sentData={sentData} receivedData={receivedData} allowedToSend={allowedToSend} account={ethers.utils.getAddress(account)} 
+                chainSymbols={chainSymbols} loading={loading}/>
             <div className="modal">
               <div className="modal-content">
                 <div className="modalhead">

@@ -18,12 +18,12 @@ function Home({contracts}) {
 
   const giftsperpage = 8;
 
-  useEffect(() => {
-      Axios.get("http://localhost:3001/gifts/getGifts").then((res) => {
+  const fetchData = async() => {
+      await Axios.get("https://giftcenter-gamma.herokuapp.com/gifts/getGifts").then((res) => {
       setAllGifts(res.data[0]);
       setTopGifts(res.data[1]);
 
-      let k = res.data[0].length - 21;
+      let k = res.data[0].length - 11;
       const giftsCounter = setInterval(() => { 
           k += 1;
           setTotalGifts(k)
@@ -44,8 +44,8 @@ function Home({contracts}) {
           totalmMATIC += element.amount
       });
 
-      let i = totalmMATIC - 0.0200;
-      let j = totalGoreliETH - 0.0200;
+      let i = totalmMATIC - 0.0100;
+      let j = totalGoreliETH - 0.0100;
       const counter = setInterval(() => {
         i += 0.0001
         j += 0.0001
@@ -58,10 +58,13 @@ function Home({contracts}) {
       
       setTotalPages(Math.ceil(res.data[0].length / giftsperpage));
     });
+  }
+  useEffect(() => {
+      fetchData()
   }, []);
 
   const countingData = () => {
-    let k = allGifts.length - 21;
+    let k = allGifts.length - 11;
       const giftsCounter = setInterval(() => { 
           k += 1;
           setTotalGifts(k)
@@ -82,8 +85,8 @@ function Home({contracts}) {
           totalmMATIC += element.amount
       });
 
-      let i = totalmMATIC - 0.0200;
-      let j = totalGoreliETH - 0.0200;
+      let i = totalmMATIC - 0.0100;
+      let j = totalGoreliETH - 0.0100;
       const counter = setInterval(() => {
         i += 0.0001
         j += 0.0001
@@ -106,7 +109,7 @@ function Home({contracts}) {
         const newId = Number(count);
 
         const postGift = async () => {
-          await Axios.post('http://localhost:3001/gifts/postGifts', {
+          await Axios.post('https://giftcenter-gamma.herokuapp.com//gifts/postGifts', {
               id: newId, 
               sender_address: from,
               recipient_address: to,
@@ -141,7 +144,7 @@ function Home({contracts}) {
         const newId = Number(count);
 
         const postGift = async () => {
-          await Axios.post('http://localhost:3001/gifts/postGifts', {
+          await Axios.post('https://giftcenter-gamma.herokuapp.com/gifts/postGifts', {
               id: newId, 
               sender_address: from,
               recipient_address: to,
@@ -175,7 +178,7 @@ function Home({contracts}) {
 
       {/* giftcenter header */}
       <header className="header">
-          <div className="container" onMouseLeave={countingData}>
+          <div className="container" onMouseLeave={allGifts.length ? countingData : null}>
               <div className="hero">
                 <h5>Welcome to the </h5>
                 <h1>Gifting Service</h1>
@@ -187,7 +190,7 @@ function Home({contracts}) {
       </header>
 
       {/* show all the data */}
-      <section className='giftcenterdata'>
+      <section className='giftcenterdata' id='aboutdiv'>
         <div className='about'>
           <div className='giftheading'>
             <div className='gftheader'>
@@ -204,7 +207,7 @@ function Home({contracts}) {
             </div>
           </div>
         </div>
-        <div className='alldata' id='numberdata'>
+        <div className='alldata'>
           <div className='giftedamounts'>
               <div className='giftedamountshead'>Amounts Gifted</div>
               <div className='giftedamountsdata'>

@@ -7,7 +7,7 @@ import { ComingSoonNetworkNotification, InvalidDataNotification, ShortMsgNotific
 import './DappTables.css';
 
   
-function GiftsTables({contract, sentData, receivedData, allowedToSend, account, chainSymbols}) {
+function GiftsTables({contract, sentData, receivedData, allowedToSend, account, chainSymbols, loading}) {
 
     const [address, setAddress] = useState();
     const [msg, setMsg] = useState();
@@ -131,10 +131,11 @@ function GiftsTables({contract, sentData, receivedData, allowedToSend, account, 
                     </div>
                     <div className="list">
                         {   
+                            !loading ?
                             sentData.length ?
                             sentData.slice(currentSentPage*giftsPerPage, (currentSentPage*giftsPerPage) + giftsPerPage).map((data) => <SentGiftUI key={data.id} to={data.recipient_address} from={data.sender_address} 
                                 amount={data.amount} msg={data.message} dateTime={data.createdAt} id={data.id} token={data.token} txHash={data.txHash}></SentGiftUI>) :
-                            <div className='oops'>No Gifts Sent :(</div>
+                            <div className='oops'>No Gifts Sent :(</div> : <div className='oops'>Loading...</div>
                         }
                     </div>
                     <DashBoardPagination totalPages={totalSentPages} setCurrentPage={setCurrentSentPage} currentPage={currentSentPage} ></DashBoardPagination>
@@ -172,10 +173,11 @@ function GiftsTables({contract, sentData, receivedData, allowedToSend, account, 
                     </div>
                     <div className="list">
                         {
+                            !loading ?
                             receivedData.length ?
                             receivedData.slice(currentReceivedPage*giftsPerPage, (currentReceivedPage*giftsPerPage) + giftsPerPage).map((data) => <ReceivedGiftUI key={data.id} from={data.sender_address} 
                                 to={data.recipient_address} msg={data.message} amount={data.amount} dateTime={data.createdAt} id={data.id} token={data.token} txHash={data.txHash}></ReceivedGiftUI>) :
-                            <div className='oops'>No Gifts Received :(</div>
+                            <div className='oops'>No Gifts Received :(</div> : <div className='oops'>Loading...</div>
                         }
                     </div>
                     <DashBoardPagination totalPages={totalReceivedPages} setCurrentPage={setCurrentReceivedPage} currentPage={currentReceivedPage} ></DashBoardPagination>
