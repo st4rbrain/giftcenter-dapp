@@ -8,6 +8,7 @@ function SentGiftUI({to, from, amount, msg, dateTime, id, token, txHash}) {
     const setId = id+token
 
     const etherscanLink = "https://goerli.etherscan.io/tx/" + txHash
+    const polygonscanLink = "https://mumbai.polygonscan.com/tx/" + txHash
 
     const showGiftDetails = () => {
         document.getElementById(setId).style.display = "block";
@@ -65,7 +66,7 @@ function SentGiftUI({to, from, amount, msg, dateTime, id, token, txHash}) {
                         </div>
                         <div className="detailline">
                             <div className="detaillabel">TxHash:</div>
-                            <div className="detailvalue"><a rel="noreferrer" href={etherscanLink} target="_blank" >{etherscanLink}</a></div>
+                            <div className="detailvalue"><a rel="noreferrer" href={token === "mMATIC" ? polygonscanLink : etherscanLink} target="_blank" >{token === "mMATIC" ? polygonscanLink : etherscanLink}</a></div>
                         </div>
                     </div>
                 </div>

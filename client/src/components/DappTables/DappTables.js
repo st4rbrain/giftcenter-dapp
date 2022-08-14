@@ -205,7 +205,7 @@ function DashBoardPagination({totalPages, setCurrentPage, currentPage}) {
                 console.log("current page is:", currentPage);
                 setCurrentPage(currentPage -1);
                 setActive(currentPage);
-                if (currentNumsSet[0] !== 1)
+                if (currentPage+1 === currentNumsSet[0])
                   setCurrentNumsSet(Array(3).fill().map((_, idx) => (currentNumsSet[0] - 1) + idx))
               }   
             }}><i className='fa fa-angle-left'></i></button>
@@ -213,13 +213,12 @@ function DashBoardPagination({totalPages, setCurrentPage, currentPage}) {
             {/* numbers */}
             <div className='dappnums'>
               {
-                currentNumsSet.length >= 3 ?
                 currentNumsSet[0] > 1 ? 
                 <div className='dappdotsleft'>
                   <div className='dappdot'>.</div>
                   <div className='dappdot'>.</div>
                   <div className='dappdot'>.</div>
-                </div> : null : null
+                </div> : null
               }
               {
   
@@ -231,7 +230,7 @@ function DashBoardPagination({totalPages, setCurrentPage, currentPage}) {
                 }}>{pageNum}</button>)
               }
               {
-                currentNumsSet.length >= 3 ?
+                totalPages > 3 ?
                 currentNumsSet[2] < totalPages ? 
                 <div className='dappdots'>
                   <div className='dappdot'>.</div>
@@ -248,7 +247,7 @@ function DashBoardPagination({totalPages, setCurrentPage, currentPage}) {
                 setCurrentPage(currentPage+1);
                 setActive(currentPage+2);
                 console.log('current page is:', currentPage+2)
-                if (currentPage+2 >= 4)
+                if (currentPage+1 === currentNumsSet[2])
                   setCurrentNumsSet(Array(3).fill().map((_, idx) => currentNumsSet[1] + idx))
   
               }

@@ -259,20 +259,19 @@ function RecentGiftsPagination({totalPages, setCurrentPage, currentPage}) {
           <button className='pagelabel' onClick={() => {
             if (currentPage > 0) {
               setCurrentPage(currentPage -1);
-              setActive(currentPage);
-              if (currentNumsSet[0] !== 1)
+              setActive(currentPage);  //mapped to pagenum that is 1 unit ahead
+              if (currentPage+1 === currentNumsSet[0])
                 setCurrentNumsSet(Array(5).fill().map((_, idx) => (currentNumsSet[0] - 1) + idx))
             }   
           }}><i className='fa fa-angle-left'></i>Prev</button>
           <div className='nums'>
             {
-              currentNumsSet.length >= 5 ?
               currentNumsSet[0] > 1 ? 
               <div className='dotsleft'>
                 <div className='dot'>.</div>
                 <div className='dot'>.</div>
                 <div className='dot'>.</div>
-              </div> : null : null
+              </div> : null
             }
             {
 
@@ -284,7 +283,7 @@ function RecentGiftsPagination({totalPages, setCurrentPage, currentPage}) {
               }}>{pageNum}</button>)
             }
             {
-              currentNumsSet.length >=5 ?
+              totalPages > 5 ?
               currentNumsSet[4] < totalPages ? 
               <div className='dots'>
                 <div className='dot'>.</div>
@@ -298,7 +297,7 @@ function RecentGiftsPagination({totalPages, setCurrentPage, currentPage}) {
             if (currentPage+1 < totalPages) {
               setCurrentPage(currentPage+1);
               setActive(currentPage+2);
-              if (currentPage+2 >= 6)
+              if (currentPage+1 === currentNumsSet[4])
                 setCurrentNumsSet(Array(5).fill().map((_, idx) => currentNumsSet[1] + idx))
 
             }
