@@ -1,9 +1,9 @@
 {
   "_format": "hh-sol-cache-2",
   "files": {
-    "D:\\Projects\\Web3\\GiftCenter\\app\\contracts\\GiftCenter.sol": {
-      "lastModificationDate": 1659273412040,
-      "contentHash": "bbc94152809a8bfbf427c48cb03bdf67",
+    "D:\\Projects\\Web3\\GiftCenter\\app\\client\\contracts\\GiftCenter.sol": {
+      "lastModificationDate": 1660211185760,
+      "contentHash": "e572246e4e2cf35549097279b9e4b110",
       "sourceName": "contracts/GiftCenter.sol",
       "solcConfig": {
         "version": "0.8.9",
