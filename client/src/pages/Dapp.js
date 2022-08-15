@@ -381,6 +381,11 @@ function Dapp({contracts}) {
     return amt.toFixed(4);
   }
 
+  const formatAddress = (address) => {
+      const checksumAddress = ethers.utils.getAddress(address)
+      return checksumAddress
+  }
+
   const isSupportedChain = () => {
     if(window.ethereum) {
       for (const key in chainSymbols) 
@@ -508,7 +513,7 @@ function Dapp({contracts}) {
                             isSupportedChain() ?
                             <div className="accountdata">{accountBalance} {chainSymbols[window.ethereum.networkVersion]}</div> : null : null
                           }
-                          <div><button className="connectbtn" onClick={connect}>{walletConnected ? <div className="address">{ethers.utils.getAddress(account).substring(0, 6)}<div className="addressdots">...</div>{ethers.utils.getAddress(account).substring(account.length -4, account.length)}</div> : {account} }</button></div>
+                          <div><button className="connectbtn" onClick={connect}>{walletConnected ? <div className="address">{formatAddress(account).substring(0, 6)}<div className="addressdots">...</div>{formatAddress(account).substring(account.length -4, account.length)}</div> : null }</button></div>
                         </div>
                     </div>
                     <div className="details">
@@ -612,7 +617,9 @@ function Dapp({contracts}) {
         <header className="dappheader">
             <div className="dappcontainer">
                 <div className="top">
-                    <div className="logo">GiftCenter</div>
+                    <div className="sitenav">
+                      <div className="logo"></div><div className="sitetitle">GiftCenter</div>
+                    </div>
                     <div className="buttons">
                       <div><button className="connectbtn" onClick={connect}>{account}</button></div>
                       {walletConnected? 

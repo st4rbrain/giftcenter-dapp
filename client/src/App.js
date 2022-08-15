@@ -18,7 +18,7 @@ const contractAddresses = {
 }
 
 const rpcURLs = {
-  80001: process.env.POLYGON_MUMBAI_NODE_API,
+  80001: process.env.REACT_APP_POLYGON_MUMBAI_NODE_API,
   5: process.env.REACT_APP_GORELI_TESTNET_NODE_API,
   137: process.env.REACT_APP_POLYGON_NODE_API,
   1: process.env.REACT_APP_ETHEREUM_NODE_API

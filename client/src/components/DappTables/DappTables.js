@@ -134,7 +134,7 @@ function GiftsTables({contract, sentData, receivedData, allowedToSend, account, 
                             !loading ?
                             sentData.length ?
                             sentData.slice(currentSentPage*giftsPerPage, (currentSentPage*giftsPerPage) + giftsPerPage).map((data) => <SentGiftUI key={data.id} to={data.recipient_address} from={data.sender_address} 
-                                amount={data.amount} msg={data.message} dateTime={data.createdAt} id={data.id} token={data.token} txHash={data.txHash}></SentGiftUI>) :
+                                amount={data.amount.toFixed(4)} msg={data.message} dateTime={data.createdAt} id={data.id} token={data.token} txHash={data.txHash}></SentGiftUI>) :
                             <div className='oops'>No Gifts Sent :(</div> : <div className='oops'>Loading...</div>
                         }
                     </div>
@@ -176,7 +176,7 @@ function GiftsTables({contract, sentData, receivedData, allowedToSend, account, 
                             !loading ?
                             receivedData.length ?
                             receivedData.slice(currentReceivedPage*giftsPerPage, (currentReceivedPage*giftsPerPage) + giftsPerPage).map((data) => <ReceivedGiftUI key={data.id} from={data.sender_address} 
-                                to={data.recipient_address} msg={data.message} amount={data.amount} dateTime={data.createdAt} id={data.id} token={data.token} txHash={data.txHash}></ReceivedGiftUI>) :
+                                to={data.recipient_address} msg={data.message} amount={data.amount.toFixed(4)} dateTime={data.createdAt} id={data.id} token={data.token} txHash={data.txHash}></ReceivedGiftUI>) :
                             <div className='oops'>No Gifts Received :(</div> : <div className='oops'>Loading...</div>
                         }
                     </div>
