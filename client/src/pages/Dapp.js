@@ -206,7 +206,7 @@ function Dapp({contracts}) {
 
   useEffect(() => {
     const fetchAccountDetails = async (address) => {
-        await Axios.post(process.env.REAACT_APP_ACCOUNT_INFO_API, {
+        await Axios.post(process.env.REACT_APP_ACCOUNT_INFO_API, {
           address: address
         }).then((res) => {
           setSentData(res.data[0]);
