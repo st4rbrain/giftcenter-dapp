@@ -13,15 +13,15 @@ const GiftCenterABI = [
 
 
 const contractAddresses = {
-  80001: "0x44B78BdEE21810B87d78178Ba4DE299526e24127",
+  80001: process.env.REACT_APP_POLYGON_MUMBAI_CONTRACT_ADDRESS,
   5: "0xA83DC56a158C36C22c3A457EDe8396A289Cfca0c",
 }
 
 const rpcURLs = {
-  80001: "https://polygon-mumbai.g.alchemy.com/v2/M2y-N2dpx1yQ1CHnLmfxlL5ThnajzQco",
-  5: "https://eth-goerli.g.alchemy.com/v2/wd2mv8Mb-R-zkfs5wLLG3og1RUHTaSTC",
-  137: "https://polygon-mainnet.g.alchemy.com/v2/S9MJYwIo4fqMvKl-9bgBAGIKpMWRKGwo",
-  1: "https://eth-mainnet.g.alchemy.com/v2/U7DDkqUi09q7epTmJ4cz93KtkMfZO2mg"
+  80001: process.env.POLYGON_MUMBAI_NODE_API,
+  5: process.env.REACT_APP_GORELI_TESTNET_NODE_API,
+  137: process.env.REACT_APP_POLYGON_NODE_API,
+  1: process.env.REACT_APP_ETHEREUM_NODE_API
 }
 
 const contracts = {

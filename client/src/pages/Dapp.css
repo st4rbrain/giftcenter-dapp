@@ -257,7 +257,7 @@ input::selection, textarea::selection{
 
 .alertlogo {
     cursor: url('./../images/handcursor.svg'), auto;
-    background-image: url('./../images/alertlogo.svg');
+    background-image: url('./../images/alertlogo.png');
     background-repeat: no-repeat;
     background-position: center;
     width: 30px;

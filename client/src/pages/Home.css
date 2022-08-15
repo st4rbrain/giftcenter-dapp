@@ -30,7 +30,7 @@ ul {
 }
 
 .navbar .logo {
-  background-image: url("./images/GClogo.png");
+  background-image: url("./../images/GClogo.png");
   width: 41px;
   height: 48px;
   padding-left: 20px;
@@ -46,8 +46,8 @@ ul {
 }
 
 .navbar .appbtn {
-  cursor: url('./images/handcursor.svg'), auto;
-  margin-right: 60px;
+  cursor: url('./../images/handcursor.svg'), auto;
+  margin-right: 20px;
   background-image: linear-gradient(to bottom, rgb(255, 176, 216), rgb(233, 1, 163), rgb(255, 175, 215));
   font-family: 'Montserrat';
   width: 120px;
@@ -92,7 +92,7 @@ ul {
   display: flex;
   justify-content: center;
   align-items: center;
-  padding: 0px 40px;
+  padding: 0px 20px;
   width: 140px;
   height: 30px;
 }
@@ -146,7 +146,7 @@ h5 {
   position: relative;
   margin-left: 10px;
   margin-top: 30px;
-  background-image: url('./images/headbg.png');
+  background-image: url('./../images/headbg.png');
   min-width: 700px;
   min-height: 480px;
   animation: headerimg;
@@ -327,7 +327,7 @@ h5 {
 
 .topgifts {
   display: flex;
-  background-image: url('./images/topgifts.png');
+  background-image: url('./../images/topgifts.png');
   margin: 10px 0px;
   flex-direction: column;
   padding: 20px 20px;
@@ -343,7 +343,7 @@ h5 {
 .dailygifts {
   display: flex;
   /* background: linear-gradient(to bottom, rgb(170, 96, 255), rgb(252, 252, 252), rgb(109, 238, 255)); */
-  background-image: url('./images/dailygifts.png');
+  background-image: url('./../images/dailygifts.png');
   margin: 10px 0px;
   flex-direction: column;
   justify-content: space-between;
@@ -409,7 +409,7 @@ i {
 }
 
 .pagination .pagelabel {
-  cursor: url('./images/handcursor.svg'), auto;
+  cursor: url('./../images/handcursor.svg'), auto;
   border: 2px solid white;
   color: white;
   background-image: linear-gradient(to bottom, rgba(0, 174, 255, 0.781), rgba(0, 217, 255, 0.76));
@@ -432,7 +432,7 @@ i {
 }
 
 .pagenum {
-  cursor: url('./images/handcursor.svg'), auto;
+  cursor: url('./../images/handcursor.svg'), auto;
   background-image: linear-gradient(to bottom, rgba(255, 85, 255, 0.438), rgba(255, 123, 233, 0.808));
   text-align: center;
   border: 2px solid white;
@@ -449,7 +449,7 @@ i {
 }
 
 .active {
-  cursor: url('./images/handcursor.svg'), auto;
+  cursor: url('./../images/handcursor.svg'), auto;
   background-image: linear-gradient(to bottom, rgba(123, 255, 163, 0.808), rgba(0, 190, 117, 0.781));
   text-align: center;
   border: 2px solid white;

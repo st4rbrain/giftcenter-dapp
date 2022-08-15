@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import TopGift from '../components/TopGifts/TopGift';
 import RecentGift from './../components/RecentGifts/RecentGift';
 import Navbar from '../components/Navbar';
-import './../Home.css';
+import './Home.css';
 import Axios from 'axios';
 import { ethers } from 'ethers';
 
@@ -19,7 +19,7 @@ function Home({contracts}) {
   const giftsperpage = 8;
 
   const fetchData = async() => {
-      await Axios.get("https://giftcenter-gamma.herokuapp.com/gifts/getGifts").then((res) => {
+      await Axios.get(process.env.REACT_APP_GET_GIFTS_API).then((res) => {
       setAllGifts(res.data[0]);
       setTopGifts(res.data[1]);
 
@@ -109,7 +109,7 @@ function Home({contracts}) {
         const newId = Number(count);
 
         const postGift = async () => {
-          await Axios.post('https://giftcenter-gamma.herokuapp.com//gifts/postGifts', {
+          await Axios.post(process.env.REACT_APP_POST_GIFT_API, {
               id: newId, 
               sender_address: from,
               recipient_address: to,
@@ -144,7 +144,7 @@ function Home({contracts}) {
         const newId = Number(count);
 
         const postGift = async () => {
-          await Axios.post('https://giftcenter-gamma.herokuapp.com/gifts/postGifts', {
+          await Axios.post(process.env.REACT_APP_POST_GIFT_API, {
               id: newId, 
               sender_address: from,
               recipient_address: to,

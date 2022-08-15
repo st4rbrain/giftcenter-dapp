@@ -8,9 +8,9 @@ import Axios from "axios";
 import moment from 'moment';
 
 const contractAddresses = {
-  80001: "0x44B78BdEE21810B87d78178Ba4DE299526e24127",
+  80001: process.env.REACT_APP_POLYGON_MUMBAI_CONTRACT_ADDRESS,
   5: "0xA83DC56a158C36C22c3A457EDe8396A289Cfca0c",
-  137: "0x44B78BdEE21810B87d78178Ba4DE299526e24127",
+  137: process.env.REACT_APP_POLYGON_MUMBAI_CONTRACT_ADDRESS,
   1: "0xA83DC56a158C36C22c3A457EDe8396A289Cfca0c"
 }
 
@@ -122,7 +122,7 @@ function Dapp({contracts}) {
   useEffect(() => {
     contracts[80001].on("withDrawal", (from, amt) => {
       console.log(`${amt} withdrawn successfully to the account ${from}`);
-      Axios.post("https://giftcenter-gamma.herokuapp.com/gifts/withdrawn", {
+      Axios.post(process.env.REACT_APP_WITHDRAW_API , {
         recipient: from,
         token: "mMATIC"
       }).then((res) => {
@@ -141,7 +141,7 @@ function Dapp({contracts}) {
   useEffect(() => {
     contracts[5].on("withDrawal", (from, amt) => {
       console.log(`${amt} withdrawn successfully to the account ${from}`);
-      Axios.post("https://giftcenter-gamma.herokuapp.com/gifts/withdrawn", {
+      Axios.post(process.env.REACT_APP_WITHDRAW_API , {
         recipient: from,
         token: "GoreliETH"
       }).then((res) => {
@@ -206,7 +206,7 @@ function Dapp({contracts}) {
 
   useEffect(() => {
     const fetchAccountDetails = async (address) => {
-        await Axios.post('https://giftcenter-gamma.herokuapp.com/gifts/accountInfo/', {
+        await Axios.post(process.env.REAACT_APP_ACCOUNT_INFO_API, {
           address: address
         }).then((res) => {
           setSentData(res.data[0]);
