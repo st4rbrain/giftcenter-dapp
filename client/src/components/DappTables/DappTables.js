@@ -7,7 +7,7 @@ import { ComingSoonNetworkNotification, InvalidDataNotification, ShortMsgNotific
 import './DappTables.css';
 
   
-function GiftsTables({contract, sentData, receivedData, allowedToSend, account, chainSymbols, loading}) {
+function GiftsTables({contract, sentData, receivedData, allowedToSend, chainSymbols, loading}) {
 
     const [address, setAddress] = useState();
     const [msg, setMsg] = useState();
@@ -50,6 +50,10 @@ function GiftsTables({contract, sentData, receivedData, allowedToSend, account, 
                   }
                   else {
                       if(address && msg && amount) {
+                        const accounts = await window.ethereum.request({
+                            method: "eth_requestAccounts",
+                          });
+                          const account = accounts[0]
                         if(address !== account) {
                             if(msg && msg.length >= 10) {
                                 try{

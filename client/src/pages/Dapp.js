@@ -287,20 +287,19 @@ function Dapp({contracts}) {
 
   useEffect(() => {
     const getBalance = async () => {
-      if(account !== "Connect Wallet") {
-        const accBalanace = parseFloat(ethers.utils.formatEther((await provider.getBalance(account))._hex)).toFixed(4);
-        setAccountBalance(accBalanace);
-      }
+      const accounts = await window.ethereum.request({
+        method: "eth_requestAccounts",
+      });
+      const address = accounts[0]
+      const accBalanace = parseFloat(ethers.utils.formatEther((await provider.getBalance(address))._hex)).toFixed(4);
+      setAccountBalance(accBalanace);
     }
     try {
       getBalance()
     } catch(e){
-      if(e.code === -32603) 
-        console.log("Metamsk error while fetching balance refresh the page")
+        alert("Metamsk error while fetching balance refresh the page")
     }
-    
-    
-  }, [account])
+  }, [receivedData])
   
   // check if chain has been changed
   useEffect(() => {
@@ -684,7 +683,7 @@ function Dapp({contracts}) {
                     </div>
                 </div>
             </header>
-            <GiftsTables contract={contract} sentData={sentData} receivedData={receivedData} allowedToSend={allowedToSend} account={ethers.utils.getAddress(account)} 
+            <GiftsTables contract={contract} sentData={sentData} receivedData={receivedData} allowedToSend={allowedToSend}
                 chainSymbols={chainSymbols} loading={loading}/>
             <div className="modal">
               <div className="modal-content">
