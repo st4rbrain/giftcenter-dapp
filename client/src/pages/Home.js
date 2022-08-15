@@ -23,14 +23,14 @@ function Home({contracts}) {
       setAllGifts(res.data[0]);
       setTopGifts(res.data[1]);
 
-      let k = res.data[0].length - 11;
-      const giftsCounter = setInterval(() => { 
-          k += 1;
-          setTotalGifts(k)
-          if (k === res.data[0].length) {
-            clearInterval(giftsCounter)
-          }
-      }, 100);
+      // let k = res.data[0].length - 11;
+      // const giftsCounter = setInterval(() => { 
+      //     k += 1;
+      //     setTotalGifts(k)
+      //     if (k === res.data[0].length) {
+      //       clearInterval(giftsCounter)
+      //     }
+      // }, 100);
 
       setTotalGifts(res.data[0].length);
 
@@ -44,17 +44,17 @@ function Home({contracts}) {
           totalmMATIC += element.amount
       });
 
-      let i = totalmMATIC - 0.0100;
-      let j = totalGoreliETH - 0.0100;
-      const counter = setInterval(() => {
-        i += 0.0001
-        j += 0.0001
-        setGiftedmMATIC(i.toFixed(4))
-        setGiftedGoreliETH(j.toFixed(4))
-        if (i.toFixed(4) === totalmMATIC.toFixed(4)) {
-          clearInterval(counter)
-        }
-      }, 10);
+      // let i = totalmMATIC - 0.0100;
+      // let j = totalGoreliETH - 0.0100;
+      // const counter = setInterval(() => {
+      //   i += 0.0001
+      //   j += 0.0001
+        setGiftedmMATIC(totalmMATIC.toFixed(4))
+        setGiftedGoreliETH(totalGoreliETH.toFixed(4))
+      //   if (i.toFixed(4) === totalmMATIC.toFixed(4)) {
+      //     clearInterval(counter)
+      //   }
+      // }, 10);
       
       setTotalPages(Math.ceil(res.data[0].length / giftsperpage));
     });
@@ -176,57 +176,59 @@ function Home({contracts}) {
       {/* show navbar */}
       <Navbar greet={getWelcomed} />
 
-      {/* giftcenter header */}
-      <header className="header">
-          <div className="container" onMouseLeave={allGifts.length ? countingData : null}>
-              <div className="hero">
-                <h5>Welcome to the </h5>
-                <h1>Gifting Service</h1>
-                <h5>built on top of the Blockchain</h5>
-              </div>
-              <div className='headimg'>
-              </div>
-          </div>
-      </header>
+      <div className='uptogiftlist'>
+        {/* giftcenter header */}
+        <header className="header">
+            <div className="container" onMouseLeave={allGifts.length ? countingData : null}>
+                <div className="hero">
+                  <h5>Welcome to the </h5>
+                  <h1>Gifting Service</h1>
+                  <h5>built on top of the Blockchain</h5>
+                </div>
+                <div className='headimg'>
+                </div>
+            </div>
+        </header>
 
-      {/* show all the data */}
-      <section className='giftcenterdata' id='aboutdiv'>
-        <div className='about'>
-          <div className='giftheading'>
-            <div className='gftheader'>
-              About
-            </div>
-            <div className='gftdesc'>
-              This is a gifting service that is built on the Blockchain.<br></br>
-              It can also be used as a <i>stylish</i> Crypto Transfer service.<br></br><br></br>
-              Currently it supports the transfer on native tokens on the<br></br> <b>Ethereum</b> and 
-              <b> Polygon</b> testnets.<br></br><br></br>
-              You can transfer <b>GoreliETH</b> and <b>mMATIC</b> tokens right now.<br></br>
-              Support for the transfer of Mainnet native tokens<br></br> <b>ETH</b> and <b>MATIC</b> is coming soon.
-              
-            </div>
-          </div>
-        </div>
-        <div className='alldata'>
-          <div className='giftedamounts'>
-              <div className='giftedamountshead'>Amounts Gifted</div>
-              <div className='giftedamountsdata'>
-                <div className='giftedamountdataline'>
-                  <div className='homedatalabel'>GoreliETH</div>
-                  <div className='homedatavalue'>{giftedGoreliETH}</div>
-                </div>
-                <div className='giftedamountdataline'>
-                  <div className='homedatalabel'>mMATIC</div>
-                  <div className='homedatavalue'>{giftedmMATIC}</div>
-                </div>
+        {/* show all the data */}
+        <section className='giftcenterdata' id='aboutdiv'>
+          <div className='about'>
+            <div className='giftheading'>
+              <div className='gftheader'>
+                About
               </div>
+              <div className='gftdesc'>
+                This is a gifting service that is built on the Blockchain.<br></br>
+                It can also be used as a <i>stylish</i> Crypto Transfer service.<br></br><br></br>
+                Currently it supports the transfer on native tokens on the<br></br> <b>Ethereum</b> and 
+                <b> Polygon</b> testnets.<br></br><br></br>
+                You can transfer <b>GoreliETH</b> and <b>mMATIC</b> tokens right now.<br></br>
+                Support for the transfer of Mainnet native tokens<br></br> <b>ETH</b> and <b>MATIC</b> is coming soon.
+                
+              </div>
+            </div>
           </div>
-          <div className='totalgifts'>
-              <div className='totalgiftshead'>Total Gifts</div>
-              <div className='totalgiftsdata'>{totalGifts}</div>
+          <div className='alldata'>
+            <div className='giftedamounts'>
+                <div className='giftedamountshead'>Amounts Gifted</div>
+                <div className='giftedamountsdata'>
+                  <div className='giftedamountdataline'>
+                    <div className='homedatalabel'>GoreliETH</div>
+                    <div className='homedatavalue'>{giftedGoreliETH}</div>
+                  </div>
+                  <div className='giftedamountdataline'>
+                    <div className='homedatalabel'>mMATIC</div>
+                    <div className='homedatavalue'>{giftedmMATIC}</div>
+                  </div>
+                </div>
+            </div>
+            <div className='totalgifts'>
+                <div className='totalgiftshead'>Total Gifts</div>
+                <div className='totalgiftsdata'>{totalGifts}</div>
+            </div>
           </div>
-        </div>
-      </section>
+        </section>
+      </div>
 
       {/* show the gift records */}
       <section className='giftlist'>

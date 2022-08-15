@@ -1,5 +1,5 @@
 .topgift {
-    position: relative;
+    /* position: relative; */
     top: 0px;
     border-radius: 5px;
     display: flex;
@@ -10,29 +10,26 @@
     padding: 0px 20px;
     padding-top: 30px;
     padding-bottom: 2px;
-    cursor: url('./../../images/handcursor.svg'), auto;
-    transition: top 0.25s ease-out;
+    /* cursor: url('./../../images/handcursor.svg'), auto; */
+    /* transition: top 0.25s ease-out; */
   }
 
   .topgiftline {
-    cursor: url('./../../images/handcursor.svg'), auto;
+    /* cursor: url('./../../images/handcursor.svg'), auto; */
     display: flex;
     align-items: center;
     margin-bottom: 8px;
   }
   
-  .topgift:hover {
-    top: -10px;
-  }
 
   .topgiftlabel {
-    cursor: url('./../../images/handcursor.svg'), auto;
+    /* cursor: url('./../../images/handcursor.svg'), auto; */
     font-size: 25px;
     min-width: 78px;
   }
 
   .topgiftdata {
-    cursor: url('./../../images/handcursor.svg'), auto;
+    /* cursor: url('./../../images/handcursor.svg'), auto; */
     word-wrap: break-word;
     font-style: italic;
     font-family: 'Montserrat';
@@ -41,7 +38,7 @@
   }
 
   .topgiftamount {
-    cursor: url('./../../images/handcursor.svg'), auto;
+    /* cursor: url('./../../images/handcursor.svg'), auto; */
     word-wrap: break-word;
     font-style: italic;
     font-weight: bold;
@@ -52,18 +49,18 @@
 
   .token {
     padding-left: 10px;
-    cursor: url('./../../images/handcursor.svg'), auto;
+    /* cursor: url('./../../images/handcursor.svg'), auto; */
   }
 
   .topgiftdate {
-    cursor: url('./../../images/handcursor.svg'), auto;
+    /* cursor: url('./../../images/handcursor.svg'), auto; */
     display: flex;
     justify-content: center;
     align-items: center;
   }
 
   .tgdatelabel {
-    cursor: url('./../../images/handcursor.svg'), auto;
+    /* cursor: url('./../../images/handcursor.svg'), auto; */
     margin-left: 160px;
     font-size: 14px;
     color: rgb(235, 235, 235);

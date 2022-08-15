@@ -1,5 +1,5 @@
 .recentgift {
-    position: relative;
+    /* position: relative; */
     top: 0px;
     border-radius: 5px;
     display: flex;
@@ -11,29 +11,26 @@
     padding-left: 18px;
     padding-top: 20px;
     padding-bottom: 10px;
-    cursor: url('./../../images/handcursor.svg'), auto;
-    transition: top 0.25s ease-out;
+    /* cursor: url('./../../images/handcursor.svg'), auto; */
+    /* transition: top 500ms ease-out; */
 }
 
 .recentgiftline {
-    cursor: url('./../../images/handcursor.svg'), auto;
+    /* cursor: url('./../../images/handcursor.svg'), auto; */
     display: flex;
     align-items: center;
 }
 
-.recentgift:hover {
-    top: -10px;
-}
 
 .recentgiftlabel {
-    cursor: url('./../../images/handcursor.svg'), auto;
+    /* cursor: url('./../../images/handcursor.svg'), auto; */
     font-size: 18px;
     min-width: 60px;
 }  
 
 
 .recentgiftdate {
-    cursor: url('./../../images/handcursor.svg'), auto;
+    /* cursor: url('./../../images/handcursor.svg'), auto; */
     display: flex;
     justify-content: center;
     align-items: center;
@@ -41,7 +38,7 @@
   }
 
   .rgdatelabel {
-    cursor: url('./../../images/handcursor.svg'), auto;
+    /* cursor: url('./../../images/handcursor.svg'), auto; */
     margin-left: 100px;
     padding-bottom: 2px;
     font-size: 11px;
@@ -49,7 +46,7 @@
 
 
 .recentgiftdata {
-    cursor: url('./../../images/handcursor.svg'), auto;
+    /* cursor: url('./../../images/handcursor.svg'), auto; */
     word-wrap: break-word;
     font-style: italic;
     font-family: 'Montserrat';
@@ -58,7 +55,7 @@
 }
 
 .recentgiftamount {
-    cursor: url('./../../images/handcursor.svg'), auto;
+    /* cursor: url('./../../images/handcursor.svg'), auto; */
     word-wrap: break-word;
     font-style: italic;
     font-weight: bold;
@@ -69,7 +66,7 @@
 
   .recentgifttoken {
     padding-left: 5px;
-    cursor: url('./../../images/handcursor.svg'), auto;
+    /* cursor: url('./../../images/handcursor.svg'), auto; */
   }
 
 .recentgift {

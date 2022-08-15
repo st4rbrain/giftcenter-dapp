@@ -18,9 +18,9 @@ ul {
 }
 
 .navbar {
-  background: linear-gradient(to bottom right, rgb(168, 255, 255), #6320ff);
+  background: linear-gradient(to bottom right, rgb(255, 171, 220), #c90a63);
   color: white;
-  height: 70px;
+  height: 80px;
 }
 
 .sitenav {
@@ -31,8 +31,8 @@ ul {
 
 .navbar .logo {
   background-image: url("./images/GClogo.png");
-  width: 40px;
-  height: 47px;
+  width: 41px;
+  height: 48px;
   padding-left: 20px;
   margin-right: 20px;
   color: white;
@@ -48,7 +48,7 @@ ul {
 .navbar .appbtn {
   cursor: url('./images/handcursor.svg'), auto;
   margin-right: 60px;
-  background-image: linear-gradient(to bottom, cyan, rgb(115, 152, 255),rgb(64, 217, 255));
+  background-image: linear-gradient(to bottom, rgb(255, 176, 216), rgb(233, 1, 163), rgb(255, 175, 215));
   font-family: 'Montserrat';
   width: 120px;
   height: 50px;
@@ -59,7 +59,7 @@ ul {
 }
 
 .navbar .appbtn:hover {
-  background-image: linear-gradient(to bottom, rgb(0, 231, 231), rgb(96, 130, 221),rgb(59, 199, 235));
+  background-image: linear-gradient(to bottom, rgb(255, 129, 192), rgb(219, 0, 154), rgb(255, 122, 188));
 }
 
 .navbar a {
@@ -71,7 +71,7 @@ ul {
 }
 
 .navbar a:hover {
-  color: rgb(129, 255, 249);
+  color: rgb(255, 205, 233);
 }
 
 .navbar .container {
@@ -102,8 +102,11 @@ ul {
   align-items: center;
 }
 
+.uptogiftlist {
+  background: linear-gradient(to bottom right, #f0e877, rgb(190, 0, 181));
+}
+
 .header {
-  background: linear-gradient(to bottom right, #fffd7a, rgb(201, 49, 107));
   color: white;
   min-height: 600px;
 }
@@ -162,11 +165,11 @@ h5 {
 }
 
 .giftlist {
-  background-image: linear-gradient(to bottom right, rgb(255, 184, 137), #ff7190, #ff4995, #42a6e0, #62faffe3, rgb(255, 253, 134));
+  background-image: linear-gradient(to bottom, rgb(255, 184, 137), #ff71a0, #e373ff, #62faffe3, rgb(134, 255, 215));
   padding: 80px 0px;
   padding-bottom: 120px;
   animation: bg-move 30s infinite alternate;
-  background-size: 300%;
+  /* background-size: 300%; */
 }
 
 .giftcenterdata {
@@ -175,17 +178,18 @@ h5 {
   align-items: center;
   justify-content: center;
   padding: 60px 0;
-  background-image: linear-gradient(to bottom right, rgb(255, 248, 149), #cc0055);
+  padding-top: 30px;
+  /* background-image: linear-gradient(to bottom right, rgb(255, 248, 149), #cc0055); */
 }
 
 .alldata {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  background-image: linear-gradient(to bottom right, rgb(255, 154, 154) rgb(255, 225, 91));
+  background-image: linear-gradient(to bottom right, rgb(255, 198, 145), rgb(230, 0, 199));
   /* background: transparent; */
   border: 3px solid white;
-  width: 1200px;
+  width: 1160px;
   height: 320px;
   padding: 20px 40px;
   border-radius: 5px;
@@ -196,7 +200,7 @@ h5 {
 .about {
   display: flex;
   flex-direction: column;
-  background-image: linear-gradient(to bottom right, rgb(184, 12, 69), rgb(255, 196, 148));
+  background-image: linear-gradient(to bottom right, rgb(255, 198, 145), rgb(230, 0, 199));
   justify-content: center;
   align-items: center;
   border: 3px solid white;
@@ -304,20 +308,21 @@ h5 {
   margin-bottom: 20px;
   justify-content: center;
   align-items: center;
-  font-family: "Montserrat";
 }
 
 .giftheading .gftheader {
   font-size: 80px;
-  font-weight: bolder;
   margin-bottom: 20px;
+  font-weight: bolder;
+  font-family: "Great Vibes";
 }
 
 .giftheading .gftdesc {
-  font-size: 22px;
+  font-size: 18px;
   text-align: center;
   margin-bottom: 20px;
   width: 800px;
+  font-family: "Montserrat";
 }
 
 .topgifts {
@@ -492,7 +497,7 @@ i {
 }
 
 .footer {
-  background: linear-gradient(to bottom right, rgb(255, 253, 106),rgb(255, 63, 127));
+  background: linear-gradient(to bottom right, rgb(255, 242, 125),rgb(255, 27, 103));
 }
 
 .footer .container {
