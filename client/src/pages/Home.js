@@ -132,11 +132,10 @@ function Home({contracts}) {
     } 
   }, [contracts]);
 
-
   useEffect(() => {
 
-    //for goreli testnet
-      contracts[5].on("Gifted", (count, from, to, msg, amt, time) => {
+    //for Goreli ETH mumbai
+      contracts[5].on("Gifted", (count, from, to, msg, amt, time, event) => {
 
         const formattedAmt = ethers.utils.formatEther(amt);
         const date = new Date(time*1000);
@@ -152,7 +151,8 @@ function Home({contracts}) {
               amount: amtToFloat,
               createdAt: date,
               withdrawn: false,
-              token: "GoreliETH"
+              token: "GoreliETH",
+              txHash: event.transactionHash
           }).then((res) => {
             window.location.reload(true);
         });
