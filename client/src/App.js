@@ -14,7 +14,7 @@ const GiftCenterABI = [
 
 const contractAddresses = {
   80001: process.env.REACT_APP_POLYGON_MUMBAI_CONTRACT_ADDRESS,
-  5: "0xA83DC56a158C36C22c3A457EDe8396A289Cfca0c",
+  5: process.env.REACT_APP_GORELI_ETH_CONTRACT_ADDRESS,
 }
 
 const rpcURLs = {

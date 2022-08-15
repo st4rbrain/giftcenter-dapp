@@ -9,9 +9,9 @@ import moment from 'moment';
 
 const contractAddresses = {
   80001: process.env.REACT_APP_POLYGON_MUMBAI_CONTRACT_ADDRESS,
-  5: "0xA83DC56a158C36C22c3A457EDe8396A289Cfca0c",
+  5: process.env.REACT_APP_GORELI_ETH_CONTRACT_ADDRESS,
   137: process.env.REACT_APP_POLYGON_MUMBAI_CONTRACT_ADDRESS,
-  1: "0xA83DC56a158C36C22c3A457EDe8396A289Cfca0c"
+  1: process.env.REACT_APP_GORELI_ETH_CONTRACT_ADDRESS
 }
 
 const chainSymbols = {
@@ -74,14 +74,22 @@ function Dapp({contracts}) {
   const [loading, setLoading] = useState(false);
   const [withdrawnAmount, setWithdrawnAmount] = useState(0)
   const [withdrawnToken, setWithdrawnToken] = useState()
-  const [receivedAmount, setReceivedAmount] = useState(0);
-  const [sentAmount, setSentAmount] = useState(0);
+  const [receivedmMATICAmount, setReceivedmMATICAmount] = useState(0);
+  const [receivedGoreliETHAmount, setReceivedGoreliETHAmount] = useState(0)
+  const [sentmMATICAmount, setSentmMATICAmount] = useState(0);
+  const [sentGoreliETHAmount, setSentGoreliETHAmount] = useState(0)
   const [ethToWithdraw, setEthToWithdraw] = useState(0);
   const [maticToWithdraw, setMaticToWithdraw] = useState(0);
   const [sentData, setSentData] = useState([]);
   const [receivedData, setReceivedData] = useState([]);
-  const [sentThisWeek, setSentThisWeek] = useState(0);
-  const [receivedThisWeek, setReceivedThisWeek] = useState(0);
+  const [sentmMATICThisWeek, setSentmMATICThisWeek] = useState(0);
+  const [sentGoreliETHThisWeek, setSentGoreliETHThisWeek] = useState(0)
+  const [receivedmMATICThisWeek, setReceivedmMATICThisWeek] = useState(0)
+  const [receivedGoreliETHThisWeek, setReceivedGoreliETHThisWeek] = useState(0);
+  const [sentmMATICAllTime, setSentmMATICAllTime] = useState(0)
+  const [sentGoreliETHAllTime, setSentGoreliETHAllTime] = useState(0)
+  const [receivedmMATICAllTime, setReceivedmMATICAllTime] = useState(0)
+  const [receivedGoreliETHAllTime, setReceivedGoreliETHAllTime] = useState(0);
 
   // const [ethWithdrawBtnVisible, setEthWithdrawBtnVisible] = useState(false);
   // const [maticWithdrawBtnVisible, setMaticWithdrawBtnVisible] = useState(false);
@@ -201,7 +209,7 @@ function Dapp({contracts}) {
           setAllowedToSend(true)
         } 
       } 
-  }, [receivedAmount])
+  }, [receivedmMATICAmount])
 
 
   useEffect(() => {
@@ -211,14 +219,30 @@ function Dapp({contracts}) {
         }).then((res) => {
           setSentData(res.data[0]);
           setReceivedData(res.data[1]);
-          let totalAmountSent = 0;
-          let totalAmountReceived = 0;
+          let totalmMATICSent = 0;
+          let totalGoreliETHSent = 0;
+          let totalmMATICReceived = 0;
+          let totalGoreliETHReceived = 0;
+
+          let totalmMATICGiftsSent = 0;
+          let totalGoreliETHGiftsSent = 0;
+          let totalmMATICGiftsReceived = 0;
+          let totalGoreliETHGiftsReceived = 0;
+
           let totalETHToWithdraw = 0;
           let totalMATICToWithdraw = 0;
 
           res.data[0].forEach(element => {
-            totalAmountSent += element.amount;
+            if(element.token ===  "GoreliETH") {
+              totalGoreliETHGiftsSent += 1
+              totalGoreliETHSent += element.amount;
+            }
+            else {
+              totalmMATICSent += element.amount
+              totalmMATICGiftsSent += 1
+            }
           });
+
           res.data[1].forEach(element => {
             if(element.withdrawn === false) {
               if(element.token === "GoreliETH")
@@ -226,13 +250,28 @@ function Dapp({contracts}) {
               else
                 totalMATICToWithdraw += element.amount
             }
-            totalAmountReceived += element.amount;
+            if(element.token ===  "GoreliETH") {
+              totalGoreliETHGiftsReceived += 1
+              totalGoreliETHReceived += element.amount;
+            }
+            else {
+              totalmMATICGiftsReceived += 1
+              totalmMATICReceived += element.amount
+            }
           });
           setLoading(false)
           
           
-          setReceivedAmount(totalAmountReceived);
-          setSentAmount(totalAmountSent);
+          setSentmMATICAmount(totalmMATICSent);
+          setSentGoreliETHAmount(totalGoreliETHSent);
+          setReceivedGoreliETHAmount(totalGoreliETHReceived);
+          setReceivedmMATICAmount(totalmMATICReceived)
+
+          setSentmMATICAllTime(totalmMATICGiftsSent)
+          setSentGoreliETHAllTime(totalGoreliETHGiftsSent)
+          setReceivedmMATICAllTime(totalmMATICGiftsReceived)
+          setReceivedGoreliETHAllTime(totalGoreliETHGiftsReceived)
+          
           setEthToWithdraw(totalETHToWithdraw)
           setMaticToWithdraw(totalMATICToWithdraw)
 
@@ -253,7 +292,13 @@ function Dapp({contracts}) {
         setAccountBalance(accBalanace);
       }
     }
-    getBalance()
+    try {
+      getBalance()
+    } catch(e){
+      if(e.code === -32603) 
+        console.log("Metamsk error while fetching balance refresh the page")
+    }
+    
     
   }, [account])
   
@@ -273,20 +318,30 @@ function Dapp({contracts}) {
   useEffect(() => {
     const todayDate = new Date();
     const sevenDaysBefore = moment(todayDate).subtract(7, 'days');
-    let thisWeekSent = 0;
-    let thisWeekReceived = 0;
+    let thisWeekSentmMATIC = 0;
+    let thisWeekSentGoreliETH = 0;
+    let thisWeekReceivedmMATIC = 0;
+    let thisWeekReceivedGoreliETH = 0;
     for (let i = 0; i < sentData.length; i++) {
       if (moment(sentData[i].createdAt).isBetween(sevenDaysBefore, todayDate)){
-        thisWeekSent += 1;
+        if(sentData[i].token === "GoreliETH")
+          thisWeekSentGoreliETH += 1;
+        else
+          thisWeekSentmMATIC += 1
       }
     }
     for (let i = 0; i < receivedData.length; i++) {
       if (moment(receivedData[i].createdAt).isBetween(sevenDaysBefore, todayDate)){
-        thisWeekReceived += 1;
+        if(receivedData[i].token === "GoreliETH")
+          thisWeekReceivedGoreliETH += 1;
+        else
+          thisWeekReceivedmMATIC += 1
       }
     }
-    setSentThisWeek(thisWeekSent);
-    setReceivedThisWeek(thisWeekReceived);
+    setSentmMATICThisWeek(thisWeekSentmMATIC);
+    setSentGoreliETHThisWeek(thisWeekSentGoreliETH);
+    setReceivedmMATICThisWeek(thisWeekReceivedmMATIC);
+    setReceivedGoreliETHThisWeek(thisWeekReceivedGoreliETH)
 
   }, [sentData, receivedData])
 
@@ -297,15 +352,15 @@ function Dapp({contracts}) {
       const toWei = ethers.utils.parseUnits(ethToWithdraw.toString(), 18);
       try {
         contract.withdrawAmount(account, toWei);
+        setWithdrawnToken("GoreliETH")
+        setWithdrawnAmount(ethToWithdraw)
       } catch(err) {
-        if (err.code === 32000)
-          alert("Please wait a bit and try again")
+        if (err.code === -32603)
+          alert("Metamask Error. Please wait a bit and try again")
       }
       
     } else {
       setWithdrawErrorNotificationVisible(true)
-      setWithdrawnToken("GoreliETH")
-      setWithdrawnAmount(ethToWithdraw)
       setTimeout(() => {
         setWithdrawErrorNotificationVisible(false)
       }, 5000);
@@ -319,14 +374,14 @@ function Dapp({contracts}) {
       const toWei = ethers.utils.parseUnits(maticToWithdraw.toString(), 18);
       try {
         contract.withdrawAmount(account, toWei);
+        setWithdrawnToken("mMATIC")
+        setWithdrawnAmount(maticToWithdraw)
       } catch(err) {
-        if (err.code === 32000)
-          alert("Please wait a bit and try again")
+        if (err.code === -32603)
+          alert("Metamask Error. Please wait a bit and try again")
       }
     } else {
       setWithdrawErrorNotificationVisible(true)
-      setWithdrawnToken("mMATIC")
-      setWithdrawnAmount(maticToWithdraw)
       setTimeout(() => {
         setWithdrawErrorNotificationVisible(false)
       }, 5000);
@@ -340,18 +395,14 @@ function Dapp({contracts}) {
         method: "eth_requestAccounts",
       });
       const account = accounts[0]
-      const check_add = ethers.utils.getAddress(account);
-
-      setAccount(account);
-      console.log("Connected to account", check_add);
-      const accBalanace = parseFloat(ethers.utils.formatEther((await provider.getBalance(account))._hex)).toFixed(4);
-      setAccountBalance(accBalanace);
-
+      
       setWalletConnected(true);
       setLoading(true);
 
       window.localStorage.setItem('IS_WALLET_CONNECTED', JSON.stringify(true));
       window.localStorage.setItem('CURRENTLY_CONNECTED_WALLET', JSON.stringify(account));
+
+      window.location.reload(true)
     } catch(error) {
       
     }
@@ -518,7 +569,7 @@ function Dapp({contracts}) {
                     </div>
                     <div className="details">
                       {
-                        withdrawNotificationVisible ? <WithdrawNotification withdrawAmount={withdrawnAmount} withdrawnToken={withdrawnToken}/> : null
+                        withdrawNotificationVisible ? <WithdrawNotification withdrawnAmount={withdrawnAmount} withdrawnToken={withdrawnToken}/> : null
                       }
                       {
                         unsupportedNetworkNotification ? <UnsupportedNetworkNotification /> : null
@@ -555,16 +606,38 @@ function Dapp({contracts}) {
                             { loading ? <div className="loading">Loading...</div> :
                             <div>
                               <div className="dataline">
-                                <div className="datalabel">This Week: </div>
-                                <div className="datavalue">{sentThisWeek}</div>
+                                <div className="tokendata">
+                                  <div className="tokenlabel">GoreliETH</div>
+                                  <div className="tokenamount">{formatAmount(sentGoreliETHAmount)}</div>
+                                </div>
+                                <div className="tokendata">
+                                  <div className="tokenlabel">mMATIC</div>
+                                  <div className="tokenamount">{formatAmount(sentmMATICAmount)}</div>
+                                  {/* <div className="tokenlabel">This Week: {sentmMATICThisWeek}</div>
+                                  <div className="tokenlabel">All Time: {sentmMATICAllTime}</div> */}
+                                </div>
                               </div>
-                              <div className="dataline">
-                                <div className="datalabel">All Time: </div>
-                                <div className="datavalue">{sentData.length}</div>
-                              </div>
-                              <div className="dataline">
-                                <div className="datalabel">Total Sent Amount: </div>
-                                <div className="datavalue">{formatAmount(sentAmount)}</div>
+                              <div className="giftcountdata">
+                                <div className="giftcountdataline">
+                                  <div className="giftcountdatablock">
+                                    <div className="countdatalabel">This Week:</div>
+                                    <div className="countdatavalue">{sentGoreliETHThisWeek}</div>
+                                  </div>
+                                  <div className="giftcountdatablock">
+                                    <div className="countdatalabel">This Week:</div>
+                                    <div className="countdatavalue">{sentmMATICThisWeek}</div>
+                                  </div>
+                                </div>
+                                <div className="giftcountdataline">
+                                  <div className="giftcountdatablock">
+                                    <div className="countdatalabel">All Time:</div>
+                                    <div className="countdatavalue">{sentGoreliETHAllTime}</div>
+                                  </div>
+                                  <div className="giftcountdatablock">
+                                    <div className="countdatalabel">All Time:</div>
+                                    <div className="countdatavalue">{sentmMATICAllTime}</div>
+                                  </div>
+                                </div>
                               </div>
                             </div>
                             }
@@ -574,16 +647,36 @@ function Dapp({contracts}) {
                             { loading ? <div className="loading">Loading...</div> :
                             <div>
                               <div className="dataline">
-                                <div className="datalabel">This Week: </div>
-                                <div className="datavalue">{receivedThisWeek}</div>
+                                <div className="tokendata">
+                                  <div className="tokenlabel">GoreliETH</div>
+                                  <div className="tokenamount">{formatAmount(receivedGoreliETHAmount)}</div>
+                                </div>
+                                <div className="tokendata">
+                                  <div className="tokenlabel">mMATIC</div>
+                                  <div className="tokenamount">{formatAmount(receivedmMATICAmount)}</div>
+                                </div>
                               </div>
-                              <div className="dataline">
-                                <div className="datalabel">All Time: </div>
-                                <div className="datavalue">{receivedData.length}</div>
-                              </div>
-                              <div className="dataline">
-                                <div className="datalabel">Total Received Amount: </div>
-                                <div className="datavalue">{formatAmount(receivedAmount)}</div>
+                              <div className="giftcountdata">
+                                <div className="giftcountdataline">
+                                  <div className="giftcountdatablock">
+                                    <div className="countdatalabel">This Week:</div>
+                                    <div className="countdatavalue">{receivedGoreliETHThisWeek}</div>
+                                  </div>
+                                  <div className="giftcountdatablock">
+                                    <div className="countdatalabel">This Week:</div>
+                                    <div className="countdatavalue">{receivedmMATICThisWeek}</div>
+                                  </div>
+                                </div>
+                                <div className="giftcountdataline">
+                                  <div className="giftcountdatablock">
+                                    <div className="countdatalabel">All Time:</div>
+                                    <div className="countdatavalue">{receivedGoreliETHAllTime}</div>
+                                  </div>
+                                  <div className="giftcountdatablock">
+                                    <div className="countdatalabel">All Time:</div>
+                                    <div className="countdatavalue">{receivedmMATICAllTime}</div>
+                                  </div>
+                                </div>
                               </div>
                             </div>
                             }

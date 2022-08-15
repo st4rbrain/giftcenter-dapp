@@ -5,7 +5,7 @@ export function WithdrawNotification({withdrawnAmount, withdrawnToken}) {
         <div className="notification-success">
             <div className="notification-head">
                 <div className="success-notification-logo"></div>
-                <div className="notification-heading">{withdrawnAmount} {withdrawnToken} Withdrawn</div>
+                <div className="withdraw-notification-heading">{withdrawnAmount} {withdrawnToken} Withdrawn</div>
                 <button className="success-notification-cross" onClick={() => {
                     document.getElementsByClassName('notification-success')[0].style.display = "none";
                   }

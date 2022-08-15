@@ -106,6 +106,17 @@
     width: 30px;
 }
 
+.withdraw-notification-heading {
+    color: white;
+    text-align: center;
+    font-family: 'Montserrat';
+    font-weight: bold;
+    font-size: 16px;
+    min-width: 140px;
+    max-width: 140px;
+    margin: 0px 20px;
+}
+
 .notification-heading {
     color: white;
     text-align: center;
@@ -148,6 +159,7 @@
     display: flex;
     justify-content: center;
     text-align: center;
+    font-size: 15px;
     height: 30px;
     padding: 0px 10px;
     padding-left: 10px;

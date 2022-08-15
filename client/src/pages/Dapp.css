@@ -94,7 +94,7 @@ input::selection, textarea::selection{
     display: flex;
     flex-direction: column;
     justify-content: center;
-    height: 300px;
+    height: 340px;
 }
 
 .dappheader .top {
@@ -103,6 +103,7 @@ input::selection, textarea::selection{
     align-items: center;
     height: 60px;
     padding: 0px 20px;
+    margin-bottom: 20px;
 }
 
 .buttons {
@@ -293,7 +294,7 @@ input::selection, textarea::selection{
     border-radius: 10px;
     margin: 30px 20px;
     width: 300px;
-    height: 150px;
+    height: 170px;
 }
 
 .details .boxtitle {
@@ -365,15 +366,41 @@ input::selection, textarea::selection{
     padding-left: 5px;
 }
 
-.datalabel {
-    width: 170px;
-    margin-right: 5px;
+.boxgiftstitle {
+    width: 100%;
+    display: flex;
+    color: white;
+    justify-content: center;
+    font-weight: bold;
 }
 
-.datavalue {
+.giftcountdata {
+    display: flex;
+    flex-direction: column;
+    color: white;
+    font-family: 'Montserrat';
+    padding-top: 10px;
+}
+
+.giftcountdataline {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    font-size: 14px;
+}
+
+.giftcountdatablock {
+    width: 50%;
+    padding-left: 20px;
+    display: flex;
+}
+
+.countdatalabel {
+    min-width: 85px;
+}
+
+.countdatavalue {
     font-weight: bold;
-    min-width: 40px;
-    text-align: center;
 }
 
 .details .box .data {

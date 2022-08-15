@@ -61,7 +61,7 @@ function GiftsTables({contract, sentData, receivedData, allowedToSend, account, 
                                     }, 5000);
                                 } catch(error) {
                                     console.log(error)
-                                    if(error.code === 32000)    
+                                    if(error.code === -32603)    
                                         alert("Please wait a bit before sending again!")
                                     else {
                                         setInvalidDataNotificationVisible(true)
@@ -127,7 +127,7 @@ function GiftsTables({contract, sentData, receivedData, allowedToSend, account, 
                 <div className="table">
                     <div className="tableheader">
                         <div className="tabletitle">Gifts Sent</div>
-                        <div className="tableinfo">This tables lists all of the gifts that are sent</div>
+                        <div className="tableinfo">Lists all of the gifts sent by this address</div>
                     </div>
                     <div className="list">
                         {   
@@ -145,20 +145,20 @@ function GiftsTables({contract, sentData, receivedData, allowedToSend, account, 
                     <div className="card">
                         <div className="cardline">
                             <div className="cardlinelabel">Recipient Address</div>
-                            <input className="cardlineinput" autoComplete='off' spellCheck='false' onChange={(e) => {
+                            <input className="cardlineinput" tabIndex="-1" autoComplete='off' spellCheck='false' onChange={(e) => {
                                 setAddress(e.target.value);
                             }}></input>
                         </div>
                         <div className="cardline">
                             <div className="cardlinelabel">Message</div>
-                            <textarea className="cardlinemsginput" autoComplete='off' spellCheck='false' maxLength='200' placeholder='(min 10 characters) (max 200 characters)' onChange={(e) => {
+                            <textarea className="cardlinemsginput" tabIndex="-1" autoComplete='off' spellCheck='false' maxLength='200' placeholder='(min 10 characters) (max 200 characters)' onChange={(e) => {
                                 setMsg(e.target.value);
                             }}></textarea>
                         </div>
                         <div className="cardline">
                             <div className="cardlinelabel">Amount</div>
                             <div className='cardlineamtinput'>
-                                <input className="amountinput" autoComplete='off' spellCheck='false' onChange={(e) => {
+                                <input className="amountinput" tabIndex="-1" autoComplete='off' spellCheck='false' onChange={(e) => {
                                     setAmount(e.target.value);
                                 }}></input><div className='gifttokenlabel'>{chainSymbols[window.ethereum.networkVersion]}</div>
                             </div>
@@ -169,7 +169,7 @@ function GiftsTables({contract, sentData, receivedData, allowedToSend, account, 
                 <div className="table">
                     <div className="tableheader">
                         <div className="tabletitle">Gifts Received</div>
-                        <div className="tableinfo">This tables lists all of the gifts that are sent</div>
+                        <div className="tableinfo">Lists all of the gifts received by this address</div>
                     </div>
                     <div className="list">
                         {
