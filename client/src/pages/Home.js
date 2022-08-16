@@ -200,10 +200,10 @@ function Home({contracts}) {
               <div className='gftdesc'>
                 This is a gifting service that is built on the Blockchain.<br></br>
                 It can also be used as a <i>stylish</i> Crypto Transfer service.<br></br><br></br>
-                Currently it supports the transfer on native tokens on the<br></br> <b>Ethereum</b> and 
-                <b> Polygon</b> testnets.<br></br><br></br>
-                You can transfer <b>GoreliETH</b> and <b>mMATIC</b> tokens right now.<br></br>
-                Support for the transfer of Mainnet native tokens<br></br> <b>ETH</b> and <b>MATIC</b> is coming soon.
+                It currently supports the transfer of native tokens on the<br></br> <b><i>Ethereum</i></b> and 
+                <b><i> Polygon</i></b> testnets.<br></br><br></br>
+                You can transfer <b><i>GoreliETH</i></b> and <b><i>mMATIC</i></b> tokens right now.<br></br>
+                Support for the transfer of Mainnet native tokens<br></br> <b><i>ETH</i></b> and <b><i>MATIC</i></b> is coming soon.
                 
               </div>
             </div>

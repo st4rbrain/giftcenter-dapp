@@ -78,3 +78,68 @@
     font-size: 18px;
     color: white;
 }
+
+@media screen and (max-width: 600px) {
+
+  .recentgift {
+    border-radius: 1px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    margin: 10px 0px;
+    margin-left: 8px;
+    margin-right: 7px;
+    padding: 0px 5px;
+    padding-left: 7px;
+    padding-top: 4px;
+    /* cursor: url('./../../images/handcursor.svg'), auto; */
+    /* transition: top 500ms ease-out; */
+  }
+  .recentgift {
+    width: 60px;
+    height: 36px;
+    background-image: url('./../../images/smallerdailygift.svg');
+    box-shadow: 2px 2px 4px rgb(37, 67, 122);
+    font-family: 'Great Vibes';
+    color: white;
+  }
+  
+
+  .recentgiftlabel {
+    /* cursor: url('./../../images/handcursor.svg'), auto; */
+    font-size: 4px;
+    min-width: 15px;
+  } 
+
+  .recentgiftdata {
+    /* cursor: url('./../../images/handcursor.svg'), auto; */
+    word-wrap: break-word;
+    font-style: italic;
+    font-family: 'Montserrat';
+    font-size: 2.5px;
+    max-width: 30px;
+  }
+
+  .recentgiftamount {
+    /* cursor: url('./../../images/handcursor.svg'), auto; */
+    word-wrap: break-word;
+    font-style: italic;
+    font-weight: bold;
+    font-family: 'Montserrat';
+    font-size: 2.5px;
+    max-width: 30px;
+  }
+
+  .recentgifttoken {
+    padding-left: 2px;
+    /* cursor: url('./../../images/handcursor.svg'), auto; */
+  }
+
+  .rgdatelabel {
+    /* cursor: url('./../../images/handcursor.svg'), auto; */
+    margin-left: 40px;
+    padding-bottom: 0px;
+    padding-top: 3px;
+    font-size: 1px;
+  }
+}

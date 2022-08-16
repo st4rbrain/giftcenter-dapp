@@ -75,9 +75,9 @@ input::selection, textarea::selection{
   }
   
   .dappcontainer .logo {
-    background-image: url("./../images/GClogo.png");
+    background-image: url("./../images/GClogo.svg");
     width: 41px;
-    height: 48px;
+    height: 41px;
     padding-left: 20px;
     margin-right: 20px;
   }
@@ -94,7 +94,7 @@ input::selection, textarea::selection{
     display: flex;
     flex-direction: column;
     justify-content: center;
-    height: 340px;
+    height: 320px;
 }
 
 .dappheader .top {
@@ -103,7 +103,6 @@ input::selection, textarea::selection{
     align-items: center;
     height: 60px;
     padding: 0px 20px;
-    margin-bottom: 20px;
 }
 
 .buttons {
@@ -411,7 +410,7 @@ input::selection, textarea::selection{
     font-family: 'Montserrat';
     max-width: 280px;
     max-height: 150px;
-    padding-top: 15px;
+    padding-top: 25px;
 }
 
 .details .box .loading {
