@@ -521,6 +521,7 @@ function Dapp({contracts}) {
       <div>
         {walletConnected ?
           <div>
+            <div className='notresponsive'><div className='noresponseinfo'>Please open in a Desktop or use Desktop mode...</div></div>
             <header className="dappheader">
                 <div className="dappcontainer">
                     <div className="top">

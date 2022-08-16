@@ -8,6 +8,14 @@ html {
   scroll-behavior: smooth;
 }
 
+.notresponsive {
+  display: none;
+}
+
+.noresponseinfo {
+  display: none;
+}
+
 ul {
   list-style-type: none;
 }
@@ -539,312 +547,28 @@ i {
 }
 
 
-@media screen and (max-width: 600px){
-
-  .navbar {
-    height: 60px;
+@media screen and (max-width: 1279px){
+  * {
+    background-color: #333;
   }
 
-  .navbar ul {
-    display: none;
-  }
-
-  .sitetitle {
-    display: none;
-  }
-
-  .navbar .logo {
-    /* display: none; */
-    background-image: url("./../images/GClogo.svg");
-    width: 41px;
-    height: 41px;
-    padding-left: 0px;
-    background-repeat: no-repeat;
-    margin-right: 5px;
+  .notresponsive {
+    display: flex;
     color: white;
+    position: fixed; 
+    z-index: 1;
+    left: 0;
+    top: 0;
+    width: 100%; 
+    height: 100%;
+    background-color: #333;
   }
 
-  .navbar .appbtn {
-    font-size: 10px;
-    margin-right: 0px;
-    width: 80px;
-    height: 35px;
-    border-radius: 8px;
-    border: 2px solid white;
-  }
-  
-  .header {
-    min-height: 400px;
-  }
-  
-  .header .container {
-    flex-direction: column;
-  }
-
-  .header .hero {
+  .noresponseinfo {
     display: flex;
-    justify-content: center;
-    flex-direction: column;
     align-items: center;
-    margin-top: 50px;
-    padding-left: 0px;
-  }
-
-  .header h1 {
-    font-size: 4.5rem;
-    text-align: center;
-  }
-
-  h5 {
-    font-size: 0.8rem;
-    padding-left: 0px;
-  }
-
-  .headimg {
-    margin-left: 0px;
-    margin-top: 20px;
-    background-image: url('./../images/smallerheadbg.svg');
-    min-width: 300px;
-    min-height: 205px;
-  }
-
-  .about {
-    border: 2px solid white;
-    margin: 20px auto;
-    margin-bottom: 60px;
-    border-radius: 2px;
-    box-shadow: 3px 3px 10px rgba(0, 0, 0, 0.719);
-  }
-
-  .giftheading {
-    display: flex;
-    margin: 0px 0px;
-  }
-
-  .giftheading .gftheader {
-    padding-top: 8px;
-    font-size: 26px;
-    margin-bottom: 8px;
-  }
-  
-  .giftheading .gftdesc {
-    font-size: 5px;
-    text-align: center;
-    width: 200px;
-    font-family: "Montserrat";
-  }
-
-  .alldata {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    background-image: linear-gradient(to bottom right, rgb(255, 198, 145), rgb(230, 0, 199));
-    border: 2px solid white;
-    width: 320px;
-    height: 100px;
-    padding: 10px 10px;
-    border-radius: 3px;
-    margin-bottom: 20px;
-    box-shadow: 3px 3px 10px rgba(0, 0, 0, 0.733);
-  }
-
-  .giftedamounts {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    border: 1px solid white;
-    border-radius: 2px;
-    width: 56%;
-    height: 75px;
-  }
-
-  .giftedamountshead {
     color: white;
-    text-align: center;
-    font-size: 17px;
-    font-weight: bold;
+    font-size: 60px;
     font-family: 'Great Vibes';
   }
-
-  .giftedamountsdata {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    margin-top: 5px;
-  }
-
-  .giftedamountdataline {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    width: 80%;
-    height: 16px;
-  }
-
-  .homedatalabel {
-    color: white;
-    font-family: 'Montserrat';
-    font-size: 10px;
-    min-width: 50%;
-  }
-  
-  .homedatavalue {
-    color: white;
-    font-family: 'Montserrat';
-    font-size: 12px;
-    font-weight: bold;
-  }
-
-  .totalgifts {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    border: 1px solid white;
-    border-radius: 2px;
-    /* box-shadow: 2px 2px 10px #ffffff; */
-    width: 40%;
-  }
-
-  .totalgiftshead {
-    color: white;
-    text-align: center;
-    font-size: 17px;
-    font-weight: bolder;
-    font-family: 'Great Vibes';
-    margin-bottom: 5px;
-    padding-top: 5px;
-  }
-  
-  .totalgiftsdata {
-    color: white;
-    text-align: center;
-    font-size: 25px;
-    font-weight: bold;
-    font-family: 'Montserrat';
-    height: 36px;
-  }
-
-  .giftlist {
-    background-image: linear-gradient(to bottom, rgb(255, 184, 137), #ff71a0, #e373ff, #62faffe3, rgb(134, 255, 215));
-    padding: 40px 0px;
-    padding-bottom: 60px;
-    animation: bg-move 30s infinite alternate;
-    /* background-size: 300%; */
-  }
-
-  .topgifts {
-    display: flex;
-    background-image: url('./../images/smalltopgifts.png');
-    margin: 0px 0px;
-    flex-direction: column;
-    padding: 10px 0px;
-    border-radius: 3px;
-    border: 2px solid white;
-    min-width: 320px;
-    min-height: 166px;
-    margin-bottom: 40px;
-    box-shadow: 10px 10px 25px rgba(0, 0, 0, 0.671);
-  }
-
-  .title {
-    font-size: 12px;
-  }
-
-  .gifts {
-    display: flex;
-    padding: 2px 0px;
-    align-items: center;
-    flex-wrap: wrap;
-    min-width: 300px;
-    min-height: 120px;
-  }
-
-  .dailygifts {
-    display: flex;
-    /* background: linear-gradient(to bottom, rgb(170, 96, 255), rgb(252, 252, 252), rgb(109, 238, 255)); */
-    background-image: url('./../images/smallerdailygifts.png');
-    margin: 10px 0px;
-    flex-direction: column;
-    justify-content: space-between;
-    padding: 20px 20px;
-    padding-bottom: 5px;
-    border-radius: 3px;
-    border: 2px solid white;
-    min-width: 320px;
-    height: 190px;;
-    /* min-height: 330px; */
-    box-shadow: 10px 10px 25px rgba(0, 0, 0, 0.651);
-  }
-
-  .pagination .pagelabel {
-    cursor: url('./../images/handcursor.svg'), auto;
-    border: 1px solid white;
-    color: white;
-    background-image: linear-gradient(to bottom, rgba(0, 174, 255, 0.781), rgba(0, 217, 255, 0.76));
-    border-radius: 2px;
-    margin: 0px 8px;
-    font-size: 5px;
-    width: 32px;
-    height: 12px;
-    font-weight: bold;
-    padding: 0px 3px;
-    box-shadow: -1px -1px 10px rgba(4, 0, 255, 0.384) inset;
-  }
-
-  .nums {
-    border-radius: 2px;
-  }
-
-  .pagenum {
-    border: 1px solid white;
-    width: 11px;
-    height: 10px;
-    font-size: 4px;
-  }
-
-  .active {
-    border: 1px solid white;
-    width: 11px;
-    height: 10px;
-    font-size: 4px;
-  }
-
-  .dot {
-    font-size: 10px;
-  }
-
-  .dailygifts .gifts {
-    padding-left: 0px;
-  }
-
-  .recentGiftsLine {
-    height: 56px;
-    width: 100%;
-  }
-
-  .footer .container {
-    padding: 20px 0px;
-  }
-
-  .footdesc {
-    color: white;
-    font-family: "Great Vibes";
-    font-size: 8px;
-  }
-  
-  .foothead {
-    color: white;
-    margin-top: 10px;
-    font-size: 15px;
-  }
-  
-  .foothead .andtxt {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 10px;
-    font-size:8px;
-  }
-
 }

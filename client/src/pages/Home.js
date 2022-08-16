@@ -173,6 +173,7 @@ function Home({contracts}) {
 
   return (
     <div>
+      <div className='notresponsive'><div className='noresponseinfo'>Please open in a Desktop or use Desktop mode...</div></div>
       {/* show navbar */}
       <Navbar greet={getWelcomed} />
 
