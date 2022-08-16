@@ -200,7 +200,8 @@ function Dapp({contracts}) {
 // }
 // setting up the contract
   useEffect(() => {
-    if (window.ethereum) {
+    if(walletConnected) {
+      if (window.ethereum) {
         if(isSupportedChain()) {
           const provider = new ethers.providers.Web3Provider(window.ethereum);
           const signer = provider.getSigner();
@@ -209,7 +210,8 @@ function Dapp({contracts}) {
           setAllowedToSend(true)
         } 
       } 
-  }, [receivedmMATICAmount])
+    }
+  }, [receivedmMATICAmount, walletConnected])
 
 
   useEffect(() => {
@@ -286,31 +288,36 @@ function Dapp({contracts}) {
   }, [account])
 
   useEffect(() => {
-    const getBalance = async () => {
-      const accounts = await window.ethereum.request({
-        method: "eth_requestAccounts",
-      });
-      const address = accounts[0]
-      const accBalanace = parseFloat(ethers.utils.formatEther((await provider.getBalance(address))._hex)).toFixed(4);
-      setAccountBalance(accBalanace);
+    if(walletConnected) {
+      const getBalance = async () => {
+        const accounts = await window.ethereum.request({
+          method: "eth_requestAccounts",
+        });
+        const address = accounts[0]
+        const accBalanace = parseFloat(ethers.utils.formatEther((await provider.getBalance(address))._hex)).toFixed(4);
+        setAccountBalance(accBalanace);
+      }
+      try {
+        getBalance()
+      } catch(e){
+          alert("Metamsk error while fetching balance refresh the page")
+      }
     }
-    try {
-      getBalance()
-    } catch(e){
-        alert("Metamsk error while fetching balance refresh the page")
-    }
-  }, [receivedData])
+    
+  }, [receivedData, walletConnected])
   
   // check if chain has been changed
   useEffect(() => {
-    if(window.ethereum) {
-      window.ethereum.on("chainChanged", () => {
-        document.location.reload(true)
-      });
+    if(walletConnected) {
+      if(window.ethereum) {
+        window.ethereum.on("chainChanged", () => {
+          document.location.reload(true)
+        });
+      }
+      return () => {
+        window.ethereum.removeAllListeners("chainChanged");
+      } 
     }
-    return () => {
-      window.ethereum.removeAllListeners("chainChanged");
-    } 
   })
 
   // to sort gifts of latest week

@@ -268,7 +268,7 @@ input::selection, textarea::selection{
     background-image: url('./../images/alertlogo.png');
     background-repeat: no-repeat;
     background-position: center;
-    width: 30px;
+    width: 35px;
     height: 35px;
 }
 

@@ -1,6 +1,7 @@
 import Home from "./pages/Home";
 import Dapp from "./pages/Dapp";
 import {ethers} from 'ethers';
+import './pages/fonts.css';
 import { Route, Routes} from 'react-router-dom';
 
 const GiftCenterABI = [
